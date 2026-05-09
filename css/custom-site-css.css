@@ -1,0 +1,75 @@
+.w-button {
+    display: block;
+    width: 200px;
+    margin-top: 35px;
+    margin-right: auto;
+    margin-left: auto;
+    line-height: 34px;
+    text-align: center;
+    padding: 9px 15px;
+    color: #fff;
+    cursor: pointer;
+    text-decoration: none;
+    border-radius:3px;
+}
+
+    .w-button:hover, .w-button:link, .w-button:focus {
+        text-decoration: none;
+        color: #fff;
+    }
+
+.blogindex .wrapinneritem h1 {
+    height: 2.5em;
+}
+.aboutExcerpt h2{font-size:26px;}
+.flexslider p{direction:rtl;}
+.aboutHp{padding:60px 0;}
+.aboutImg img {
+    border-radius: 4px;
+    float: right;
+    margin: 0 0 0 50px;
+    max-width:425px;
+}
+a:focus{color:#000;text-decoration:none;}
+.navigation img {
+    height: 23px;
+    vertical-align: sub;
+}
+.navigation a {
+    color: #333;
+}
+.serviceIcon{height:100px;}
+.icon{margin-bottom:50px;}
+.homerecentportfolio.whites {
+    padding: 50px 0 0 0;
+}
+.service-box h1 {
+    height: 3em;
+}
+.service-box h1{font-size:20px;}
+iframe{max-width:100%;
+       
+}
+@media screen and (max-width:992px) {
+    .boxportfolio4 {width:47%}
+}
+@media screen and (max-width:767px) {
+    iframe{height:360px!important}
+    .aboutImg img {
+        float: none;
+        margin: 0 auto 20px auto;
+        display: block;
+    }
+    .boxportfolio4 {
+        width:100%
+    }
+    .banner-img {
+        background-position: left 15% center !important;
+        height: 285px;
+    }
+    .aboutHp {
+        padding: 30px 0;
+    }
+    
+    
+}
