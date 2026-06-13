@@ -47,6 +47,440 @@
     margin-top: 0!important;
 }
 </style>
+<style>
+/* ===========================================================
+   PRESS PAGE - EDITORIAL MAGAZINE LAYOUT (page25.html)
+   Hebrew RTL, layered on top of Bootstrap 3 + purple skin.
+   With grafts from Approach B (prominent date/source badges,
+   large source name as hero on image-less cards) and from
+   Approach C (compact outlet filter strip).
+   =========================================================== */
+
+.press-section {
+  padding: 40px 0 80px;
+  font-family: 'Assistant', 'Arial Hebrew', Arial, sans-serif;
+  direction: rtl;
+  text-align: right;
+}
+
+/* ---------- Intro ---------- */
+.press-section__intro {
+  max-width: 760px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+.press-section__heading {
+  font-size: 38px;
+  font-weight: 800;
+  color: #2a1238;
+  margin: 0 0 14px;
+  letter-spacing: -0.5px;
+}
+.press-section__lede {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #4a4a55;
+  margin: 0 auto 22px;
+  max-width: 640px;
+}
+.press-section__rule {
+  width: 64px;
+  height: 3px;
+  background: linear-gradient(90deg, #5a2e6f, #8e4aa8);
+  margin: 0 auto;
+  border-radius: 2px;
+}
+
+/* ---------- Filter strip (graft from Approach C) ---------- */
+.press-filter {
+  max-width: 1120px;
+  margin: 0 auto 36px;
+  padding: 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.press-filter__chip {
+  background: #ffffff;
+  color: #5a2e6f;
+  border: 1px solid rgba(90, 46, 111, 0.25);
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-family: 'Assistant', 'Arial Hebrew', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.press-filter__chip:hover {
+  background: #f3eef7;
+  border-color: #8e4aa8;
+}
+.press-filter__chip.is-active {
+  background: #5a2e6f;
+  color: #ffffff;
+  border-color: #5a2e6f;
+}
+.press-filter__chip:focus-visible {
+  outline: 2px solid #8e4aa8;
+  outline-offset: 2px;
+}
+
+/* ---------- Grid (CSS Grid, mobile-first) ---------- */
+.press-grid-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.press-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+}
+
+/* Tablet */
+@media (min-width: 640px) {
+  .press-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+}
+
+/* Desktop: featured card spans full width, others in 3-col */
+@media (min-width: 992px) {
+  .press-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 34px;
+  }
+  .press-card.is-featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    align-items: stretch;
+    min-height: 380px;
+  }
+  .press-card.is-featured .press-card__link {
+    display: contents;
+  }
+  .press-card.is-featured .press-card__media {
+    height: 100%;
+    min-height: 380px;
+    padding-top: 0;
+  }
+  .press-card.is-featured .press-card__body {
+    padding: 44px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .press-card.is-featured .press-card__title {
+    font-size: 28px;
+    line-height: 1.25;
+    -webkit-line-clamp: 4;
+  }
+  .press-card.is-featured .press-card__excerpt {
+    font-size: 16.5px;
+    -webkit-line-clamp: 4;
+  }
+  .press-card.is-featured .press-card__media--fallback .fallback-source {
+    font-size: 44px;
+  }
+}
+
+/* ---------- Card ---------- */
+.press-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(20, 8, 36, 0.06),
+              0 6px 18px rgba(20, 8, 36, 0.04);
+  border: 1px solid rgba(90, 46, 111, 0.08);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, opacity 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+.press-card:hover,
+.press-card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 10px rgba(20, 8, 36, 0.08),
+              0 18px 36px rgba(90, 46, 111, 0.14);
+}
+.press-card.is-hidden {
+  display: none;
+}
+
+.press-card__link {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  color: inherit;
+  text-decoration: none;
+}
+.press-card__link:hover,
+.press-card__link:focus { text-decoration: none; color: inherit; outline: none; }
+.press-card__link:focus-visible { outline: 3px solid #8e4aa8; outline-offset: 2px; }
+
+/* ---------- Media (image or branded fallback) ---------- */
+.press-card__media {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+  overflow: hidden;
+  background: #f3eef7;
+}
+.press-card__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.press-card:hover .press-card__media img {
+  transform: scale(1.05);
+}
+
+/* Branded fallback for cards without an image
+   (graft from Approach B: large source name as hero element) */
+.press-card__media--fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  background: linear-gradient(135deg, #3b1a4d 0%, #5a2e6f 55%, #8e4aa8 100%);
+  color: #ffffff;
+}
+.press-card__media--fallback::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.10) 0, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.08) 0, transparent 45%);
+  pointer-events: none;
+}
+.press-card__media--fallback .fallback-kicker {
+  position: relative;
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  opacity: 0.78;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.press-card__media--fallback .fallback-source {
+  position: relative;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  line-height: 1.15;
+}
+
+/* ---------- Source badge (graft from Approach B: prominent metadata) ---------- */
+.press-card__source-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.96);
+  color: #5a2e6f;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+  box-shadow: 0 2px 6px rgba(20, 8, 36, 0.18);
+}
+.press-card__media--fallback ~ .press-card__source-badge {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- Body ---------- */
+.press-card__body {
+  padding: 22px 24px 26px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.press-card__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #8a6a9a;
+  margin-bottom: 10px;
+  letter-spacing: 0.4px;
+}
+.press-card__date .fa { color: #8e4aa8; font-size: 12px; }
+.press-card__title {
+  font-family: 'Assistant', 'Arial Hebrew', Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: #2a1238;
+  margin: 0 0 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.press-card__excerpt {
+  font-size: 15px;
+  line-height: 1.65;
+  color: #4a4a55;
+  margin: 0 0 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1 1 auto;
+}
+.press-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #5a2e6f;
+  margin-top: auto;
+}
+.press-card__cta i {
+  transition: transform 0.25s ease;
+}
+.press-card:hover .press-card__cta i {
+  transform: translateX(-4px);
+}
+
+/* ---------- External-source link ---------- */
+.press-card__external {
+  position: absolute;
+  bottom: 14px;
+  left: 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8a6a9a;
+  background: rgba(243, 238, 247, 0.92);
+  padding: 5px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  z-index: 3;
+}
+.press-card__external:hover,
+.press-card__external:focus {
+  background: #5a2e6f;
+  color: #ffffff;
+  text-decoration: none;
+  outline: none;
+}
+.press-card__external:focus-visible { outline: 2px solid #8e4aa8; outline-offset: 2px; }
+
+/* ---------- Featured video ---------- */
+.press-video {
+  max-width: 860px;
+  margin: 0 auto 44px;
+  padding: 0 16px;
+  text-align: center;
+}
+.press-video__heading {
+  font-size: 26px;
+  font-weight: 800;
+  color: #2a1238;
+  margin: 0 0 8px;
+  letter-spacing: -0.3px;
+}
+.press-video__heading::after {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 3px;
+  margin: 12px auto 0;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #5a2e6f, #8e4aa8);
+}
+.press-video__caption {
+  font-size: 16px;
+  line-height: 1.65;
+  color: #4a4a55;
+  margin: 14px auto 20px;
+  max-width: 640px;
+}
+.press-video video {
+  box-shadow: 0 8px 28px rgba(90, 46, 111, 0.18);
+}
+.press-section.contrastDone .press-video__heading,
+.press-section.contrastDone .press-video__caption { color: #ff0 !important; }
+
+/* ---------- Contrast-mode coexistence ----------
+   Scoped to .press-section.contrastDone — the contrastDone class is
+   toggled onto the section by the site's accessibility script ONLY
+   when high-contrast mode is active. (Do NOT use .changeContrast here:
+   on this site that is a permanent marker class, not the active state.) */
+.press-section.contrastDone .press-card {
+  background: #000 !important;
+  border-color: #ff0 !important;
+}
+.press-section.contrastDone .press-card__title,
+.press-section.contrastDone .press-card__excerpt,
+.press-section.contrastDone .press-card__date,
+.press-section.contrastDone .press-card__cta { color: #ff0 !important; }
+.press-section.contrastDone .press-card__source-badge {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 1px solid #ff0 !important;
+}
+.press-section.contrastDone .press-section__heading,
+.press-section.contrastDone .press-section__lede { color: #ff0 !important; }
+.press-section.contrastDone .press-card__media--fallback {
+  background: #000 !important;
+  border: 1px solid #ff0;
+}
+.press-section.contrastDone .press-filter__chip {
+  background: #000 !important;
+  color: #ff0 !important;
+  border-color: #ff0 !important;
+}
+.press-section.contrastDone .press-filter__chip.is-active {
+  background: #ff0 !important;
+  color: #000 !important;
+}
+
+/* ---------- Print ---------- */
+@media print {
+  .press-card { box-shadow: none; border: 1px solid #999; break-inside: avoid; }
+  .press-card__external, .press-card__cta, .press-filter { display: none; }
+}
+
+/* ---------- Small phones ---------- */
+@media (max-width: 480px) {
+  .press-section { padding: 24px 0 56px; }
+  .press-section__heading { font-size: 30px; }
+  .press-card__title { font-size: 18px; }
+  .press-card__body { padding: 18px 18px 22px; }
+  .press-filter__chip { font-size: 13px; padding: 6px 13px; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .press-card, .press-card__media img, .press-card__cta i { transition: none; }
+  .press-card:hover { transform: none; }
+  .press-card:hover .press-card__media img { transform: none; }
+}
+</style>
 </meta></meta></head>
 <body class="boxedlayout">
 <div class="accessMenu off">
@@ -114,98 +548,164 @@
 </div>
 </div>
 <!-- end header -->
+<section class="press-section" dir="rtl" aria-labelledby="press-heading">
 <div class="container">
-<div class="row changeContrast">
-<span dir="rtl">
-</span>
-<div class="blogindex content-area" id="content"><div class="boxportfolio4">
-<div class="inneritem">
-<a class="entry-thumbnail" href="page22.html"><img alt="הטיפול בהדסה הצליח" height="350" src="" width="600"/></a>
-<div class="wrapinneritem">
-<header class="entry-header sectiontitlepost">
-<h1 class="entry-title"><a href="page22.html">הטיפול בהדסה הצליח</a></h1>
-<div class="entry-meta">
-<div class="pull-right"><i class="fa fa-calendar"></i>  17/08/2023</div>
-</div>
-<!-- .entry-meta -->
-<div class="excerptsep"></div>
+<header class="press-section__intro">
+<h2 id="press-heading" class="press-section__heading">מן העיתונות</h2>
+<p class="press-section__lede">סיפורים, כתבות ופרסומים בתקשורת הישראלית שעוסקים בעבודתו של ד״ר דורון כבירי ובמרכז להריון בסיכון גבוה בהדסה עין כרם. לחיצה על כתבה תפתח אותה כאן באתר, ובחלק מהמקרים גם תוביל אל הפרסום המקורי.</p>
+<div class="press-section__rule" aria-hidden="true"></div>
 </header>
-<!-- .entry-header -->
-<div class="entry-content articleExcerpt"><p></p></div>
-<!-- .entry-content -->
+
+<section class="press-video" dir="rtl" aria-labelledby="press-video-heading">
+<h2 id="press-video-heading" class="press-video__heading">וידאו</h2>
+<p class="press-video__caption">ענת אלינב, "ללדת זה אחלה" — מופע ספוקן-וורד על חוויית הלידה.</p>
+<video controls preload="metadata" playsinline style="width:100%;max-width:760px;border-radius:10px;display:block;margin:0 auto;" poster="media/anat-elinav.png">
+<source src="media/video/anat-elinav-poetry-slam.mp4" type="video/mp4"/>
+הדפדפן שלך אינו תומך בתגית וידאו.
+</video>
+</section>
+
+<div class="press-filter" role="tablist" aria-label="סנן לפי כלי תקשורת">
+<button type="button" class="press-filter__chip is-active" data-filter="all" role="tab" aria-selected="true">הכל</button>
+<button type="button" class="press-filter__chip" data-filter="הדסה" role="tab" aria-selected="false">הדסה</button>
+<button type="button" class="press-filter__chip" data-filter="ynet" role="tab" aria-selected="false">ynet</button>
+<button type="button" class="press-filter__chip" data-filter="חדשות 13" role="tab" aria-selected="false">חדשות 13</button>
+<button type="button" class="press-filter__chip" data-filter="ישראל היום" role="tab" aria-selected="false">ישראל היום</button>
+</div>
+
+<div class="press-grid-wrap">
+<div class="press-grid" id="pressGrid">
+
+<!-- 1. FEATURED — חדשות 13 (23.08.2023) — VERIFIED, kept as-is -->
+<article class="press-card is-featured" data-source="חדשות 13">
+<a class="press-card__link" href="media-mirrors/13tv-old-friends/index.html" aria-label="קרא את הכתבה: מרגש מאוד: האיחוד של היולדת עם הרופא שטיפל בה כילדה">
+<div class="press-card__media">
+<img src="media/press/13tv-old-friends.jpg" alt="חדשות 13 - האיחוד של היולדת עם הרופא שטיפל בה כילדה" loading="lazy"/>
+<span class="press-card__source-badge" aria-label="פורסם בחדשות 13">חדשות 13</span>
+</div>
+<div class="press-card__body">
+<time class="press-card__date" datetime="2023-08-23"><i class="fa fa-calendar" aria-hidden="true"></i> 23.08.2023</time>
+<h3 class="press-card__title">"מרגש מאוד": האיחוד של היולדת עם הרופא שטיפל בה כילדה</h3>
+<p class="press-card__excerpt">סיפור סגירת מעגל מרגש בהדסה עין כרם: טליה, ששרדה בילדותה סרטן בזכות מאמצי גיוס תורמי מח עצם שבהם היה שותף ד"ר דורון כבירי, חזרה לבית החולים לאחר שנים כדי ללדת את בנה הבכור, כשד"ר כבירי ביקש בעצמו להיות הרופא המיילד שלה.</p>
+<span class="press-card__cta" aria-hidden="true">קרא עוד <i class="fa fa-angle-left"></i></span>
+</div>
+</a>
+<a class="press-card__external" href="https://13tv.co.il/item/news/domestic/internal/old-friends-903682247/" target="_blank" rel="noopener noreferrer" aria-label="פתח את הכתבה המקורית באתר חדשות 13">
+<i class="fa fa-external-link"></i><span>מקור</span>
+</a>
+</article>
+
+<!-- 2. הדסה / Hadassah International — "הטיפול בהדסה הצליח" (07.01.2023) — VERIFIED, mirrored -->
+<article class="press-card" data-source="הדסה">
+<a class="press-card__link" href="media-mirrors/page22-mirror/index.html" aria-label="קרא את הכתבה: הטיפול בהדסה הצליח">
+<div class="press-card__media">
+<img src="media/press/page22.jpg" alt="הדסה - הטיפול בהדסה הצליח" loading="lazy"/>
+<span class="press-card__source-badge" aria-label="פורסם בהדסה">הדסה</span>
+</div>
+<div class="press-card__body">
+<time class="press-card__date" datetime="2023-01-07"><i class="fa fa-calendar" aria-hidden="true"></i> 7 בינואר 2023</time>
+<h3 class="press-card__title">הטיפול בהדסה הצליח</h3>
+<p class="press-card__excerpt">After two devastating premature births, Chen Nistafov was placed under the close care of Dr. Doron Kabiri's high-risk pregnancy team at Hadassah. With intensive</p>
+<span class="press-card__cta" aria-hidden="true">קרא עוד <i class="fa fa-angle-left"></i></span>
+</div>
+</a>
+<a class="press-card__external" href="https://hadassahinternational.org/hadassah-doctors-assist-mom-in-achieving-a-full-term-birth/" target="_blank" rel="noopener noreferrer" aria-label="פתח את הכתבה המקורית באתר Hadassah International">
+<i class="fa fa-external-link"></i><span>מקור</span>
+</a>
+</article>
+
+<!-- 3. הדסה — "הרופא הטיס ללידת חירום, התינוק של לאה ניצל" (21.11.2022) — VERIFIED, kept as-is -->
+<article class="press-card" data-source="הדסה">
+<a class="press-card__link" href="media-mirrors/hadassah-leah-eilat/index.html" aria-label="קרא את הכתבה: הרופא הטיס ללידת חירום, התינוק של לאה ניצל">
+<div class="press-card__media">
+<img src="media/press/hadassah-leah-eilat.jpg" alt="הדסה - הרופא הטיס ללידת חירום, התינוק של לאה ניצל" loading="lazy"/>
+<span class="press-card__source-badge" aria-label="פורסם בהדסה">הדסה</span>
+</div>
+<div class="press-card__body">
+<time class="press-card__date" datetime="2022-11-21"><i class="fa fa-calendar" aria-hidden="true"></i> 21.11.2022</time>
+<h3 class="press-card__title">הרופא הטיס ללידת חירום, התינוק של לאה ניצל!</h3>
+<p class="press-card__excerpt">לאה הגיעה מאילת למעקב הריון בסיכון גבוה בהדסה עין כרם. בשבוע 34 החליט ד״ר דורון כבירי על לידת חירום בניתוח קיסרי שהצילה את חיי התינוק.</p>
+<span class="press-card__cta" aria-hidden="true">קרא עוד <i class="fa fa-angle-left"></i></span>
+</div>
+</a>
+<a class="press-card__external" href="https://he.hadassah.org.il/news-and-events/doctor-flew-to-an-emergency-delivery-leahs-baby-was-saved/" target="_blank" rel="noopener noreferrer" aria-label="פתח את הכתבה המקורית באתר הדסה">
+<i class="fa fa-external-link"></i><span>מקור</span>
+</a>
+</article>
+
+<!-- 4. ynet — "הגיעה עם רעלת היריון קשה למחנה הפליטים" (17.05.2022) — VERIFIED, kept as-is -->
+<article class="press-card" data-source="ynet">
+<a class="press-card__link" href="media-mirrors/ynet-sj80i6gd5/index.html" aria-label="קרא את הכתבה: הגיעה עם רעלת היריון קשה למחנה הפליטים וניצלה בזכות הצוות מישראל">
+<div class="press-card__media">
+<img src="media/press/ynet-sj80i6gd5.jpg" alt="ynet - הגיעה עם רעלת היריון קשה למחנה הפליטים" loading="lazy"/>
+<span class="press-card__source-badge" aria-label="פורסם בynet">ynet</span>
+</div>
+<div class="press-card__body">
+<time class="press-card__date" datetime="2022-05-17"><i class="fa fa-calendar" aria-hidden="true"></i> 17.05.2022</time>
+<h3 class="press-card__title">הגיעה עם רעלת היריון קשה למחנה הפליטים וניצלה בזכות הצוות מישראל</h3>
+<p class="press-card__excerpt">ד"ר דורון כבירי, שיצא במשלחת הדסה לפולין, אבחן בעוד מועד רעלת היריון חמורה אצל פליטה אוקראינית בשבוע ה-41, וזיהוי המצב הציל את האם ואת התינוקת.</p>
+<span class="press-card__cta" aria-hidden="true">קרא עוד <i class="fa fa-angle-left"></i></span>
+</div>
+</a>
+<a class="press-card__external" href="https://www.ynet.co.il/health/article/sj80i6gd5" target="_blank" rel="noopener noreferrer" aria-label="פתח את הכתבה המקורית באתר ynet">
+<i class="fa fa-external-link"></i><span>מקור</span>
+</a>
+</article>
+
+<!-- 5. הדסה — "פתיחת המרכז למניעת לידה מוקדמת בהדסה" (22.10.2019) — VERIFIED, mirrored -->
+<article class="press-card" data-source="הדסה">
+<a class="press-card__link" href="media-mirrors/page8-mirror/index.html" aria-label="קרא את הכתבה: פתיחת המרכז למניעת לידה מוקדמת בהדסה">
+<div class="press-card__media">
+<img src="media/43e30de3-7763-4755-b738-1eabbeebf104.jpg" alt="פתיחת המרכז למניעת לידה מוקדמת בהדסה" loading="lazy"/>
+<span class="press-card__source-badge" aria-label="פורסם בהדסה">הדסה</span>
+</div>
+<div class="press-card__body">
+<time class="press-card__date" datetime="2019-10-22"><i class="fa fa-calendar" aria-hidden="true"></i> 22 באוקטובר 2019</time>
+<h3 class="press-card__title">פתיחת המרכז למניעת לידה מוקדמת בהדסה</h3>
+<p class="press-card__excerpt">הדסה עין כרם: לראשונה בירושלים, נפתח המרכז למניעת לידה מוקדמת! המרכז החל לפעול כחלק מהמערך לרפואת האם והעובר והריון בסיכון בהדסה עין כרם, בניהולו של ד"ר דורון כ</p>
+<span class="press-card__cta" aria-hidden="true">קרא עוד <i class="fa fa-angle-left"></i></span>
+</div>
+</a>
+<a class="press-card__external" href="https://www.facebook.com/Hadassah.Medical/posts/2800577900030939/" target="_blank" rel="noopener noreferrer" aria-label="פתח את הפרסום המקורי בעמוד הפייסבוק של הדסה">
+<i class="fa fa-external-link"></i><span>מקור</span>
+</a>
+</article>
+
+<!-- 6. ישראל היום — "גידול המח שהתגלה בזמן ההריון" (undated, keep-minimal) -->
+<article class="press-card" data-source="ישראל היום">
+<a class="press-card__link" href="page9.html" aria-label="קרא את הכתבה: גידול המח שהתגלה בזמן ההריון">
+<div class="press-card__media">
+<img src="media/img_0501.jpg" alt="גידול המח שהתגלה בזמן ההריון" loading="lazy"/>
+<span class="press-card__source-badge" aria-label="פורסם בישראל היום">ישראל היום</span>
+</div>
+<div class="press-card__body">
+<h3 class="press-card__title">גידול המח שהתגלה בזמן ההריון</h3>
+<p class="press-card__excerpt">היולדת ג' (28), אם לשניים, נותחה בהדסה עין כרם לכריתת גידול במוח שהתגלה במהלך ההריון, ניתוח שמנע פגיעה בלתי הפיכה בראייה ובשמיעה שלה. הניתוח הנוירוכירורגי נעשה</p>
+<span class="press-card__cta" aria-hidden="true">קרא עוד <i class="fa fa-angle-left"></i></span>
+</div>
+</a>
+</article>
+
+<!-- 7. הדסה — "מוקדם זה לא בהכרח בטוח" (undated, keep-minimal) -->
+<article class="press-card" data-source="הדסה">
+<a class="press-card__link" href="page7.html" aria-label="קרא את הכתבה: מוקדם זה לא בהכרח בטוח">
+<div class="press-card__media">
+<img src="media/img_0322.jpg" alt="מוקדם זה לא בהכרח בטוח" loading="lazy"/>
+<span class="press-card__source-badge" aria-label="פורסם בהדסה">הדסה</span>
+</div>
+<div class="press-card__body">
+<h3 class="press-card__title">מוקדם זה לא בהכרח בטוח</h3>
+<p class="press-card__excerpt">כתבה מתוך הופעותיו של ד״ר כבירי בתקשורת.</p>
+<span class="press-card__cta" aria-hidden="true">קרא עוד <i class="fa fa-angle-left"></i></span>
+</div>
+</a>
+</article>
+
 </div>
 </div>
-</div><div class="boxportfolio4">
-<div class="inneritem">
-<a class="entry-thumbnail" href="page7.html"><img alt="מוקדם זה לא בהכרח בטוח" height="350" src="media/img_0322.jpg" width="600"/></a>
-<div class="wrapinneritem">
-<header class="entry-header sectiontitlepost">
-<h1 class="entry-title"><a href="page7.html">מוקדם זה לא בהכרח בטוח</a></h1>
-<div class="entry-meta">
-<div class="pull-right"><i class="fa fa-calendar"></i>  01/12/2019</div>
 </div>
-<!-- .entry-meta -->
-<div class="excerptsep"></div>
-</header>
-<!-- .entry-header -->
-<div class="entry-content articleExcerpt"><p></p></div>
-<!-- .entry-content -->
-</div>
-</div>
-</div><div class="boxportfolio4">
-<div class="inneritem">
-<a class="entry-thumbnail" href="page9.html"><img alt="גידול המח שהתגלה בזמן ההריון" height="350" src="media/img_0501.jpg" width="600"/></a>
-<div class="wrapinneritem">
-<header class="entry-header sectiontitlepost">
-<h1 class="entry-title"><a href="page9.html">גידול המח שהתגלה בזמן ההריון</a></h1>
-<div class="entry-meta">
-<div class="pull-right"><i class="fa fa-calendar"></i>  01/12/2019</div>
-</div>
-<!-- .entry-meta -->
-<div class="excerptsep"></div>
-</header>
-<!-- .entry-header -->
-<div class="entry-content articleExcerpt"><p></p></div>
-<!-- .entry-content -->
-</div>
-</div>
-</div><div class="boxportfolio4">
-<div class="inneritem">
-<a class="entry-thumbnail" href="page8.html"><img alt="פתיחת המרכז למניעת לידה מוקדמת בהדסה" height="350" src="media/43e30de3-7763-4755-b738-1eabbeebf104.jpg" width="600"/></a>
-<div class="wrapinneritem">
-<header class="entry-header sectiontitlepost">
-<h1 class="entry-title"><a href="page8.html">פתיחת המרכז למניעת לידה מוקדמת בהדסה</a></h1>
-<div class="entry-meta">
-<div class="pull-right"><i class="fa fa-calendar"></i>  01/12/2019</div>
-</div>
-<!-- .entry-meta -->
-<div class="excerptsep"></div>
-</header>
-<!-- .entry-header -->
-<div class="entry-content articleExcerpt"><p></p></div>
-<!-- .entry-content -->
-</div>
-</div>
-</div><div class="boxportfolio4">
-<div class="inneritem">
-<a class="entry-thumbnail" href="page17.html"><img alt="רופא בהדסה עין כרם הורה על לידה בשבוע מוקדם והציל את העובר" height="350" src="" width="600"/></a>
-<div class="wrapinneritem">
-<header class="entry-header sectiontitlepost">
-<h1 class="entry-title"><a href="page17.html">רופא בהדסה עין כרם הורה על לידה בשבוע מוקדם והציל את העובר</a></h1>
-<div class="entry-meta">
-<div class="pull-right"><i class="fa fa-calendar"></i>  06/07/2023</div>
-</div>
-<!-- .entry-meta -->
-<div class="excerptsep"></div>
-</header>
-<!-- .entry-header -->
-<div class="entry-content articleExcerpt"><p></p></div>
-<!-- .entry-content -->
-</div>
-</div>
-</div></div>
-</div>
-</div>
+</section>
+
 <section class="whites calltoactionarea">
 <div class="container">
 <div class="row">
@@ -311,31 +811,48 @@
     $(function(){
 $('#contactform input[type=email]').on('change invalid', function() {
     var textfield = $(this).get(0);
-    
-    // 'setCustomValidity not only sets the message, but also marks
-    // the field as invalid. In order to see whether the field really is
-    // invalid, we have to remove the message first
     textfield.setCustomValidity('');
-    
     if (!textfield.validity.valid) {
-      textfield.setCustomValidity('אימייל שגוי'); 
+      textfield.setCustomValidity('אימייל שגוי');
          }
     });
-         
+
          $('#contactform input[type=text]').on('change invalid', function() {
     var textfield = $(this).get(0);
-    
-    // 'setCustomValidity not only sets the message, but also marks
-    // the field as invalid. In order to see whether the field really is
-    // invalid, we have to remove the message first
     textfield.setCustomValidity('');
-    
     if (!textfield.validity.valid) {
-      textfield.setCustomValidity('שדה שגוי'); 
+      textfield.setCustomValidity('שדה שגוי');
          }
     });
          });
   </script>
+
+<!-- Press page: outlet filter (graft from Approach C) -->
+<script>
+(function(){
+  var chips = document.querySelectorAll('.press-filter__chip');
+  var cards = document.querySelectorAll('#pressGrid .press-card');
+  if (!chips.length || !cards.length) return;
+  chips.forEach(function(chip){
+    chip.addEventListener('click', function(){
+      var filter = chip.getAttribute('data-filter');
+      chips.forEach(function(c){
+        c.classList.remove('is-active');
+        c.setAttribute('aria-selected', 'false');
+      });
+      chip.classList.add('is-active');
+      chip.setAttribute('aria-selected', 'true');
+      cards.forEach(function(card){
+        if (filter === 'all' || card.getAttribute('data-source') === filter) {
+          card.classList.remove('is-hidden');
+        } else {
+          card.classList.add('is-hidden');
+        }
+      });
+    });
+  });
+})();
+</script>
 </div><!-- end boxedcontent -->
 <script>
        function resizeIFrameToFitContent( iFrame ) {
@@ -344,10 +861,10 @@ $('#contactform input[type=email]').on('change invalid', function() {
         iFrame.attr('width', '100%');
 }
 
-window.addEventListener('DOMContentLoaded', function(e) {  
+window.addEventListener('DOMContentLoaded', function(e) {
     var iFrame = $( "#youtube-iframe" ).find('iframe');
-    resizeIFrameToFitContent( iFrame );   
-} );  
+    resizeIFrameToFitContent( iFrame );
+} );
   </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -356,31 +873,11 @@ window.addEventListener('DOMContentLoaded', function(e) {
         $('ul.sideNav a').filter(function() {
              return this.href == url;
         }).parent().addClass('active');
-      
+
        $('ul.nav.navbar-nav a[href="'+ url +'"]').parent().addClass('active');
         $('ul.nav.navbar-nav a').filter(function() {
              return this.href == url;
         }).parent().addClass('active');
     });
 </script>
-<script>
-    ///set equal height of services excerpt
-    if ($(window).width() > 767) {
-       ///set equal height of services
-        var heights = $(".serviceExcerpt p").map(function () {
-                return $(this).outerHeight();
-            }).get(),
-
-                maxHeight = Math.max.apply(null, heights);
-            $('.serviceExcerpt p').css('height', maxHeight + 'px');      
-      
-        var articlesHeight = $(".articleExcerpt p").map(function () {
-                return $(this).outerHeight();
-            }).get(),
-
-                maxHeight = Math.max.apply(null, articlesHeight);
-            $('.articleExcerpt p').css('height', maxHeight + 'px');      
-
-    }
-    </script>
 </body></html>

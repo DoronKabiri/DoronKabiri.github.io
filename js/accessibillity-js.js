@@ -263,6 +263,7 @@ if (iscont == "yes") {
     $("li.changeContrast").find("div").toggleClass('contrastDone');
     $("a.changeContrast").toggleClass('contrastDone');
     $(".colorarea.changeContrast").toggleClass('contrastDone');
+    $(".press-section").toggleClass('contrastDone');
     $("div.changeContrast").find("div").toggleClass('contrastDone');
     $("div.changeContrast").find("div h1").toggleClass('contrastDone');
     $("div.changeContrast").find("div h1 a").toggleClass('contrastDone');
@@ -479,6 +480,7 @@ $( ".toggle" ).toggle(
       $("li.changeContrast").find("div").toggleClass('contrastDone');
       $("a.changeContrast").toggleClass('contrastDone');
       $(".colorarea.changeContrast").toggleClass('contrastDone');
+      $(".press-section").toggleClass('contrastDone');
       $("div.changeContrast").find("div").toggleClass('contrastDone');
       $("div.changeContrast").find("div h1").toggleClass('contrastDone');
       $("div.changeContrast").find("div h1 a").toggleClass('contrastDone');
