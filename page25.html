@@ -389,6 +389,41 @@
 }
 .press-card__external:focus-visible { outline: 2px solid #8e4aa8; outline-offset: 2px; }
 
+/* ---------- Additional-coverage row (sibling of press-card__link) ---------- */
+.press-card__coverage {
+  /* left padding reserves space for the absolute "מקור" button (bottom-left) */
+  padding: 0 24px 16px 104px;
+  margin-top: -6px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #6b5b78;
+  min-height: 30px;
+}
+.press-card.is-featured .press-card__coverage {
+  padding: 0 40px 24px 110px;
+}
+.press-card__coverage-label {
+  font-weight: 700;
+  color: #6b5b78;
+  margin-left: 4px;
+}
+.press-card__coverage a {
+  color: #5a2e6f;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(90, 46, 111, 0.25);
+}
+.press-card__coverage a:hover,
+.press-card__coverage a:focus {
+  color: #8e4aa8;
+  border-bottom-color: #8e4aa8;
+  text-decoration: none;
+}
+.press-card__coverage a:focus-visible { outline: 2px solid #8e4aa8; outline-offset: 2px; }
+.press-section.contrastDone .press-card__coverage,
+.press-section.contrastDone .press-card__coverage-label { color: #ff0 !important; }
+.press-section.contrastDone .press-card__coverage a { color: #ff0 !important; border-bottom-color: #ff0 !important; }
+
 /* ---------- Featured video ---------- */
 .press-video {
   max-width: 860px;
@@ -571,6 +606,7 @@
 <button type="button" class="press-filter__chip" data-filter="ynet" role="tab" aria-selected="false">ynet</button>
 <button type="button" class="press-filter__chip" data-filter="חדשות 13" role="tab" aria-selected="false">חדשות 13</button>
 <button type="button" class="press-filter__chip" data-filter="ישראל היום" role="tab" aria-selected="false">ישראל היום</button>
+<button type="button" class="press-filter__chip" data-filter="אינסטגרם" role="tab" aria-selected="false">אינסטגרם</button>
 </div>
 
 <div class="press-grid-wrap">
@@ -590,7 +626,27 @@
 <span class="press-card__cta" aria-hidden="true">קרא עוד <i class="fa fa-angle-left"></i></span>
 </div>
 </a>
+<div class="press-card__coverage"><span class="press-card__coverage-label">עוד סיקור:</span> <a href="media-mirrors/kolhair-talia/index.html">כל העיר</a></div>
 <a class="press-card__external" href="https://13tv.co.il/item/news/domestic/internal/old-friends-903682247/" target="_blank" rel="noopener noreferrer" aria-label="פתח את הכתבה המקורית באתר חדשות 13">
+<i class="fa fa-external-link"></i><span>מקור</span>
+</a>
+</article>
+
+<!-- NEW. אינסטגרם — מינוי למנהל מרכז בריאות האישה בהדסה בית שמש (24.02.2025) — link-out only, branded fallback -->
+<article class="press-card" data-source="אינסטגרם">
+<a class="press-card__link" href="https://www.instagram.com/p/DGdIa5SNyLq/" target="_blank" rel="noopener noreferrer" aria-label="צפה בפרסום: ד״ר כבירי מונה למנהל מרכז בריאות האישה בהדסה בית שמש">
+<div class="press-card__media">
+<div class="press-card__media--fallback"><span class="fallback-kicker">פורסם ב</span><span class="fallback-source">אינסטגרם</span></div>
+<span class="press-card__source-badge" aria-label="פורסם באינסטגרם">אינסטגרם</span>
+</div>
+<div class="press-card__body">
+<time class="press-card__date" datetime="2025-02-24"><i class="fa fa-calendar" aria-hidden="true"></i> 24.02.2025</time>
+<h3 class="press-card__title">ד״ר כבירי מונה למנהל מרכז בריאות האישה בהדסה בית שמש</h3>
+<p class="press-card__excerpt">מועדון נשים ויולדות הדסה מברך על מינויו של ד״ר דורון כבירי כמנהל מרכז בריאות האישה בהדסה בית שמש ומרפאת ההריונות בסיכון בעין כרם.</p>
+<span class="press-card__cta" aria-hidden="true">צפה בפרסום <i class="fa fa-angle-left"></i></span>
+</div>
+</a>
+<a class="press-card__external" href="https://www.instagram.com/p/DGdIa5SNyLq/" target="_blank" rel="noopener noreferrer" aria-label="פתח את הפרסום המקורי באינסטגרם">
 <i class="fa fa-external-link"></i><span>מקור</span>
 </a>
 </article>
@@ -628,6 +684,7 @@
 <span class="press-card__cta" aria-hidden="true">קרא עוד <i class="fa fa-angle-left"></i></span>
 </div>
 </a>
+<div class="press-card__coverage"><span class="press-card__coverage-label">עוד סיקור:</span> <a href="https://www.facebook.com/Hadassah.Medical/posts/5996207000467997/" target="_blank" rel="noopener noreferrer">פייסבוק הדסה</a></div>
 <a class="press-card__external" href="https://he.hadassah.org.il/news-and-events/doctor-flew-to-an-emergency-delivery-leahs-baby-was-saved/" target="_blank" rel="noopener noreferrer" aria-label="פתח את הכתבה המקורית באתר הדסה">
 <i class="fa fa-external-link"></i><span>מקור</span>
 </a>
@@ -647,6 +704,7 @@
 <span class="press-card__cta" aria-hidden="true">קרא עוד <i class="fa fa-angle-left"></i></span>
 </div>
 </a>
+<div class="press-card__coverage"><span class="press-card__coverage-label">עוד סיקור:</span> <a href="media-mirrors/jpost-poland/index.html">Jerusalem Post</a> · <a href="media-mirrors/hadassah-intl-poland/index.html">Hadassah International</a></div>
 <a class="press-card__external" href="https://www.ynet.co.il/health/article/sj80i6gd5" target="_blank" rel="noopener noreferrer" aria-label="פתח את הכתבה המקורית באתר ynet">
 <i class="fa fa-external-link"></i><span>מקור</span>
 </a>
