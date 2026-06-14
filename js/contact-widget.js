@@ -9,7 +9,7 @@
   // --- Configuration (the ONLY thing to edit to change numbers/text) ---
   var WHATSAPP_NUMBER = "972506171131";              // 050-6171131 in international format
   var CALL_NUMBER = "02-6778899";                    // ש"רפ office / appointments line
-  var WHATSAPP_TEXT = "שלום ד״ר כבירי, הגעתי דרך האתר ואשמח לתאם ייעוץ";
+  var WHATSAPP_TEXT = "שלום, הגעתי דרך האתר ואשמח לתאם ייעוץ עם ד״ר כבירי";
 
   if (window.__kabiriContactWidget) return;          // guard against double-injection
   window.__kabiriContactWidget = true;
