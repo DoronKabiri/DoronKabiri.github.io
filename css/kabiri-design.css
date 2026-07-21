@@ -107,7 +107,9 @@
   --kb-space-8: 64px;
 
   /* type */
-  --kb-font-display: 'Frank Ruhl Libre', 'Times New Roman', serif;
+  /* Client feedback (21.7.2026): serif felt unfriendly — headings use
+     Assistant like the body, differentiated by weight and color. */
+  --kb-font-display: 'Assistant', 'Arial Hebrew', Arial, sans-serif;
   --kb-font-body: 'Assistant', 'Arial Hebrew', Arial, sans-serif;
 }
 
@@ -727,7 +729,7 @@ a.kb-card:focus {
   margin: 18px 0 0;
   max-width: 520px;
 }
-/* portrait in the arch mask from the visual mockup */
+/* portrait in a soft rounded-square frame (client feedback: no arch) */
 .kb-hero-photo {
   justify-self: center;
 }
@@ -735,7 +737,7 @@ a.kb-card:focus {
   position: relative;
   width: min(300px, 72vw);
   aspect-ratio: 5 / 6;
-  border-radius: 160px 160px 22px 22px;
+  border-radius: 22px;
   border: 6px solid #fff;
   box-shadow: 0 18px 44px rgba(42, 18, 56, .18);
   overflow: hidden;
@@ -771,7 +773,7 @@ a.kb-card:focus {
   }
   .kb-hero-frame {
     width: min(200px, 52vw);
-    border-radius: 120px 120px 18px 18px;
+    border-radius: 18px;
     border-width: 5px;
   }
   .kb-hero-position,
