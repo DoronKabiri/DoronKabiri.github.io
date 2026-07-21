@@ -789,6 +789,45 @@ a.kb-card:focus {
   }
 }
 
+/* Desktop-only portrait treatment: editorial 4/5 portrait,
+   no border, deep soft shadow, purple offset panel behind.
+   Mobile keeps the small rounded square untouched. */
+@media (min-width: 861px) {
+  .kb-hero-photo {
+    position: relative;
+  }
+  /* offset depth panel — shifted toward bottom + inline-end
+     (left in RTL = outer edge, away from the copy) */
+  .kb-hero-photo::before {
+    content: "";
+    position: absolute;
+    inset-block: 22px -22px;
+    inset-inline: 22px -22px;
+    border-radius: 20px;
+    background: var(--kb-purple-100);
+    z-index: 0;
+  }
+  .kb-hero-frame {
+    width: min(380px, 36vw);
+    aspect-ratio: 4 / 5;
+    border: none;
+    border-radius: 20px;
+    box-shadow:
+      0 30px 60px -18px rgba(42, 18, 56, .30),
+      0 10px 24px rgba(42, 18, 56, .10);
+    z-index: 1; /* above the ::before panel; already position:relative */
+  }
+  .kb-hero-frame img {
+    object-position: center 20%; /* slightly higher crop for the taller ratio */
+  }
+}
+
+/* high-contrast mode: neutralize the new panel, matching the
+   existing .contrastDone hero overrides at line ~1137 */
+.kb-section.contrastDone .kb-hero-photo::before {
+  background: none !important;
+}
+
 /* ------------------------------------------------------------
    13. Specialty cards (.kb-specialties)
    ------------------------------------------------------------ */
@@ -825,6 +864,16 @@ a.kb-card:focus {
 .kb-icon-tile svg {
   width: 27px;
   height: 27px;
+}
+/* legacy JPG symbol set restored (client feedback): white-background
+   line drawings sit in the tinted tile; multiply blends the white
+   away so only the drawing shows on the purple-100 chip */
+.kb-spec-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  border-radius: 12px;
+  mix-blend-mode: multiply;
 }
 .kb-spec-card p {
   margin-bottom: 14px;
@@ -1116,6 +1165,12 @@ footer#colophon #back-top a span {
   color: #ff0 !important;
   border: 1px solid #ff0 !important;
   box-shadow: none !important;
+}
+/* on the black tile, multiply would blend the JPG icons into the
+   background — show them as-is (white-backed photos stay visible,
+   same treatment as .kb-article-thumb images) */
+.kb-section.contrastDone .kb-spec-icon {
+  mix-blend-mode: normal !important;
 }
 .kb-section.contrastDone .kb-tag {
   background: #000 !important;

@@ -9,7 +9,7 @@
   // --- Configuration (the ONLY thing to edit to change numbers/text) ---
   var WHATSAPP_NUMBER = "972506171131";              // 050-6171131 in international format
   var CALL_NUMBER = "02-6778899";                    // ש"רפ office / appointments line
-  var WHATSAPP_TEXT = "שלום, הגעתי דרך האתר ואשמח לתאם ייעוץ עם ד״ר כבירי";
+  var WHATSAPP_TEXT = "שלום, הגעתי דרך האתר וברצוני לתאם ייעוץ עם ד״ר כבירי";
 
   if (window.__kabiriContactWidget) return;          // guard against double-injection
   window.__kabiriContactWidget = true;
@@ -88,7 +88,7 @@
       fab.rel = "noopener noreferrer";
       fab.setAttribute("aria-label", "פנייה ב-WhatsApp לד״ר כבירי");
       fab.innerHTML = '<i class="fa fa-whatsapp" aria-hidden="true"></i>' +
-        '<span class="kc-fab__label">דברו איתי ב-WhatsApp</span>';
+        '<span class="kc-fab__label">לתיאום ייעוץ בוואטסאפ</span>';
       document.body.appendChild(fab);
     }
 
