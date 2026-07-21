@@ -271,6 +271,7 @@ if (iscont == "yes") {
     $(".filterMenu.changeContrast").toggleClass('contrastDone');
     $("input[type='text'],input[type='email'],input[type='submit'], textarea").toggleClass('contrastDone');
     $("div.changeContrast").toggleClass('contrastDone');
+    $(".kb-section").toggleClass('contrastDone');
     $('input').addClass('placeHolderCont');
     $('textarea').addClass('placeHolderCont');
 
@@ -488,6 +489,7 @@ $( ".toggle" ).toggle(
       $(".filterMenu.changeContrast").toggleClass('contrastDone');
       $("input[type='text'],input[type='email'],input[type='submit'], textarea").toggleClass('contrastDone');
       $("div.changeContrast").toggleClass('contrastDone');
+      $(".kb-section").toggleClass('contrastDone');
       $('input').addClass('placeHolderCont');
       $('textarea').addClass('placeHolderCont');
 

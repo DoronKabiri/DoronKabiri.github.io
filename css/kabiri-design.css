@@ -1,0 +1,1148 @@
+/* ============================================================
+   kabiri-design.css — design-token foundation (Stage A)
+   ------------------------------------------------------------
+   Approved direction: "סגול וחום" — the soft plum ramp (heritage
+   #5a2e6f) is the ONLY brand/action color; warm cream/sand
+   neutrals replace cold white. Navy is NOT a structural color.
+   Hexes and type scale taken 1:1 from
+   design-proposals/visual-mockup.html (the style tile).
+
+   LOAD ORDER: this file must be the LAST stylesheet in <head>,
+   after style.css / skins/purple.css / custom-site-css.css, so
+   equal-specificity overrides here win by source order.
+
+   FONT LOADING: Frank Ruhl Libre is loaded via a Google Fonts
+   <link> tag added per page (NOT @import here). @import inside
+   a stylesheet serializes discovery: the browser must download
+   and parse this CSS before it even learns the font URL, which
+   delays first paint. A <link> in <head> lets the preload
+   scanner fetch the font CSS in parallel. Every page therefore
+   carries:
+     <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&display=swap" rel="stylesheet"/>
+
+   NAMESPACE: every new class is kb- prefixed to avoid collisions
+   with Bootstrap 3 and legacy code. The mockup's "plum-*" token
+   names are exposed both as --kb-purple-* (canonical, used
+   below) and --kb-plum-* (aliases matching the mockup naming).
+
+   UNITS: Bootstrap 3 sets html{font-size:10px}, so 1rem = 10px
+   site-wide; all rem values below match the mockup spec, which
+   assumed exactly that (its 62.5% base = the same 10px).
+
+   ACCESSIBILITY CONTRACT (do not break):
+   - The font-size buttons (.incfont/.decfont in
+     js/accessibillity-js.js) set INLINE font-size on
+     h1/h3/p/span/a/div etc. Inline styles beat any clamp()/rem
+     rule here, so the buttons keep working on every kb-
+     component. For that reason font-size is never !important
+     in this file.
+   - The contrast toggle adds .contrastDone to wrapper elements
+     (and, via $("div.changeContrast").find("div"), to every div
+     inside a .changeContrast wrapper). The contrast section at
+     the bottom therefore keys every rule off BOTH an ancestor
+     .contrastDone AND a direct .kb-*.contrastDone, following
+     the press-page (page25) pattern. .changeContrast itself is
+     a permanent JS marker and is NEVER used as a styling hook.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. Design tokens
+   ------------------------------------------------------------ */
+:root {
+  /* plum ramp (heritage #5a2e6f, softened) — canonical names */
+  --kb-purple-950: #241130;
+  --kb-purple-900: #2a1238;  /* heading ink, matches press page */
+  --kb-purple-800: #402051;
+  --kb-purple-700: #5a2e6f;  /* brand anchor: buttons, links, logo */
+  --kb-purple-600: #6f4287;  /* hover / active */
+  --kb-purple-500: #8a5fa4;  /* secondary links, decorative strokes */
+  --kb-purple-300: #c9b3d8;  /* borders, dividers */
+  --kb-purple-100: #ece2f2;  /* tint chips, icon tiles */
+  --kb-purple-50:  #f7f3fa;  /* section band (replaces #f7f7f7) */
+
+  /* aliases matching the mockup's plum-* naming */
+  --kb-plum-950: var(--kb-purple-950);
+  --kb-plum-900: var(--kb-purple-900);
+  --kb-plum-800: var(--kb-purple-800);
+  --kb-plum-700: var(--kb-purple-700);
+  --kb-plum-600: var(--kb-purple-600);
+  --kb-plum-500: var(--kb-purple-500);
+  --kb-plum-300: var(--kb-purple-300);
+  --kb-plum-100: var(--kb-purple-100);
+  --kb-plum-50:  var(--kb-purple-50);
+
+  /* warm neutrals */
+  --kb-cream-0:  #fdfbf9;   /* page background (replaces pure white) */
+  --kb-sand-50:  #f7f1ea;   /* warm alternate band */
+  --kb-sand-200: #eadfd3;   /* border on warm band */
+
+  /* ink + grays (warm-toned) */
+  --kb-ink-900:  #322b38;
+  --kb-gray-700: #4a4550;   /* body text */
+  --kb-gray-500: #7a7482;   /* meta, captions */
+
+  /* warm accent, sparingly */
+  --kb-rose-500: #b05f6d;   /* quote marks, small highlights, never body text */
+  --kb-rose-100: #f7e4e4;
+
+  /* functional */
+  --kb-green-600: #1f9d61;  /* success, WhatsApp harmonized */
+  --kb-focus:     #8a5fa4;  /* focus ring */
+
+  /* elevation + shape (עדשה 3 פריט 6 — exact values) */
+  --kb-shadow-card:       0 8px 24px rgba(90, 46, 111, .08);
+  --kb-shadow-card-hover: 0 14px 32px rgba(90, 46, 111, .14);
+  --kb-radius-card: 16px;
+  --kb-radius-sm:   8px;
+  --kb-radius-pill: 999px;
+
+  /* spacing scale (px; 4-based) */
+  --kb-space-1: 4px;
+  --kb-space-2: 8px;
+  --kb-space-3: 12px;
+  --kb-space-4: 16px;
+  --kb-space-5: 24px;
+  --kb-space-6: 32px;
+  --kb-space-7: 48px;
+  --kb-space-8: 64px;
+
+  /* type */
+  --kb-font-display: 'Frank Ruhl Libre', 'Times New Roman', serif;
+  --kb-font-body: 'Assistant', 'Arial Hebrew', Arial, sans-serif;
+}
+
+/* ------------------------------------------------------------
+   2. Warm page background
+   ------------------------------------------------------------
+   Replaces the legacy body texture (img/bg/bg12.png) and cold
+   white with warm cream. Shorthand `background` is intentional:
+   it clears the legacy background-image. Existing white content
+   cards (#fff surfaces) sit on the cream with a subtle, warm
+   difference — verified deliberate per the mockup.              */
+body {
+  background: var(--kb-cream-0);
+}
+
+/* ------------------------------------------------------------
+   3. Page-title band bridge (no navy as structural color)
+   ------------------------------------------------------------
+   .colorarea appears exactly once per subpage: the band behind
+   .pgheadertitle (checked across all pages). The skin painted
+   it navy #1d3552; the approved decision removes navy, and the
+   serif purple-900 title below needs a light band to stay
+   legible. Flat background-color only (no gradient image), so
+   the accessibility rule `.contrastDone{background-color:black
+   !important}` still blacks it out completely in contrast mode. */
+.colorarea {
+  background-color: var(--kb-purple-50);
+  border-bottom: 1px solid var(--kb-purple-100);
+}
+/* breadcrumb strip under the title sat white-on-navy; re-ink it */
+.pagedescrarea,
+.pagedescrarea a {
+  color: var(--kb-purple-800);
+}
+
+/* ------------------------------------------------------------
+   4. Typography
+   ------------------------------------------------------------
+   Body stays Assistant (untouched). Headings inside kb-
+   components and the global page title move to the Hebrew serif.
+   NOTE: style.css declares `h1..h6{font-family:'Assistant'
+   !important}`, so font-family here must also be !important to
+   win by source order. font-size stays non-!important so the
+   accessibility font-size buttons (inline styles) keep working. */
+
+/* global page-heading upgrade */
+.pgheadertitle {
+  font-family: var(--kb-font-display) !important;
+  font-weight: 700;
+  font-size: clamp(3rem, 5vw, 4.2rem);  /* 30–42px, was fixed 33px */
+  line-height: 1.2;
+  color: var(--kb-purple-900);
+}
+
+/* serif for headings inside any kb- component */
+[class*="kb-"] h1,
+[class*="kb-"] h2,
+[class*="kb-"] h3 {
+  font-family: var(--kb-font-display) !important;
+  color: var(--kb-purple-900);
+}
+
+/* type-scale helpers (values from the style tile) */
+.kb-display {
+  font-family: var(--kb-font-display) !important;
+  font-weight: 700;
+  font-size: clamp(3.4rem, 6vw, 4.6rem);
+  line-height: 1.18;
+  color: var(--kb-purple-900);
+}
+.kb-h2 {
+  font-family: var(--kb-font-display) !important;
+  font-weight: 500;
+  font-size: 2.9rem;
+  line-height: 1.3;
+  color: var(--kb-purple-900);
+}
+.kb-h3 {
+  font-family: var(--kb-font-body) !important; /* card-level titles stay Assistant per the style tile */
+  font-weight: 700;
+  font-size: 2rem;
+  line-height: 1.4;
+  color: var(--kb-ink-900);
+}
+.kb-lead {
+  font-size: 1.9rem;
+  line-height: 1.7;
+  color: var(--kb-gray-700);
+}
+.kb-body {
+  font-size: 1.7rem;
+  line-height: 1.75;
+  color: var(--kb-gray-700);
+}
+.kb-meta {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--kb-gray-500);
+}
+
+/* ------------------------------------------------------------
+   5. Global focus-visible ring
+   ------------------------------------------------------------
+   :focus-visible only — mouse clicks stay ring-free, keyboard
+   users get a clear purple ring. Scoped to interactive elements
+   so legacy layout is untouched.                                */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--kb-focus);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------
+   6. Button system (.kb-btn)
+   ------------------------------------------------------------
+   One class, 48px touch target, RTL-safe via logical properties
+   and flex gap (no directional margins).                        */
+.kb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--kb-space-2);
+  min-height: 48px;
+  padding-block: 12px;
+  padding-inline: 26px;
+  font-family: var(--kb-font-body);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  border-radius: var(--kb-radius-pill);
+  cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease,
+              box-shadow .15s ease, transform .15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.kb-btn:hover,
+.kb-btn:focus {
+  text-decoration: none;
+}
+.kb-btn:active {
+  transform: translateY(1px);
+}
+.kb-btn:focus-visible {
+  outline: 3px solid var(--kb-focus);
+  outline-offset: 2px;
+}
+.kb-btn svg {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+}
+.kb-btn[disabled],
+.kb-btn.kb-is-disabled {
+  opacity: .55;
+  pointer-events: none;
+}
+
+/* primary: filled plum */
+.kb-btn--primary {
+  background-color: var(--kb-purple-700);
+  color: #fff;
+}
+.kb-btn--primary:hover,
+.kb-btn--primary:focus {
+  background-color: var(--kb-purple-600);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(90, 46, 111, .28);
+}
+
+/* secondary: outline */
+.kb-btn--secondary {
+  background-color: transparent;
+  color: var(--kb-purple-700);
+  border-color: var(--kb-purple-300);
+}
+.kb-btn--secondary:hover,
+.kb-btn--secondary:focus {
+  background-color: var(--kb-purple-50);
+  border-color: var(--kb-purple-500);
+  color: var(--kb-purple-800);
+}
+
+/* quiet: text-only */
+.kb-btn--quiet {
+  background-color: transparent;
+  color: var(--kb-purple-700);
+  border-color: transparent;
+}
+.kb-btn--quiet:hover,
+.kb-btn--quiet:focus {
+  background-color: var(--kb-purple-50);
+  color: var(--kb-purple-800);
+}
+
+/* ------------------------------------------------------------
+   7. Card language (.kb-card)
+   ------------------------------------------------------------
+   One surface for specialty / article / testimonial cards
+   (עדשה 3 פריט 6 — exact radius, border and plum-tinted shadow). */
+.kb-card {
+  background-color: #fff;
+  border: 1px solid var(--kb-purple-100);
+  border-radius: var(--kb-radius-card);
+  box-shadow: var(--kb-shadow-card);
+  padding: 26px 24px 22px;
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+.kb-card:hover {
+  box-shadow: var(--kb-shadow-card-hover);
+  transform: translateY(-3px);
+}
+.kb-card h3 {
+  font-family: var(--kb-font-body) !important; /* per style tile: card titles are Assistant */
+  font-size: 1.85rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--kb-ink-900);
+  margin: 0 0 6px;
+}
+.kb-card p {
+  font-size: 1.5rem;
+  line-height: 1.65;
+  color: var(--kb-gray-500);
+}
+
+/* ------------------------------------------------------------
+   8. Reduced motion (עדשה 2 פריט 9 — targeted, not global)
+   ------------------------------------------------------------
+   Scoped so legacy sliders (flexslider / wowslider) on other
+   pages are NOT broken: only kb- components and the animate.css
+   entrance effects (which end at the element's natural state)
+   are damped.                                                   */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  [class*="kb-"],
+  [class*="kb-"]::before,
+  [class*="kb-"]::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+  .kb-btn:active,
+  .kb-card:hover {
+    transform: none;
+  }
+  /* animate.css entrance effects: elements simply render in place */
+  .animated {
+    animation: none !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   9. High-contrast mode (.contrastDone) mappings
+   ------------------------------------------------------------
+   Black background / yellow (#ff0) text, following the
+   press-page (page25) pattern. Every rule is keyed off BOTH:
+   (a) an ancestor wrapper that received .contrastDone from
+       js/accessibillity-js.js, and
+   (b) the component itself carrying .contrastDone directly
+       (the script adds it to every div inside a .changeContrast
+       wrapper, so kb- divs can receive it directly).
+   .changeContrast is a permanent JS marker — never used here.   */
+
+/* buttons */
+.contrastDone .kb-btn,
+.kb-btn.contrastDone {
+  background-color: #000 !important;
+  background-image: none !important;
+  color: #ff0 !important;
+  border-color: #ff0 !important;
+  box-shadow: none !important;
+}
+.contrastDone .kb-btn:hover,
+.contrastDone .kb-btn:focus,
+.kb-btn.contrastDone:hover,
+.kb-btn.contrastDone:focus {
+  background-color: #000 !important;
+  color: #ff0 !important;
+  border-color: #fff !important;
+}
+.contrastDone .kb-btn:focus-visible,
+.kb-btn.contrastDone:focus-visible {
+  outline-color: #ff0 !important;
+}
+.contrastDone .kb-btn svg,
+.kb-btn.contrastDone svg {
+  color: #ff0 !important;
+  fill: currentColor;
+}
+
+/* cards */
+.contrastDone .kb-card,
+.kb-card.contrastDone {
+  background-color: #000 !important;
+  background-image: none !important;
+  border-color: #ff0 !important;
+  box-shadow: none !important;
+}
+.contrastDone .kb-card h1,
+.contrastDone .kb-card h2,
+.contrastDone .kb-card h3,
+.contrastDone .kb-card h4,
+.contrastDone .kb-card p,
+.contrastDone .kb-card span,
+.contrastDone .kb-card a,
+.contrastDone .kb-card blockquote,
+.contrastDone .kb-card footer,
+.kb-card.contrastDone h1,
+.kb-card.contrastDone h2,
+.kb-card.contrastDone h3,
+.kb-card.contrastDone h4,
+.kb-card.contrastDone p,
+.kb-card.contrastDone span,
+.kb-card.contrastDone a,
+.kb-card.contrastDone blockquote,
+.kb-card.contrastDone footer {
+  color: #ff0 !important;
+  background: transparent !important;
+}
+
+/* type helpers */
+.contrastDone .kb-display,
+.contrastDone .kb-h2,
+.contrastDone .kb-h3,
+.contrastDone .kb-lead,
+.contrastDone .kb-body,
+.contrastDone .kb-meta,
+.kb-display.contrastDone,
+.kb-h2.contrastDone,
+.kb-h3.contrastDone,
+.kb-lead.contrastDone,
+.kb-body.contrastDone,
+.kb-meta.contrastDone {
+  color: #ff0 !important;
+  background: transparent !important;
+}
+
+/* page title + breadcrumb over the (now black) .colorarea band.
+   The h1 lives in the .container that FOLLOWS the band section
+   and overlaps it via .negmtop, so it never receives
+   .contrastDone itself — key off the sibling band instead.      */
+.colorarea.contrastDone ~ .container .pgheadertitle,
+.contrastDone .pgheadertitle,
+.pgheadertitle.contrastDone {
+  color: #ff0 !important;
+}
+.colorarea.contrastDone ~ .container .pagedescrarea,
+.colorarea.contrastDone ~ .container .pagedescrarea a,
+.contrastDone .pagedescrarea,
+.contrastDone .pagedescrarea a {
+  color: #ff0 !important;
+}
+
+/* ------------------------------------------------------------
+   10. Contact form (.kb-form) — Stage C, עדשה 2 פריט 8
+   ------------------------------------------------------------
+   Markup contract (צור_קשר/index.html): each field sits inside
+   <div class="kb-field col-*"> with a visible <label class=
+   "kb-label"> above the input; the Bootstrap grid classes moved
+   from the inputs to the .kb-field wrappers, so the input itself
+   is simply width:100% of its cell and the 2-per-row layout is
+   preserved. Placeholders stay as hints only.
+   The form column carries the .changeContrast marker, so in
+   contrast mode the toggle script gives every .kb-field div
+   (and .kb-form itself) .contrastDone — that is what lets the
+   rules below reach the tel input and the labels, which the
+   script does NOT tag directly (it only tags
+   input[type=text/email/submit] and textarea).                  */
+
+.kb-form .kb-field {
+  margin-bottom: var(--kb-space-1); /* inputs keep their legacy 15px bottom margin */
+}
+
+.kb-label {
+  display: block;
+  font-family: var(--kb-font-body);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--kb-ink-900);
+  margin-block-end: 6px;
+  text-align: start; /* RTL-safe: right in Hebrew */
+}
+/* all five fields are required; the star is decorative (required
+   is already announced from the attribute) */
+.kb-label::after {
+  content: " *";
+  color: var(--kb-rose-500);
+}
+
+.kb-form input[type="text"],
+.kb-form input[type="tel"],
+.kb-form input[type="email"],
+.kb-form textarea {
+  width: 100%;
+  background-color: #fff;
+  border: 1.5px solid var(--kb-sand-200);
+  border-radius: var(--kb-radius-sm);
+  padding: 11px 14px;
+  font-family: var(--kb-font-body);
+  font-size: 1.6rem;
+  line-height: 1.5;
+  color: var(--kb-ink-900);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.kb-form input[type="text"]:hover,
+.kb-form input[type="tel"]:hover,
+.kb-form input[type="email"]:hover,
+.kb-form textarea:hover {
+  border-color: var(--kb-purple-300);
+}
+/* focus ring on ANY focus (mouse included) — form fields are the
+   one place a click-focus indicator is expected. The keyboard
+   :focus-visible outline from section 5 still applies on top.   */
+.kb-form input[type="text"]:focus,
+.kb-form input[type="tel"]:focus,
+.kb-form input[type="email"]:focus,
+.kb-form textarea:focus {
+  border-color: var(--kb-purple-500);
+  box-shadow: 0 0 0 3px var(--kb-purple-100);
+}
+.kb-form ::placeholder {
+  color: var(--kb-gray-500);
+  opacity: 1;
+}
+
+/* phone + email are typed LTR and left-aligned, but their Hebrew
+   placeholder hint still reads correctly right-aligned           */
+.kb-form input[dir="ltr"] {
+  direction: ltr;
+  text-align: left;
+}
+.kb-form input[dir="ltr"]::placeholder {
+  direction: rtl;
+  text-align: right;
+}
+
+/* submit: .kb-btn look must beat the legacy 2-id rule
+   `#contactform #submit {width:200px;line-height:40px;
+   font-size:21px}` in style.css                                  */
+#contactform #submit.kb-btn {
+  width: auto;
+  min-width: 200px;
+  line-height: 1;
+  font-size: 1.7rem;
+}
+@media (max-width: 767px) {
+  #contactform #submit.kb-btn {
+    width: 100%; /* full-width tap target, as legacy did */
+  }
+}
+
+/* high-contrast mode for the form (black bg / yellow text).
+   Keyed off ancestor .contrastDone (from the .changeContrast
+   wrapper) AND direct .contrastDone on the inputs themselves
+   (input[type=text/email] + textarea get it straight from the
+   toggle script; tel does not, hence the ancestor variants).     */
+.contrastDone .kb-label,
+.kb-field.contrastDone .kb-label,
+.kb-label.contrastDone {
+  color: #ff0 !important;
+  background: transparent !important;
+}
+.kb-form.contrastDone input[type="text"],
+.kb-form.contrastDone input[type="tel"],
+.kb-form.contrastDone input[type="email"],
+.kb-form.contrastDone textarea,
+.kb-field.contrastDone input,
+.kb-field.contrastDone textarea,
+.kb-form input.contrastDone,
+.kb-form textarea.contrastDone {
+  background-color: #000 !important;
+  background-image: none !important;
+  color: #ff0 !important;
+  border-color: #ff0 !important;
+  box-shadow: none !important;
+}
+/* privacy note under the button */
+.kb-form.contrastDone p,
+.contrastDone .kb-form p {
+  color: #ff0 !important;
+  background: transparent !important;
+}
+
+/* ============================================================
+   STAGE D — new homepage (חבילה 2)
+   ------------------------------------------------------------
+   Sections below style the rebuilt index.html body: hero,
+   specialty cards, testimonials grid, article cards, closing
+   CTA strip and the recolored shared footer. Every top-level
+   homepage section carries BOTH .kb-section (the contrast-mode
+   hook line in js/accessibillity-js.js toggles .contrastDone on
+   it) and its own kb- component class. All cards reuse .kb-card
+   so the existing contrast rules in section 9 keep covering
+   them; component-specific contrast rules live in section 17.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   11. Section scaffolding
+   ------------------------------------------------------------ */
+.kb-section {
+  padding-block: 56px 64px;
+}
+.kb-section-head {
+  margin-block-end: 30px;
+}
+.kb-section-title {
+  font-family: var(--kb-font-display) !important;
+  font-weight: 500;
+  font-size: 2.9rem;
+  line-height: 1.3;
+  color: var(--kb-purple-900);
+  margin: 0 0 8px;
+}
+.kb-section-sub {
+  font-size: 1.6rem;
+  line-height: 1.7;
+  color: var(--kb-gray-500);
+  margin: 0;
+  max-width: 640px;
+}
+.kb-section-cta {
+  margin-block-start: 26px;
+  text-align: center;
+}
+/* card-as-link: neutralize legacy anchor colors/underline */
+a.kb-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+a.kb-card:hover,
+a.kb-card:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* jump targets under the fixed header (page3 specialty anchors) */
+#preeclampsia,
+#gestational-diabetes,
+#birth-complications,
+#cesarean-section {
+  scroll-margin-top: 130px;
+}
+
+/* ------------------------------------------------------------
+   12. Hero (.kb-hero)
+   ------------------------------------------------------------
+   Static, light, warm-gradient opening instead of the removed
+   flexslider. RTL grid: copy column first in DOM = inline-start
+   (right), portrait ends up on the left. Mobile is text-first
+   (photo moves below the credentials) so name + positioning +
+   primary CTA sit inside a ~700px fold budget.                  */
+.kb-hero {
+  background:
+    linear-gradient(135deg, var(--kb-purple-50) 0%, var(--kb-cream-0) 55%, var(--kb-sand-50) 100%);
+  border-bottom: 1px solid var(--kb-purple-100);
+  overflow: hidden;
+}
+/* fixed-header compensation, same as legacy style.css gave the old
+   .homeslider: at <=950px the header goes position:relative but the
+   tinynav select hangs 43px below it (absolute), so the first section
+   needs the 38px clearance the slider used to carry.                 */
+@media screen and (max-width: 950px) {
+  .kb-hero {
+    margin-top: 38px;
+  }
+}
+.kb-hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 40px;
+  align-items: center;
+}
+.kb-hero-title {
+  font-family: var(--kb-font-display) !important;
+  font-weight: 700;
+  font-size: clamp(3.4rem, 6vw, 4.6rem);
+  line-height: 1.18;
+  color: var(--kb-purple-900);
+  margin: 0 0 10px;
+}
+.kb-hero-position {
+  font-size: 1.9rem;
+  line-height: 1.65;
+  font-weight: 600;
+  color: var(--kb-gray-700);
+  margin: 0 0 10px;
+  max-width: 480px;
+}
+.kb-hero-reassure {
+  font-size: 1.7rem;
+  line-height: 1.7;
+  color: var(--kb-gray-700);
+  margin: 0 0 22px;
+  max-width: 460px;
+}
+.kb-hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.kb-hero-creds {
+  font-size: 1.4rem;
+  line-height: 1.7;
+  color: var(--kb-gray-500);
+  margin: 18px 0 0;
+  max-width: 520px;
+}
+/* portrait in the arch mask from the visual mockup */
+.kb-hero-photo {
+  justify-self: center;
+}
+.kb-hero-frame {
+  position: relative;
+  width: min(300px, 72vw);
+  aspect-ratio: 5 / 6;
+  border-radius: 160px 160px 22px 22px;
+  border: 6px solid #fff;
+  box-shadow: 0 18px 44px rgba(42, 18, 56, .18);
+  overflow: hidden;
+  background: var(--kb-purple-100);
+}
+.kb-hero-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+}
+/* the exact warm wash proposed for doron_135_screen.jpg (.ph-light) */
+.kb-hero-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(247, 243, 250, .22), rgba(247, 241, 234, .14));
+  pointer-events: none;
+}
+@media (max-width: 860px) {
+  .kb-hero {
+    padding-block: 28px 40px;
+  }
+  .kb-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    text-align: center;
+  }
+  /* text-first: portrait drops below the copy */
+  .kb-hero-photo {
+    order: 2;
+  }
+  .kb-hero-frame {
+    width: min(200px, 52vw);
+    border-radius: 120px 120px 18px 18px;
+    border-width: 5px;
+  }
+  .kb-hero-position,
+  .kb-hero-reassure,
+  .kb-hero-creds {
+    margin-inline: auto;
+  }
+  .kb-hero-ctas {
+    justify-content: center;
+  }
+  .kb-hero-ctas .kb-btn {
+    flex: 1 1 100%;
+  }
+}
+
+/* ------------------------------------------------------------
+   13. Specialty cards (.kb-specialties)
+   ------------------------------------------------------------ */
+.kb-specialties {
+  background: var(--kb-purple-50);
+}
+.kb-specialties-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+@media (max-width: 991px) {
+  .kb-specialties-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 359px) {
+  .kb-specialties-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.kb-icon-tile {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: var(--kb-purple-100);
+  color: var(--kb-purple-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-block-end: 16px;
+  flex: 0 0 auto;
+}
+.kb-icon-tile svg {
+  width: 27px;
+  height: 27px;
+}
+.kb-spec-card p {
+  margin-bottom: 14px;
+}
+.kb-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--kb-purple-700);
+}
+.kb-more svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  transition: transform .15s ease;
+}
+.kb-card:hover .kb-more svg {
+  transform: translateX(-3px);
+}
+
+/* ------------------------------------------------------------
+   14. Testimonials grid (.kb-testimonials)
+   ------------------------------------------------------------ */
+.kb-quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+@media (max-width: 991px) {
+  .kb-quotes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 767px) {
+  .kb-quotes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.kb-quote-card {
+  position: relative;
+  padding: 30px 26px 24px;
+}
+.kb-quote-card::before {
+  content: "”";
+  position: absolute;
+  top: 6px;
+  inset-inline-start: 20px;
+  font-family: var(--kb-font-display);
+  font-size: 6.4rem;
+  line-height: 1;
+  color: var(--kb-purple-100);
+  pointer-events: none;
+}
+.kb-quote-card--featured {
+  background: linear-gradient(160deg, var(--kb-purple-50), #fff 65%);
+}
+.kb-quote-card blockquote {
+  position: relative;
+  border: 0;
+  padding: 0;
+  margin: 0 0 18px;
+  font-size: 1.6rem;
+  line-height: 1.8;
+  color: var(--kb-gray-700);
+}
+.kb-quote-card footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+}
+.kb-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  background: var(--kb-purple-100);
+  color: var(--kb-purple-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  border: 1px solid transparent;
+}
+.kb-quote-card--featured .kb-avatar {
+  background: var(--kb-rose-100);
+  color: var(--kb-rose-500);
+}
+.kb-quote-card footer b {
+  display: block;
+  font-size: 1.45rem;
+  line-height: 1.4;
+  color: var(--kb-ink-900);
+}
+
+/* ------------------------------------------------------------
+   15. Article cards (.kb-articles)
+   ------------------------------------------------------------ */
+.kb-articles {
+  background: var(--kb-sand-50);
+  border-top: 1px solid var(--kb-sand-200);
+  border-bottom: 1px solid var(--kb-sand-200);
+}
+.kb-articles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+@media (max-width: 991px) {
+  .kb-articles-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 767px) {
+  .kb-articles-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.kb-article-card {
+  padding: 0;
+  overflow: hidden;
+}
+.kb-article-thumb {
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--kb-purple-50);
+}
+.kb-article-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  transition: transform .35s ease;
+}
+.kb-article-card:hover .kb-article-thumb img {
+  transform: scale(1.04);
+}
+.kb-article-body {
+  padding: 18px 20px 20px;
+}
+.kb-tag {
+  display: inline-block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.5;
+  color: var(--kb-purple-700);
+  background: var(--kb-purple-100);
+  border-radius: var(--kb-radius-pill);
+  padding: 3px 12px;
+  margin-block-end: 10px;
+}
+.kb-article-body p {
+  margin-bottom: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .kb-article-card:hover .kb-article-thumb img {
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------
+   16. Closing CTA strip (.kb-cta-strip) + footer recolor
+   ------------------------------------------------------------
+   The strip uses the exact press-page (page25) gradient so the
+   two released purples read as one brand. On mobile the sticky
+   contact bar (js/contact-widget.js, max-width:768px) already
+   offers WhatsApp + call, so the strip's button is hidden there
+   (max-2-CTAs rule) and only the sentence + phone line remain.  */
+.kb-cta-strip {
+  background: linear-gradient(135deg, #3b1a4d 0%, #5a2e6f 55%, #8e4aa8 100%);
+  text-align: center;
+}
+.kb-cta-strip .kb-section-title,
+.kb-cta-strip h2 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+.kb-cta-strip p {
+  color: rgba(255, 255, 255, .92);
+  font-size: 1.7rem;
+  line-height: 1.7;
+  max-width: 560px;
+  margin: 0 auto 24px;
+}
+.kb-cta-strip-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+/* inverse button: white pill on the deep gradient */
+.kb-btn--inverse {
+  background-color: #fff;
+  color: var(--kb-purple-800);
+}
+.kb-btn--inverse:hover,
+.kb-btn--inverse:focus {
+  background-color: var(--kb-purple-50);
+  color: var(--kb-purple-900);
+  box-shadow: 0 6px 16px rgba(36, 17, 48, .35);
+}
+.kb-cta-phone {
+  font-size: 1.6rem;
+}
+.kb-cta-phone a {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.kb-cta-phone a:hover,
+.kb-cta-phone a:focus {
+  color: var(--kb-purple-100);
+}
+@media (max-width: 768px) {
+  /* the sticky bar already shows WhatsApp + call */
+  .kb-cta-strip-actions {
+    display: none;
+  }
+  .kb-cta-strip p {
+    margin-bottom: 10px;
+  }
+}
+
+/* shared footer: deep plum instead of cold near-black.
+   Markup untouched; same-or-higher specificity than style.css,
+   later in source order, so these win. Contrast mode still wins
+   over all of this via the !important rules the toggle applies. */
+footer#colophon {
+  background: var(--kb-purple-900);
+  border-top: 0;
+}
+footer#colophon,
+footer#colophon a {
+  color: rgba(255, 255, 255, .78);
+}
+footer#colophon a:hover,
+footer#colophon a:focus {
+  color: #fff;
+}
+footer#colophon h1 {
+  color: #fff;
+  font-family: var(--kb-font-body) !important;
+}
+footer#colophon .footerbottom {
+  background: var(--kb-purple-950);
+  border-top: 1px solid rgba(255, 255, 255, .08);
+  color: rgba(255, 255, 255, .55);
+}
+footer#colophon #back-top a span {
+  background: var(--kb-purple-700);
+  color: #fff;
+}
+
+/* ------------------------------------------------------------
+   17. High-contrast mode for the Stage D components
+   ------------------------------------------------------------
+   Hook: js/accessibillity-js.js toggles .contrastDone on every
+   .kb-section (one added line in BOTH handler copies). Base rule
+   accessibility-menu.css:67 then paints the section black; the
+   rules below re-ink descendants that carry explicit colors,
+   following the press-page black-bg / yellow-text pattern.
+   Cards + buttons + type helpers are already covered by section
+   9 via the ancestor .contrastDone.                              */
+.kb-section.contrastDone {
+  background-color: #000 !important;
+  background-image: none !important;
+  border-color: #ff0 !important;
+}
+.kb-section.contrastDone h1,
+.kb-section.contrastDone h2,
+.kb-section.contrastDone h3,
+.kb-section.contrastDone p,
+.kb-section.contrastDone span,
+.kb-section.contrastDone b,
+.kb-section.contrastDone a,
+.kb-section.contrastDone blockquote,
+.kb-section.contrastDone footer {
+  color: #ff0 !important;
+  background: transparent !important;
+}
+.kb-section.contrastDone .kb-icon-tile,
+.kb-section.contrastDone .kb-avatar {
+  background: transparent !important;
+  color: #ff0 !important;
+  border: 1px solid #ff0 !important;
+  box-shadow: none !important;
+}
+.kb-section.contrastDone .kb-tag {
+  background: #000 !important;
+  color: #ff0 !important;
+  border: 1px solid #ff0 !important;
+}
+.kb-section.contrastDone .kb-quote-card::before {
+  color: #ff0 !important;
+}
+.kb-section.contrastDone .kb-quote-card,
+.kb-section.contrastDone .kb-quote-card--featured,
+.kb-section.contrastDone .kb-article-card,
+.kb-section.contrastDone .kb-spec-card {
+  background: #000 !important;
+  background-image: none !important;
+  border-color: #ff0 !important;
+  box-shadow: none !important;
+}
+.kb-section.contrastDone .kb-hero-frame {
+  border-color: #ff0 !important;
+  box-shadow: none !important;
+}
+.kb-section.contrastDone .kb-hero-frame::after {
+  background: none !important;
+}
+.kb-section.contrastDone .kb-article-thumb {
+  background: #000 !important;
+}
+.kb-section.contrastDone .kb-cta-phone a,
+.kb-cta-strip.contrastDone a {
+  color: #ff0 !important;
+}

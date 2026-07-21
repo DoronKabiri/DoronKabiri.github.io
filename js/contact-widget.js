@@ -17,6 +17,34 @@
   var waHref = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(WHATSAPP_TEXT);
   var telHref = "tel:" + CALL_NUMBER;
 
+  /* --- CTA hierarchy (עדשה 2 פריט 5): at most two CTAs per viewport ---
+     The desktop floating FAB is suppressed when:
+       1. <body> carries the opt-out class "kb-no-fab" (hook for any
+          future page that renders its own primary CTA pair), or
+       2. the page is the contact page (its path contains צור_קשר):
+          it already shows its own WhatsApp button, so the FAB would
+          be a third competing CTA.
+     The mobile sticky bar is KEPT in both cases. FAB/bar exclusivity
+     on small screens is enforced in the CSS below: at max-width:768px
+     .kc-fab is display:none and .kc-bar becomes visible, so the two
+     are never shown together. */
+  function fabSuppressed() {
+    var body = document.body;
+    if (body && (" " + body.className + " ").indexOf(" kb-no-fab ") !== -1) {
+      return true;
+    }
+    try {
+      // decodeURIComponent normalizes the percent-encoded Hebrew
+      // directory name; a raw (already-decoded) path passes through
+      if (decodeURIComponent(window.location.pathname).indexOf("צור_קשר") !== -1) {
+        return true;
+      }
+    } catch (e) {
+      /* malformed URI: fall through, keep the FAB */
+    }
+    return false;
+  }
+
   // --- Styles ---
   var css = "" +
     ".kc-fab{position:fixed;bottom:24px;right:24px;z-index:9998;width:60px;height:60px;border-radius:50%;" +
@@ -50,15 +78,19 @@
 
   // --- Markup ---
   function build() {
-    // Desktop floating WhatsApp button
-    var fab = document.createElement("a");
-    fab.className = "kc-fab";
-    fab.href = waHref;
-    fab.target = "_blank";
-    fab.rel = "noopener noreferrer";
-    fab.setAttribute("aria-label", "פנייה ב-WhatsApp לד״ר כבירי");
-    fab.innerHTML = '<i class="fa fa-whatsapp" aria-hidden="true"></i>' +
-      '<span class="kc-fab__label">דברו איתי ב-WhatsApp</span>';
+    // Desktop floating WhatsApp button (skipped where suppressed;
+    // the mobile sticky bar below is always built)
+    if (!fabSuppressed()) {
+      var fab = document.createElement("a");
+      fab.className = "kc-fab";
+      fab.href = waHref;
+      fab.target = "_blank";
+      fab.rel = "noopener noreferrer";
+      fab.setAttribute("aria-label", "פנייה ב-WhatsApp לד״ר כבירי");
+      fab.innerHTML = '<i class="fa fa-whatsapp" aria-hidden="true"></i>' +
+        '<span class="kc-fab__label">דברו איתי ב-WhatsApp</span>';
+      document.body.appendChild(fab);
+    }
 
     // Mobile sticky bar
     var bar = document.createElement("div");
@@ -71,7 +103,6 @@
       '<a class="kc-bar__call" href="' + telHref + '">' +
         '<i class="fa fa-phone" aria-hidden="true"></i> חיוג</a>';
 
-    document.body.appendChild(fab);
     document.body.appendChild(bar);
   }
 

@@ -1,7 +1,7 @@
 <!-- -->
 <!DOCTYPE html>
 
-<html lang="en-US">
+<html lang="he" dir="rtl">
 <head><link href="index.html" rel="canonical"/>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
@@ -55,6 +55,8 @@
   gtag('js', new Date());
   gtag('config', 'G-7RZRV1JQRD');
 </script>
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700&display=swap" rel="stylesheet"/>
+<link href="../css/kabiri-design.css" rel="stylesheet"/>
 </head>
 <body class="boxedlayout">
 <div class="accessMenu off">
@@ -84,7 +86,7 @@
 <a class="incfont" data-action="plus" href="#" style="font-size: 20px;" tabindex="1"><i class="fa fa-search-plus"></i>	הגדל טקסט</a>
 </li>
 <li class="accessibility-navbar-nav-item">
-<a class="decfont" data-action="high_contrast" href="#" style="font-size: 20px;" tabindex="2"><i class="fa fa-search-minus"></i>	הקטן טקסט</a>
+<a class="decfont" data-action="minus" href="#" style="font-size: 20px;" tabindex="2"><i class="fa fa-search-minus"></i>	הקטן טקסט</a>
 </li>
 <li class="accessibility-navbar-nav-item">
 <a class="changeBody" data-action="high_contrast" href="#" style="font-size: 20px;" tabindex="3"><i class="fa fa-adjust"></i>	ניגודיות גבוהה	</a>
@@ -127,7 +129,7 @@
 <div class="container">
 <div class="row">
 <div class="shortcode row">
-<div class="col-md-7 col-sm-12">
+<div class="col-md-7 col-sm-12 changeContrast">
 <div class="titleborder left">
 <div>
 <h1>טופס יצירת קשר</h1>
@@ -139,16 +141,31 @@
 <input name="_template" type="hidden" value="table"/>
 <input name="_next" type="hidden" value="https://doronkabiri.com/תודה/"/>
 <input name="_autoresponse" type="hidden" value="תודה רבה על פנייתך לד״ר דורון כבירי. ההודעה התקבלה ואחזור אליך בהקדם האפשרי."/>
-<div class="form">
+<div class="form kb-form">
 <div class="row">
 <div class="col-lg-12">
-<input class="col-xs-12 col-sm-6" name="שם מלא" placeholder="שם מלא" required="" type="text"/>
-<input class="col-xs-12 col-sm-6" name="טלפון" placeholder="טלפון" required="" type="tel"/>
-<input class="col-xs-12 col-sm-6" name="דואר אלקטרוני" placeholder="דואר אלקטרוני" required="" type="email"/>
-<input class="col-xs-12 col-sm-6" name="נושא הפנייה" placeholder="נושא הפנייה" required="" type="text"/>
-<textarea class="col-xs-12" name="הודעה" placeholder="הודעה" required="" rows="7"></textarea>
+<div class="kb-field col-xs-12 col-sm-6">
+<label class="kb-label" for="kb-name">שם מלא</label>
+<input autocomplete="name" id="kb-name" name="שם מלא" placeholder="שם מלא" required="" type="text"/>
+</div>
+<div class="kb-field col-xs-12 col-sm-6">
+<label class="kb-label" for="kb-phone">טלפון</label>
+<input autocomplete="tel" dir="ltr" id="kb-phone" inputmode="tel" name="טלפון" placeholder="טלפון" required="" type="tel"/>
+</div>
+<div class="kb-field col-xs-12 col-sm-6">
+<label class="kb-label" for="kb-email">דואר אלקטרוני</label>
+<input autocomplete="email" dir="ltr" id="kb-email" name="דואר אלקטרוני" placeholder="דואר אלקטרוני" required="" type="email"/>
+</div>
+<div class="kb-field col-xs-12 col-sm-6">
+<label class="kb-label" for="kb-subject">נושא הפנייה</label>
+<input id="kb-subject" name="נושא הפנייה" placeholder="נושא הפנייה" required="" type="text"/>
+</div>
+<div class="kb-field col-xs-12">
+<label class="kb-label" for="kb-message">הודעה</label>
+<textarea id="kb-message" name="הודעה" placeholder="הודעה" required="" rows="7"></textarea>
+</div>
 <div class="col-sm-7 col-xs-12 submitWrap" style="display:inline-block;">
-<input class="btn btn-primary" id="submit" type="submit" value="שלח"/>
+<input class="kb-btn kb-btn--primary" id="submit" type="submit" value="שלח"/>
 </div>
 <p class="col-xs-12" style="font-size:14px;color:#777;margin-top:12px;"><i class="fa fa-lock" aria-hidden="true"></i> פרטייך נשלחים ישירות לד״ר כבירי בדואר אלקטרוני ואינם נשמרים באתר. תקבל/י הודעת אישור אוטומטית עם שליחת הטופס.</p>
 </div>
@@ -277,33 +294,49 @@
 <script src="../js/cookies.js"></script>
 <script src="../js/accessibillity-js.js"></script>
 <script>
-    $(function(){
-$('#contactform input[type=email]').on('change invalid', function() {
-    var textfield = $(this).get(0);
-    
-    // 'setCustomValidity not only sets the message, but also marks
-    // the field as invalid. In order to see whether the field really is
-    // invalid, we have to remove the message first
-    textfield.setCustomValidity('');
-    
-    if (!textfield.validity.valid) {
-      textfield.setCustomValidity('אימייל שגוי'); 
-         }
-    });
-         
-         $('#contactform input[type=text]').on('change invalid', function() {
-    var textfield = $(this).get(0);
-    
-    // 'setCustomValidity not only sets the message, but also marks
-    // the field as invalid. In order to see whether the field really is
-    // invalid, we have to remove the message first
-    textfield.setCustomValidity('');
-    
-    if (!textfield.validity.valid) {
-      textfield.setCustomValidity('שדה שגוי'); 
-         }
-    });
-         });
+    (function () {
+      "use strict";
+      var form = document.getElementById('contactform');
+      if (!form) return;
+
+      /* הודעות שגיאה בעברית לכל שדה. תבנית: מנקים את ההודעה המותאמת,
+         ורק אם השדה עדיין לא תקין קובעים הודעה חדשה. */
+      var fields = [
+        { id: 'kb-name',    missing: 'נא למלא שם מלא' },
+        { id: 'kb-phone',   missing: 'נא למלא מספר טלפון' },
+        { id: 'kb-email',   missing: 'נא למלא כתובת דואר אלקטרוני', invalid: 'כתובת הדואר האלקטרוני אינה תקינה' },
+        { id: 'kb-subject', missing: 'נא למלא את נושא הפנייה' },
+        { id: 'kb-message', missing: 'נא לכתוב את תוכן ההודעה' }
+      ];
+      fields.forEach(function (f) {
+        var el = document.getElementById(f.id);
+        if (!el) return;
+        el.addEventListener('invalid', function () {
+          el.setCustomValidity('');
+          if (!el.validity.valid) {
+            if (el.validity.valueMissing) {
+              el.setCustomValidity(f.missing);
+            } else if (f.invalid) {
+              el.setCustomValidity(f.invalid);
+            }
+          }
+        });
+        el.addEventListener('input', function () {
+          el.setCustomValidity('');
+        });
+      });
+
+      /* מצב "שולח..." נגד לחיצה כפולה. בלי ביטול האירוע: הטופס ממשיך
+         להישלח כרגיל. הנטרול המלא נדחה בטיק אחד, כי נטרול סינכרוני של
+         כפתור השליחה עלול לבטל את השליחה עצמה בחלק מהדפדפנים. */
+      form.addEventListener('submit', function () {
+        var btn = document.getElementById('submit');
+        if (!btn) return;
+        btn.value = 'שולח...';
+        btn.classList.add('kb-is-disabled');
+        window.setTimeout(function () { btn.disabled = true; }, 0);
+      });
+    })();
   </script>
 </div><!-- end boxedcontent -->
 <script>
