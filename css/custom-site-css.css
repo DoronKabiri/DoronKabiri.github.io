@@ -19,7 +19,7 @@
     }
 
 .blogindex .wrapinneritem h1 {
-    height: 2.5em;
+    min-height: 2.5em; /* was height: — a11y font-size buttons may add wrap lines; must not clip */
 }
 .aboutExcerpt h2{font-size:26px;}
 .flexslider p{direction:rtl;}
@@ -44,7 +44,7 @@ a:focus{color:#000;text-decoration:none;}
     padding: 50px 0 0 0;
 }
 .service-box h1 {
-    height: 3em;
+    min-height: 3em; /* was height: — a11y font-size buttons may add wrap lines; must not clip */
 }
 .service-box h1{font-size:20px;}
 iframe{max-width:100%;

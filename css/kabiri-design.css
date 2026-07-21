@@ -1203,3 +1203,279 @@ footer#colophon #back-top a span {
 .kb-cta-strip.contrastDone a {
   color: #ff0 !important;
 }
+
+/* ============================================================
+   STAGE E — typography unification (חבילה 3, פרונטאנד 2 +
+   חוויית משתמש 7)
+   ------------------------------------------------------------
+   ONE font stack site-wide: 'Assistant','Arial Hebrew',Arial,
+   sans-serif (client decision 21.7.2026: NO serif). The two
+   "Open Sans" declarations in style.css (lines ~2114/2124) were
+   edited in place (the heading one was !important, so it could
+   not be beaten from here); everything else is neutralized by
+   the canonical rules below, which win by source order — this
+   file is the last stylesheet in <head>. Remaining non-Assistant
+   font-family declarations in active CSS are legitimate:
+   FontAwesome / Glyphicons icon fonts and monospace code blocks.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   18. Canonical font stack
+   ------------------------------------------------------------ */
+body {
+  font-family: var(--kb-font-body);
+}
+/* mirrors the style.css:2466 selector list; both are !important,
+   equal specificity, so this later declaration is the single
+   winner and carries the full Hebrew fallback chain. */
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .maintitle {
+  font-family: var(--kb-font-display) !important;
+}
+
+/* ------------------------------------------------------------
+   19. Content heading hierarchy (עדשה 1 פריט 2)
+   ------------------------------------------------------------
+   The legacy scale was inverted: Bootstrap's h2 (30px) tied the
+   page title on mobile, while card titles (.service-box h1 /
+   .wrapinneritem h1 = 20px) sat visually close to section
+   headings. Coherent ladder after this block:
+     page title .pgheadertitle  clamp 30–42px
+     content section heading h2 26px
+     content sub-heading    h3  21px
+     card titles                18.5–20px (kb-card h3 /
+                                .service-box h1 — class rules win)
+   Element-level selectors only, so every existing class rule
+   (kb-section-title, press-page h2/h3, aboutExcerpt h2 …) keeps
+   winning on specificity. NO !important on font-size — the
+   accessibility font buttons set inline sizes and must win.     */
+h2, .h2 {
+  font-size: 2.6rem;
+  line-height: 1.35;
+}
+h3, .h3 {
+  font-size: 2.1rem;
+  line-height: 1.45;
+}
+
+/* ------------------------------------------------------------
+   20. Contrast-mode gap fixes (QA of the two toolbar toggles)
+   ------------------------------------------------------------
+   (a) Legacy content headings: the toggle blacks out wrapper
+   divs (.contrastDone {background:black;color:white}), but
+   h1–h6 carry their own color (#444 via style.css:45, plum via
+   section 4 above) which inline-survives on the black wrapper.
+   Only h1 is re-tagged by the script (div h1 rule); h2–h6 were
+   unreadable. Re-ink every heading under a blacked wrapper.
+   White (not yellow) to match the legacy .contrastDone scheme;
+   kb-/press rules are more specific and keep their yellow.      */
+.contrastDone h1,
+.contrastDone h2,
+.contrastDone h3,
+.contrastDone h4,
+.contrastDone h5,
+.contrastDone h6 {
+  color: #fff !important;
+}
+/* (b) Contact widget (js/contact-widget.js): appended to <body>,
+   outside every .changeContrast wrapper, so it never receives
+   .contrastDone. Keyed off body.kb-contrast, which kb-header.js
+   mirrors from the header row's .contrastDone state on all 28
+   pages. Higher specificity than the widget's injected rules,
+   so injection order does not matter.                           */
+body.kb-contrast .kc-fab,
+body.kb-contrast .kc-bar__wa,
+body.kb-contrast .kc-bar__call {
+  background: #000 !important;
+  color: #fff !important;
+  border: 1px solid #fff !important;
+  box-shadow: none !important;
+}
+body.kb-contrast .kc-fab__label {
+  background: #000;
+  color: #fff;
+  border: 1px solid #fff;
+}
+body.kb-contrast .kc-bar {
+  background: #000;
+  box-shadow: none;
+  border-top: 1px solid #fff;
+}
+
+/* ============================================================
+   STAGE F — character layer (חבילה 3: עדשה 3 פריטים 8-9,
+   SOFTENED per client feedback 21.7.2026)
+   ------------------------------------------------------------
+   Client taste is binding: professional-authoritative, nothing
+   cutesy or spiritual. Of the style tile's four soft motifs only
+   the two quietest survive: (a) a single soft wave transition
+   between homepage bands, (b) faint radial halos in section
+   corners. NO arches, NO dotted journey line. Everything is
+   CSS-only, the markup hooks (index.html only) are decorative
+   divs with aria-hidden="true", and every decoration vanishes
+   completely in high-contrast mode. Nothing animates, so
+   prefers-reduced-motion needs no extra handling here.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   21. Soft section transitions (homepage bands only)
+   ------------------------------------------------------------
+   Hook contract (index.html):
+     <div class="kb-halo …" aria-hidden="true"></div> is the
+     FIRST child of a band, so the .container that follows it
+     paints on top in DOM order (no z-index juggling), and
+     <div class="kb-wave …" aria-hidden="true"></div> is the
+     LAST child, hugging the band's bottom edge. The wave curve
+     (same path as the style tile, inline URL-encoded SVG, no
+     external request) is filled with the color of the NEXT
+     band, so the straight seam reads as a gentle curve. The
+     hard border seams the waves replace are switched off.      */
+.kb-hero,
+.kb-specialties,
+.kb-testimonials {
+  position: relative;
+  overflow: hidden; /* clips halo bleed — no horizontal scroll */
+}
+.kb-hero {
+  border-bottom: 0; /* the wave is the new seam */
+}
+.kb-articles {
+  border-top: 0; /* seam now drawn by the testimonials wave */
+}
+
+.kb-wave {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: -1px; /* guards against sub-pixel seam lines */
+  height: 30px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  pointer-events: none;
+}
+/* fill = background of the band BELOW the wave */
+.kb-wave--to-plum { /* into .kb-specialties (purple-50 #f7f3fa) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 30' preserveAspectRatio='none'%3E%3Cpath d='M0,30 C150,0 350,60 500,10 L500,30 Z' fill='%23f7f3fa'/%3E%3C/svg%3E");
+}
+.kb-wave--to-cream { /* into .kb-testimonials (cream-0 #fdfbf9) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 30' preserveAspectRatio='none'%3E%3Cpath d='M0,30 C150,0 350,60 500,10 L500,30 Z' fill='%23fdfbf9'/%3E%3C/svg%3E");
+}
+.kb-wave--to-sand { /* into .kb-articles (sand-50 #f7f1ea) */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 30' preserveAspectRatio='none'%3E%3Cpath d='M0,30 C150,0 350,60 500,10 L500,30 Z' fill='%23f7f1ea'/%3E%3C/svg%3E");
+}
+@media (max-width: 860px) {
+  .kb-wave {
+    height: 18px; /* keeps clear of the tighter mobile padding */
+  }
+}
+
+/* faint corner halos — lower alpha than the style tile, per the
+   "subtlety wins" rule; static, decorative, never intercept taps */
+.kb-halo {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(138, 95, 164, .13), rgba(138, 95, 164, 0));
+  pointer-events: none;
+}
+.kb-halo--rose {
+  background: radial-gradient(closest-side, rgba(176, 95, 109, .09), rgba(176, 95, 109, 0));
+}
+.kb-halo--top-start    { inset-inline-start: -80px; inset-block-start: -80px; }
+.kb-halo--top-end      { inset-inline-end:   -80px; inset-block-start: -80px; }
+.kb-halo--bottom-start { inset-inline-start: -70px; inset-block-end:   -70px; }
+.kb-halo--bottom-end   { inset-inline-end:   -70px; inset-block-end:   -70px; }
+
+/* contrast mode: decorations disappear entirely. Triple-keyed:
+   ancestor .contrastDone (the toggle tags every .kb-section),
+   direct .contrastDone, and the body.kb-contrast mirror from
+   kb-header.js — any one of them suffices.                     */
+.contrastDone .kb-wave,
+.contrastDone .kb-halo,
+.kb-wave.contrastDone,
+.kb-halo.contrastDone,
+body.kb-contrast .kb-wave,
+body.kb-contrast .kb-halo {
+  display: none !important;
+}
+
+/* ------------------------------------------------------------
+   22. Photography interim treatment (עדשה 3 פריט 9)
+   ------------------------------------------------------------
+   The two wash utilities from the style tile (its .ph-light /
+   .ph-plum background layers), rebuilt as overlay WRAPPERS so
+   they work on the site's real <img> tags:
+     .kb-ph-warm — light photos: gentle warm veil
+     .kb-ph-plum — dark studio photos: 45% plum wash + inset
+                   vignette (exact tile values)
+   The wrapper shrink-wraps its image, so the veil never spills
+   onto surrounding text. The homepage hero portrait already
+   carries the same warm values via .kb-hero-frame::after and is
+   NOT wrapped; press-page images are untouched.                */
+.kb-ph-warm,
+.kb-ph-plum {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  line-height: 0; /* no baseline gap under the image */
+}
+.kb-ph-warm img,
+.kb-ph-plum img {
+  max-width: 100%;
+}
+.kb-ph-warm::after,
+.kb-ph-plum::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+}
+.kb-ph-warm::after {
+  background: linear-gradient(160deg, rgba(247, 243, 250, .22), rgba(247, 241, 234, .14));
+}
+.kb-ph-plum::after {
+  background: linear-gradient(160deg, rgba(90, 46, 111, .45), rgba(42, 18, 56, .20));
+  box-shadow: inset 0 0 60px rgba(42, 18, 56, .30);
+}
+
+/* about pages (page5 / page2): the float + margin + max-width the
+   legacy rule custom-site-css.css:27 puts on the IMG move up to
+   the wash wrapper, so the veil hugs the photo exactly and the
+   text keeps wrapping around the same box. Physical float/margin
+   values are kept 1:1 with the legacy rule.                     */
+.aboutImg .kb-ph-warm,
+.aboutImg .kb-ph-plum {
+  float: right;
+  margin: 0 0 0 50px;
+  max-width: 425px;
+  border-radius: 4px;
+  overflow: hidden; /* veil + radius clip together */
+}
+.aboutImg .kb-ph-warm img,
+.aboutImg .kb-ph-plum img {
+  float: none;
+  margin: 0;
+  max-width: 100%;
+  border-radius: 4px;
+}
+@media screen and (max-width: 767px) {
+  /* mirrors the legacy mobile centering of .aboutImg img */
+  .aboutImg .kb-ph-warm,
+  .aboutImg .kb-ph-plum {
+    float: none;
+    display: block;
+    width: fit-content;
+    margin: 0 auto 20px;
+  }
+}
+
+/* contrast mode: washes off, photos shown as-is (same triple key
+   as the section-21 decorations)                                */
+.contrastDone .kb-ph-warm::after,
+.contrastDone .kb-ph-plum::after,
+.kb-ph-warm.contrastDone::after,
+.kb-ph-plum.contrastDone::after,
+body.kb-contrast .kb-ph-warm::after,
+body.kb-contrast .kb-ph-plum::after {
+  display: none !important;
+}

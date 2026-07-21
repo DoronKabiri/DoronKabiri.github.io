@@ -242,7 +242,7 @@
 <strong><u>לקביעת תורים: </u></strong><br/> משרדי השר"פ בהדסה: <a href="tel:02-6778899">02-6778899</a><br/>
                               ד"ר דורון כבירי: <a href="tel:050-6171131">050-6171131</a>
 <br/>
-                              ניתן גם בדוא"ל: <a href="mailto:doronkabiri@gmail.com" style="font-family: arial">doronkabiri@gmail.com</a>
+                              ניתן גם בדוא"ל: <a href="mailto:doronkabiri@gmail.com">doronkabiri@gmail.com</a>
 </p>
 </div>
 </aside>
@@ -367,16 +367,17 @@ window.addEventListener('DOMContentLoaded', function(e) {
             }).get(),
 
                 maxHeight = Math.max.apply(null, heights);
-            $('.serviceExcerpt p').css('height', maxHeight + 'px');      
+            $('.serviceExcerpt p').css('min-height', maxHeight + 'px');      
       
         var articlesHeight = $(".articleExcerpt p").map(function () {
                 return $(this).outerHeight();
             }).get(),
 
                 maxHeight = Math.max.apply(null, articlesHeight);
-            $('.articleExcerpt p').css('height', maxHeight + 'px');      
+            $('.articleExcerpt p').css('min-height', maxHeight + 'px');      
 
     }
     </script>
 <script src="js/contact-widget.js" defer></script>
+<script src="js/kb-header.js" defer></script>
 </body></html>

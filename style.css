@@ -2110,8 +2110,8 @@ ul.footermenu li {
 /* =========================================================== */
 /* CUSTOM /* 
 ============================================================== */
-body {font-size: 13px;	
-	font-family:"Open Sans", Arial, Helvetica, sans-serif;}
+body {font-size: 13px;
+	font-family:'Assistant', 'Arial Hebrew', Arial, sans-serif;}
 	 body {background: url(img/bg/bg12.png); }
 	
 	.boxedlayout .fixedmenu  {width:90%;margin:0px auto;}
@@ -2120,8 +2120,8 @@ body {font-size: 13px;
 	.container {width: 95.25%; max-width: 100%;}
 	.boxedlayout{max-width: 90%;margin:0px auto;overflow:hidden;}
 	.fixedmenu.tiny {top: 0px !important;}
-h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .maintitle {	
-	font-family:"Open Sans", Arial, Helvetica, sans-serif !important;
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6, .maintitle {
+	font-family:'Assistant', 'Arial Hebrew', Arial, sans-serif !important;
 	font-weight: bold;
 }
 .introblock h1 {font-weight:300;}

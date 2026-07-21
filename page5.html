@@ -126,7 +126,7 @@
 <div class="container">
 <div class="row changeContrast">
 <div class="col-md-12">
-<div class="aboutImg"><img src="media/doron_135_screen.jpg"/></div>
+<div class="aboutImg"><span class="kb-ph-warm"><img alt="ד&quot;ר דורון כבירי" src="media/doron_135_screen.jpg"/></span></div>
 <span dir="rtl">
 <h2>ד"ר דורון כבירי: מומחה במיילדות וגינקולוגיה, רפואת האם והעובר והריון בסיכון גבוה. מנהל המרפאות להריון בסיכון גבוה, המרכז למניעת לידה מוקדמת ומרכז בריאות האישה של הדסה בבית שמש.</h2>
 <p>יליד הארץ , נשוי ואב לשלושה ילדים. סיים בהצטיינות את לימודי הרפואה באוניברסיטת פאביה באיטליה ובהמשך סיים ההתמחות במיילדות וגינקולוגיה במרכז הרפואי הדסה עין-כרם. במהלך התמחותו נבחר ד"ר כבירי ע"י הנהלת המרכז הרפואי הדסה להשתתף בתוכנית היוקרתית "רופא חוקר"– תוכנית לטיפוח מצויינות במחקר לצד עבודה קלינית. </p>
@@ -154,7 +154,7 @@
 <strong>פרס הצטיינות מחקר של הדסה (2025)</strong> עבור פרסום מחקר Lioness ב-American Journal of Obstetrics &amp; Gynecology.<br/>
 <br/>
 <strong>פעילות הומניטרית:</strong> חבר במשלחת הרפואית של הדסה לפולין ולאוקראינה (2022).</p>
-<h2><img alt="" src="media/dsc03877.jpg" style="width: 500px;"/></h2>
+<h2><span class="kb-ph-warm"><img alt="ד&quot;ר כבירי מרצה בסדרת ההרצאות של ה-Perinatology Research Branch" src="media/dsc03877.jpg" style="width: 500px;"/></span></h2>
 <p> </p>
 <p> </p>
 </span>
@@ -202,7 +202,7 @@
 <strong><u>לקביעת תורים: </u></strong><br> משרדי השר"פ בהדסה: <a href="tel:02-6778899">02-6778899</a><br>
                               ד"ר דורון כבירי: <a href="tel:050-6171131">050-6171131</a>
 <br>
-                              ניתן גם בדוא"ל: <a href="mailto:doronkabiri@gmail.com" style="font-family: arial">doronkabiri@gmail.com</a>
+                              ניתן גם בדוא"ל: <a href="mailto:doronkabiri@gmail.com">doronkabiri@gmail.com</a>
 </br></br></br></p>
 </div>
 </aside>
@@ -327,16 +327,17 @@ window.addEventListener('DOMContentLoaded', function(e) {
             }).get(),
 
                 maxHeight = Math.max.apply(null, heights);
-            $('.serviceExcerpt p').css('height', maxHeight + 'px');      
+            $('.serviceExcerpt p').css('min-height', maxHeight + 'px');      
       
         var articlesHeight = $(".articleExcerpt p").map(function () {
                 return $(this).outerHeight();
             }).get(),
 
                 maxHeight = Math.max.apply(null, articlesHeight);
-            $('.articleExcerpt p').css('height', maxHeight + 'px');      
+            $('.articleExcerpt p').css('min-height', maxHeight + 'px');      
 
     }
     </script>
 <script src="js/contact-widget.js" defer></script>
+<script src="js/kb-header.js" defer></script>
 </body></html>
