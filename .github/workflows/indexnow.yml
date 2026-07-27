@@ -1,0 +1,65 @@
+name: IndexNow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.html'
+      - 'sitemap.xml'
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Collect changed pages
+        id: urls
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            files=$(git ls-files '*.html')
+          else
+            files=$(git diff --name-only --diff-filter=ACM ${{ github.event.before }} ${{ github.sha }} -- '*.html' || git ls-files '*.html')
+          fi
+
+          urls=$(printf '%s\n' "$files" | grep -v '^$' | while read -r f; do
+            case "$f" in
+              index.html)  path="/" ;;
+              */index.html) path="/${f%index.html}" ;;
+              *) path="/$f" ;;
+            esac
+            python3 -c "import sys,urllib.parse; print('https://doronkabiri.com'+urllib.parse.quote(sys.argv[1]))" "$path"
+          done | sort -u | head -100)
+
+          if [ -z "$urls" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            printf '%s\n' "$urls" > urls.txt
+            echo "Submitting:"; cat urls.txt
+          fi
+
+      - name: Submit to IndexNow
+        if: steps.urls.outputs.changed == 'true'
+        run: |
+          python3 - <<'PY'
+          import json, urllib.request
+          key = "bf426608474042f3b319c5de3adcd1b7"
+          urls = [l.strip() for l in open("urls.txt") if l.strip()]
+          body = json.dumps({
+              "host": "doronkabiri.com",
+              "key": key,
+              "keyLocation": f"https://doronkabiri.com/{key}.txt",
+              "urlList": urls,
+          }).encode()
+          req = urllib.request.Request(
+              "https://api.indexnow.org/IndexNow",
+              data=body,
+              headers={"Content-Type": "application/json; charset=utf-8"},
+          )
+          with urllib.request.urlopen(req) as r:
+              print("IndexNow responded", r.status)
+          PY
