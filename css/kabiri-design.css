@@ -1479,3 +1479,7 @@ body.kb-contrast .kb-ph-warm::after,
 body.kb-contrast .kb-ph-plum::after {
   display: none !important;
 }
+
+
+/* עמוד נוכחי בתפריט הצד של עמודי הנושא */
+.sideNav .current span{display:block;padding:12px 15px;color:var(--kb-purple-700,#5a2e6f);font-weight:700}
