@@ -1483,3 +1483,7 @@ body.kb-contrast .kb-ph-plum::after {
 
 /* עמוד נוכחי בתפריט הצד של עמודי הנושא */
 .sideNav .current span{display:block;padding:12px 15px;color:var(--kb-purple-700,#5a2e6f);font-weight:700}
+
+/* כרטיס עיתונות ללא יעד: אותו מראה, בלי חיווי לחיצה */
+.press-card__link--static{cursor:default}
+.press-card__link--static:hover{transform:none}
