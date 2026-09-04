@@ -144,10 +144,13 @@
 <h1>טופס יצירת קשר</h1>
 </div>
 </div>
-<form action="https://formsubmit.co/doronkabiri@gmail.com" class="form-box register-form contact-form" id="contactform" method="post">
+<form data-a="formsubmit.co" data-b="doronkabiri" data-c="gmail.com" class="form-box register-form contact-form" id="contactform" method="post">
 <input name="_subject" type="hidden" value="פנייה חדשה דרך האתר"/>
 <input name="_captcha" type="hidden" value="false"/>
 <input name="_template" type="hidden" value="table"/>
+<input name="_honey" type="text" class="kb-hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+<input name="website" type="text" class="kb-hp" tabindex="-1" autocomplete="off" aria-hidden="true" placeholder="Website"/>
+<input name="_ts" type="hidden" value=""/>
 <input name="_next" type="hidden" value="https://doronkabiri.com/תודה/"/>
 <input name="_autoresponse" type="hidden" value="פנייתך לד״ר דורון כבירי התקבלה. אחזור אליך בהקדם."/>
 <div class="form kb-form">
@@ -181,6 +184,36 @@
 </div>
 </div>
 </form>
+<script>
+(function(){
+  try{
+    var f=document.getElementById('contactform');
+    if(!f) return;
+    // הרכבת היעד בזמן ריצה. בוט שקורא HTML בלבד לא מוצא כתובת לשלוח אליה
+    f.setAttribute('action','https://'+f.dataset.a+'/'+f.dataset.b+'@'+f.dataset.c);
+    var loaded=Date.now();
+    var ts=f.querySelector('input[name="_ts"]'); if(ts) ts.value=String(loaded);
+    f.addEventListener('submit',function(e){
+      var hp=f.querySelector('input[name="_honey"]');
+      var wb=f.querySelector('input[name="website"]');
+      // מלכודת: אדם לעולם לא ימלא שדות שאינם נראים
+      if((hp&&hp.value)||(wb&&wb.value)){ e.preventDefault(); return false; }
+      // מלכודת זמן: מילוי חמישה שדות בפחות מארבע שניות אינו אנושי
+      if(Date.now()-loaded<4000){
+        e.preventDefault();
+        alert('אנא מלאו את הפרטים ונסו שוב.');
+        return false;
+      }
+    },false);
+  }catch(err){}
+})();
+</script>
+<noscript>
+<p style="background:#fff4e5;border-right:4px solid #d08700;padding:12px 16px;margin:12px 0;font-size:15px">
+לשליחת הטופס נדרש JavaScript. אפשר גם לתאם טלפונית במספר <a href="tel:050-6171131" dir="ltr">050-6171131</a>.
+</p>
+</noscript>
+
 </div>
 <div class="col-md-5 col-sm-12 changeContrast">
 <div class="titleborder left">
