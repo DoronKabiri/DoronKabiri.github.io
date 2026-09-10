@@ -111,7 +111,7 @@
 <div class="fixedmenu">
 <div class="container">
 <div class="row changeContrast">
-<a class="navbar-brand" href="../index.html"><img id="site_logo" src="../media/logo-doron_61.png"/></a>
+<a class="navbar-brand" href="../index.html"><img id="site_logo" src="../media/logo-doron_61.png" alt="ד״ר דורון כבירי, לדף הבית"/></a>
 <nav class="navbar pull-left" role="navigation">
 <div class="collapse navbar-collapse">
 <ul class="nav navbar-nav" id="main-menu"><li><a href="../index.html">דף הבית</a></li><li class="dropdown"><a data-target="#" href="../page5.html">אודות<i class="fa fa-angle-down menucaret"></i></a>
@@ -241,7 +241,7 @@
 <strong><u>לקביעת תורים: </u></strong><br/> משרדי השר"פ בהדסה: <a href="tel:02-6778899">02-6778899</a><br/>
                               מזכירות ד"ר כבירי: <a href="tel:050-6171131">050-6171131</a>
 <br/>
-                              ניתן גם בדוא"ל: <a href="mailto:doronkabiri@gmail.com">doronkabiri@gmail.com</a>
+                              ניתן גם בדוא"ל: <a href="#" class="kb-mail" data-u="doronkabiri" data-d="gmail.com">doronkabiri<span aria-hidden="true"> [את] </span>gmail.com</a>
 </p>
 </div>
 </aside>
@@ -379,4 +379,7 @@ window.addEventListener('DOMContentLoaded', function(e) {
     </script>
 <script src="../js/contact-widget.js" defer></script>
 <script src="../js/kb-header.js" defer></script>
+<script>
+(function kbMailAssemble(){try{document.querySelectorAll('a.kb-mail').forEach(function(a){var e=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+e;if(!a.querySelector('i'))a.textContent=e;});}catch(err){}})();
+</script>
 </body></html>
