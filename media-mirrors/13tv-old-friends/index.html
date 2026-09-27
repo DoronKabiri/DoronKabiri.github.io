@@ -354,7 +354,7 @@
 <strong><u>לקביעת תורים: </u></strong><br> משרדי השר"פ בהדסה: <a href="tel:02-6778899">02-6778899</a><br/>
                               מזכירות ד"ר כבירי: <a href="tel:050-6171131">050-6171131</a>
 <br/>
-                              ניתן גם בדוא"ל: <a href="mailto:doronkabiri@gmail.com" style="font-family: arial">doronkabiri@gmail.com</a>
+                              ניתן גם בדוא"ל: <a href="#" class="kb-mail" data-u="doronkabiri" data-d="gmail.com" style="font-family: arial">doronkabiri<span aria-hidden="true"> [את] </span>gmail.com</a>
 </br></p>
 </div>
 </aside>
@@ -418,4 +418,7 @@
 </script>
 <script src="../../js/contact-widget.js" defer></script>
 <script src="../../js/kb-header.js" defer></script>
+<script>
+(function kbMailAssemble(){try{document.querySelectorAll('a.kb-mail').forEach(function(a){var e=a.dataset.u+'@'+a.dataset.d;a.href='mailto:'+e;if(!a.querySelector('i'))a.textContent=e;});}catch(err){}})();
+</script>
 </body></html>
