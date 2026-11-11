@@ -1,0 +1,2726 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<title>קטעי טקסט · הריון בסיכון גבוה</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary: #1F4E79;
+    --primary-light: #4472A8;
+    --bg: #f7f8fa;
+    --card-bg: #ffffff;
+    --text: #1f2937;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --hover: #eef4fb;
+    --success: #16a34a;
+    --warn-bg: #fff7ed;
+    --warn-border: #fed7aa;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --primary: #60a5fa;
+      --primary-light: #93c5fd;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --hover: #1e3a52;
+      --success: #4ade80;
+      --warn-bg: #422006;
+      --warn-border: #92400e;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+  header {
+    background: var(--primary);
+    color: white;
+    padding: 14px 22px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  #search {
+    flex: 1;
+    max-width: 480px;
+    padding: 10px 14px;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    color: white;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: background 0.15s;
+  }
+  #search::placeholder { color: rgba(255,255,255,0.7); }
+  #search:focus { background: rgba(255,255,255,0.25); }
+
+  #menu-toggle {
+    display: none;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    font-size: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .layout {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    min-height: calc(100vh - 60px);
+  }
+
+  aside {
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--card-bg);
+    border-inline-start: 1px solid var(--border);
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+    position: sticky;
+    top: 60px;
+  }
+  aside ul {
+    list-style: none;
+    padding: 8px 0;
+    margin: 0;
+  }
+  aside li a {
+    display: block;
+    padding: 10px 22px;
+    color: var(--text);
+    text-decoration: none;
+    font-size: 15px;
+    border-inline-end: 3px solid transparent;
+    transition: background 0.1s, border-color 0.1s;
+  }
+  aside li a:hover { background: var(--hover); }
+  aside li a .topic-cb {
+    margin-inline-end: 8px;
+    cursor: pointer;
+    accent-color: var(--primary);
+    transform: scale(1.1);
+    vertical-align: middle;
+  }
+  /* Floating compose bar */
+  #compose-bar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 999px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    display: none;
+    gap: 12px;
+    align-items: center;
+    z-index: 50;
+    font-weight: 500;
+  }
+  #compose-bar.show { display: flex; }
+  #compose-bar .count {
+    background: white;
+    color: var(--primary);
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-weight: 700;
+    font-size: 13px;
+    min-width: 26px;
+    text-align: center;
+  }
+  #compose-bar button {
+    background: white;
+    color: var(--primary);
+    border: none;
+    padding: 7px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  #compose-bar .btn-clear {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.4);
+    font-weight: 500;
+  }
+  #compose-bar button:hover { opacity: 0.92; }
+  #compose-view .compose-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  #compose-view .compose-letter {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+    font-size: 16px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+  }
+  #compose-view .compose-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; }
+  #compose-view .compose-chips .chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 999px; background: var(--bg-secondary, #eef2f7); color: var(--text); font-size: 13px; border: 1px solid var(--border); }
+  #compose-view .compose-chips .chip button { border: none; background: transparent; color: var(--text-muted); cursor: pointer; font-size: 13px; padding: 0 2px; line-height: 1; }
+  #compose-view .compose-chips .chip button:hover { color: #b91c1c; }
+  #compose-view .compose-meta {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 14px;
+  }
+  aside li a.active {
+    background: var(--hover);
+    border-inline-end-color: var(--primary);
+    color: var(--primary);
+    font-weight: 600;
+  }
+  aside .group-label {
+    padding: 14px 22px 4px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  aside .no-results {
+    padding: 22px;
+    color: var(--text-muted);
+    font-size: 14px;
+    text-align: center;
+  }
+
+  main {
+    flex: 1;
+    padding: 32px 36px;
+    max-width: 900px;
+  }
+  main h2 {
+    font-size: 28px;
+    color: var(--primary);
+    margin: 0 0 8px;
+    font-weight: 700;
+  }
+  main .topic-meta {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+
+  .block {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .block-warn {
+    background: var(--warn-bg);
+    border-color: var(--warn-border);
+  }
+  .block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 12px;
+  }
+  .block-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0;
+  }
+  .block-warn .block-title { color: #c2410c; }
+  .block-content {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+  .block-content p { margin: 0 0 10px; white-space: pre-wrap; }
+  .block-content p:last-child { margin-bottom: 0; }
+  .block-content ul, .block-content ol { margin: 8px 0 0; padding-inline-start: 22px; }
+  .block-content li { margin-bottom: 4px; }
+
+  .copy-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+  .copy-btn:hover { background: var(--primary-light); }
+  .copy-btn.copied { background: var(--success); }
+  .copy-btn.copied::before { content: "✓ "; }
+
+  .copy-all-bar {
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-bottom: 18px;
+    position: sticky;
+    top: 60px;
+    background: var(--bg);
+    padding: 8px 0;
+    z-index: 5;
+  }
+  .copy-all-btn {
+    background: var(--primary);
+    color: white;
+    border: 1.5px solid var(--primary);
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14.5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    box-shadow: 0 2px 6px rgba(31, 78, 121, 0.2);
+  }
+  .copy-all-btn:hover { background: var(--primary-light); border-color: var(--primary-light); }
+  .copy-all-btn.copied { background: var(--success); border-color: var(--success); }
+  .copy-all-btn.copied::before { content: "✓ "; }
+
+  .welcome {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+  .welcome h2 {
+    color: var(--primary);
+    margin-bottom: 12px;
+  }
+
+  .signature {
+    margin-top: 24px;
+    padding: 16px 26px;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.8;
+  }
+  .signature div:first-child { margin-bottom: 2px; }
+
+  /* visit bar (memory only) */
+  #visit-bar { position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 8px 22px; background: var(--card-bg); border-bottom: 1px solid var(--border); font-size: 14px; }
+  #visit-bar.open { background: rgba(37, 99, 235, 0.06); }
+  #visit-bar label { display: inline-flex; align-items: center; gap: 6px; color: var(--text-muted); font-size: 13px; }
+  #visit-bar input { font: inherit; font-size: 14px; padding: 5px 8px; border: 1px solid var(--border); border-radius: 6px; background: var(--bg); color: var(--text); width: 9.5em; }
+  #visit-bar input[type="number"] { width: 5.5em; }
+  #visit-bar .ga-now { font-weight: 600; color: var(--primary); min-width: 8em; }
+  #visit-bar button { font: inherit; font-size: 13px; padding: 5px 10px; border-radius: 6px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; }
+  #visit-bar button:hover { color: var(--text); }
+  #visit-bar details { position: static; }
+  #visit-bar summary { cursor: pointer; color: var(--primary); font-size: 13px; list-style: none; }
+  #visit-bar .ms-panel { position: absolute; top: 100%; margin-top: 4px; inset-inline-end: 12px; inset-inline-start: auto; width: max-content; max-width: calc(100% - 24px); box-sizing: border-box; z-index: 20; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); padding: 12px 14px; min-width: 360px; }
+  #visit-bar .ms-panel table { border-collapse: collapse; font-size: 13px; width: 100%; }
+  #visit-bar .ms-panel td { padding: 4px 6px; border-bottom: 1px dashed var(--border); }
+  #visit-bar .ms-panel td:last-child { white-space: nowrap; color: var(--text-muted); }
+  .copy-all-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .bar-btn { font: inherit; font-size: 14px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; }
+  .bar-btn:hover { color: var(--text); border-color: var(--primary); }
+  .bar-btn.on { color: var(--primary); border-color: var(--primary); }
+  .topic-hint { font-size: 13px; color: var(--text-muted); background: rgba(250, 221, 104, 0.15); border: 1px dashed #e3c25a; border-radius: 8px; padding: 6px 10px; margin: -6px 0 14px; }
+  details.block-leave > summary, details.teach-box > summary { cursor: pointer; font-weight: 600; color: var(--primary); padding: 12px 16px; list-style: none; display: flex; align-items: center; gap: 10px; }
+  details.block-leave > summary::-webkit-details-marker, details.teach-box > summary::-webkit-details-marker { display: none; }
+  details.block-leave > summary .copy-btn { margin-inline-start: auto; }
+  details.block-leave .block-content { padding: 0 16px 14px; }
+  details.block-leave .leave-note { font-size: 12.5px; color: var(--text-muted); margin: 0 16px 10px; }
+  details.teach-box { margin-top: 14px; border: 1px dashed var(--border); border-radius: 10px; }
+  details.teach-box ul { margin: 0 16px 10px; padding-inline-start: 20px; font-size: 15px; }
+  details.teach-box li { margin: 4px 0; }
+  details.teach-box .muted { font-size: 13px; color: var(--text-muted); margin: 0 16px 12px; }
+  aside li a .hotkey { font-size: 11px; color: var(--text-muted); border: 1px solid var(--border); border-radius: 4px; padding: 0 5px; margin-inline-start: auto; direction: ltr; }
+  aside li.bundle a { display: flex; align-items: center; gap: 6px; }
+  aside li.bundle button { background: transparent; border: 0; color: var(--text-muted); cursor: pointer; font-size: 12px; margin-inline-start: auto; padding: 0 4px; }
+  aside li.bundle button:hover { color: #c0392b; }
+  #patient-view { position: fixed; inset: 0; z-index: 200; overflow: auto; background: var(--bg); color: var(--text); padding: 24px 20px 60px; }
+  #patient-view .pv-actions { display: flex; gap: 10px; justify-content: flex-end; max-width: 820px; margin: 0 auto 18px; }
+  #patient-view .pv-inner { max-width: 820px; margin: 0 auto; font-size: 20px; line-height: 1.75; }
+  #patient-view h1 { font-size: 30px; margin: 0 0 16px; }
+  #patient-view h3 { font-size: 20px; margin: 26px 0 8px; color: var(--primary); }
+  #patient-view p { white-space: pre-wrap; margin: 0 0 10px; }
+  #patient-view ul { padding-inline-start: 24px; }
+  #patient-view .pv-foot { margin-top: 30px; font-size: 16px; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 12px; }
+  .picto-wrap { margin: 0; }
+  .picto { display: grid; gap: 5px; max-width: 480px; margin: 12px 0 6px; }
+  #patient-view .pv-points { font-size: 22px; line-height: 1.7; padding-inline-start: 26px; margin: 0 0 10px; }
+  #patient-view .pv-points li { margin: 6px 0; }
+  .picto i { display: block; aspect-ratio: 1; border-radius: 50%; background: var(--border); }
+  .picto i.on { background: var(--primary); }
+  .picto-cap { font-size: 17px; margin: 0 0 18px; }
+  @media (max-width: 768px) {
+    #visit-bar { padding: 6px 12px; gap: 6px 10px; }
+    #visit-bar label.v-desk { display: none; }
+    #visit-bar .ga-now { min-width: 0; }
+  }
+  @media print {
+    :root { --primary: #1F4E79; --primary-light: #4472A8; --bg: #fff; --card-bg: #fff; --text: #1f2937; --text-muted: #6b7280; --border: #e5e7eb; --hover: #eef4fb; }
+    #visit-bar, details.teach-box, .notes-box, .topic-hint, .bar-btn { display: none !important; }
+    .picto-wrap { break-inside: avoid; page-break-inside: avoid; }
+    .picto i { background: #fff; border: 1.5px solid #444; }
+    .picto i.on { background: #000; border-color: #000; }
+    #patient-view h3 { color: #000; }
+    #patient-view .pv-foot { color: #333; border-top-color: #999; }
+    body.patient-open > :not(#patient-view) { display: none !important; }
+    #patient-view { position: static; overflow: visible; background: #fff; color: #000; padding: 0; }
+    #patient-view .pv-actions { display: none; }
+    .picto i { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  .notes-box { margin-top: 18px; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; background: var(--bg-secondary, rgba(0,0,0,0.03)); }
+  .notes-box summary { cursor: pointer; font-weight: 600; color: var(--primary); font-size: 14px; }
+  .notes-box textarea { width: 100%; min-height: 72px; margin-top: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font: inherit; font-size: 14px; line-height: 1.6; background: var(--bg, #fff); color: var(--text); resize: vertical; }
+  .notes-status { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 6px; font-size: 12px; color: var(--text-muted); }
+  .disclaimer {
+    margin-top: 32px;
+    padding: 16px 20px;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* ===== Calculator UI ===== */
+  .calc-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 26px;
+    margin-bottom: 18px;
+  }
+  .calc-card h3 {
+    margin: 0 0 14px;
+    color: var(--primary);
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .calc-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    margin-bottom: 12px;
+  }
+  .calc-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 140px;
+  }
+  .calc-field label {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .calc-field input, .calc-field select {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: inherit;
+    background: white;
+  }
+  .calc-field input:focus, .calc-field select:focus {
+    outline: 2px solid var(--primary-light);
+    outline-offset: -1px;
+  }
+  .calc-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .calc-btn:hover { background: var(--primary-light); }
+  .calc-result {
+    margin-top: 14px;
+    padding: 14px 18px;
+    background: var(--hover);
+    border-inline-start: 3px solid var(--primary);
+    border-radius: 6px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .calc-result .result-line { margin-bottom: 4px; }
+  .calc-result .result-line:last-child { margin-bottom: 0; }
+  .calc-result strong { color: var(--primary); }
+  .calc-result.warn {
+    background: var(--warn-bg);
+    border-inline-start-color: #f59e0b;
+  }
+  .calc-result .copy-summary-btn {
+    margin-top: 10px;
+    background: white;
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .calc-result .copy-summary-btn:hover { background: var(--primary); color: white; }
+  .calc-result .copy-summary-btn.copied { background: var(--success); color: white; border-color: var(--success); }
+  .calc-result .copy-summary-btn.copied::before { content: "✓ "; }
+  /* ===== file vault ===== */
+  .vault-drop {
+    border: 2px dashed var(--primary-light);
+    border-radius: 12px;
+    padding: 28px 20px;
+    text-align: center;
+    color: var(--text-muted);
+    background: var(--hover);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    margin-bottom: 14px;
+  }
+  .vault-drop.over { background: var(--card-bg); border-color: var(--primary); border-style: solid; }
+  .vault-drop strong { color: var(--primary); display: block; font-size: 16px; margin-bottom: 4px; }
+  .vault-drop input[type=file] { display: none; }
+  .vault-list { list-style: none; margin: 0; padding: 0; }
+  .vault-list li {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px;
+    margin-bottom: 8px; background: var(--card-bg);
+  }
+  .vault-list .vname { flex: 1; font-weight: 500; word-break: break-all; }
+  .vault-list .vsize { color: var(--text-muted); font-size: 13px; white-space: nowrap; }
+  .vault-list button { padding: 7px 14px; border-radius: 6px; border: none; cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 500; }
+  .vault-list .vdl { background: var(--primary); color: white; }
+  .vault-list .vdel { background: transparent; color: #b91c1c; border: 1px solid #fecaca; }
+  .vault-status { font-size: 13px; color: var(--text-muted); margin: 8px 0; min-height: 18px; }
+  .vault-status.err { color: #b91c1c; }
+  .vault-status.ok { color: var(--success); }
+  .vault-token { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .vault-token input { flex: 1; min-width: 220px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; font-family: monospace; font-size: 13px; background: var(--card-bg); color: var(--text); }
+  .vault-progress { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-top: 8px; display: none; }
+  .vault-progress div { height: 100%; width: 0; background: var(--primary); transition: width 0.2s; }
+  details.vault-help summary { cursor: pointer; color: var(--primary); font-size: 14px; font-weight: 500; }
+  details.vault-upload { margin-top: 16px; }
+  details.vault-upload > summary { font-size: 15px; padding: 10px 0; }
+  details.vault-upload > .calc-card { margin-top: 8px; }
+  details.vault-help ol { font-size: 14px; color: var(--text); padding-inline-start: 22px; }
+
+  .calc-help {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  /* ===== Login overlay ===== */
+  #login-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #login-overlay.hidden { display: none; }
+  .login-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 36px 32px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  }
+  .login-card h2 {
+    color: var(--primary);
+    margin: 0 0 8px;
+    font-size: 22px;
+  }
+  .login-card .subtitle {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+  .login-card input[type="password"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+    margin-bottom: 12px;
+  }
+  .login-card input[type="password"]:focus { border-color: var(--primary); }
+  .login-card button {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .login-card button:hover { background: var(--primary-light); }
+  .login-card button:disabled { opacity: 0.6; cursor: wait; }
+  .login-error {
+    color: #b91c1c;
+    font-size: 14px;
+    margin-top: 10px;
+    min-height: 20px;
+  }
+  #logout-btn {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+  }
+  #logout-btn:hover, #pw-btn:hover { background: rgba(255,255,255,0.25); }
+  #pw-btn {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+  }
+  #pw-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 110;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  #pw-overlay.hidden { display: none; }
+  #pw-overlay .login-card .subtitle { margin-bottom: 16px; }
+  #pw-overlay #pw-cancel { background: transparent; color: var(--text-muted); border: 1px solid var(--border); margin-top: 8px; }
+  #pw-overlay .login-error.ok { color: #166534; }
+  #pw-overlay input[hidden] { display: none; }
+  #pw-banner {
+    background: #fff7e6;
+    border-bottom: 1px solid #f0d9a8;
+    color: #5c4300;
+    font-size: 14px;
+    padding: 8px 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  #pw-banner[hidden] { display: none; }
+  #pw-banner button { font: inherit; font-size: 13px; background: #5c4300; color: #fff; border: 0; border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+
+  @media (max-width: 768px) {
+    #menu-toggle { display: block; }
+    header h1 { font-size: 16px; }
+    aside {
+      position: fixed;
+      top: 60px;
+      right: 0;
+      bottom: 0;
+      width: 280px;
+      transform: translateX(100%);
+      transition: transform 0.2s;
+      z-index: 9;
+      box-shadow: -4px 0 12px rgba(0,0,0,0.1);
+    }
+    aside.open { transform: translateX(0); }
+    main { padding: 20px 16px; }
+    main h2 { font-size: 22px; }
+    .block { padding: 16px 18px; }
+    .block-header { flex-direction: column; align-items: stretch; }
+    .copy-btn { align-self: flex-start; }
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 60px; right: 0; bottom: 0; left: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 8;
+    }
+    .overlay.show { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<div id="login-overlay">
+  <form class="login-card" id="login-form">
+    <h2>קטעי טקסט · הריון בסיכון גבוה</h2>
+    <div class="subtitle">נדרשת סיסמה לכניסה.</div>
+    <input type="password" id="login-password" placeholder="סיסמה" autocomplete="current-password" autofocus required>
+    <button type="submit" id="login-btn">כניסה</button>
+    <div class="login-error" id="login-error"></div>
+  </form>
+</div>
+
+<div id="pw-overlay" class="hidden">
+  <form class="login-card" id="pw-form">
+    <h2>החלפת סיסמה</h2>
+    <div class="subtitle">סיסמה חדשה באורך 12 תווים לפחות. משפט של כמה מילים עדיף על מילה אחת.</div>
+    <input type="password" id="pw-current" placeholder="הסיסמה הנוכחית" autocomplete="current-password" required>
+    <input type="password" id="pw-new" placeholder="סיסמה חדשה" autocomplete="new-password" required>
+    <input type="password" id="pw-new2" placeholder="הסיסמה החדשה שוב" autocomplete="new-password" required>
+    <button type="submit" id="pw-submit">החלפה</button>
+    <button type="button" id="pw-cancel">ביטול</button>
+    <div class="login-error" id="pw-error"></div>
+  </form>
+</div>
+
+<header>
+  <button id="menu-toggle" aria-label="פתח תפריט">☰</button>
+  <h1>קטעי טקסט · הריון בסיכון גבוה</h1>
+  <input type="search" id="search" placeholder="חיפוש נושא...">
+  <button id="pw-btn" type="button">החלפת סיסמה</button>
+  <button id="logout-btn" type="button">התנתק</button>
+</header>
+<div id="pw-banner" hidden><span>מומלץ להחליף את סיסמת האתר לסיסמה ארוכה.</span><button type="button" id="pw-banner-btn">החלפת סיסמה</button></div>
+<div id="visit-bar">
+  <label class="v-desk">תאריך לידה משוער <input type="date" id="visit-edd" autocomplete="off"></label>
+  <label>שבוע היום <input type="text" id="visit-ga" placeholder="32+4" inputmode="decimal" autocomplete="off" style="width:5.5em"></label>
+  <span class="ga-now" id="visit-ga-now"></span>
+  <label class="v-desk">משקל היום <input type="number" id="visit-w" autocomplete="off" min="30" max="250" step="0.5" placeholder="ק״ג"></label>
+  <label class="v-desk">גובה <input type="number" id="visit-h" autocomplete="off" min="120" max="220" step="0.5" placeholder="ס״מ"></label>
+  <details id="milestones"><summary>מועדים קדימה</summary><div class="ms-panel" id="ms-panel"></div></details>
+  <button type="button" id="visit-clear" title="מנקה את סרגל הביקור, בחירת הנושאים ותוצאות המחשבונים. האתר אינו שומר פרטי מטופלת.">מטופלת חדשה</button>
+</div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <ul id="topic-list"></ul>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+  <main id="content">
+    <div class="welcome">
+      <h2>בחר נושא מהתפריט</h2>
+      <p>או חפש בתיבה למעלה</p>
+      <p style="margin-top:20px;font-size:14px;color:var(--text-muted);">💡 טיפ: סמן כמה נושאים בתיבות הסימון בסיידבר כדי להרכיב מכתב מאוחד</p>
+    </div>
+  </main>
+</div>
+
+<div id="compose-bar">
+  <span class="count" id="compose-count">0</span>
+  <span>נושאים נבחרים</span>
+  <button class="btn-compose">📝 הרכב מכתב</button>
+  <button class="btn-clear">נקה</button>
+</div>
+
+<script>
+/* ===== Login: the password is verified by the gate service; all content arrives encrypted and is decrypted here ===== */
+const GateClient = (() => {
+  const local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+  let endpoint = 'https://obgyn-api.doronkabiri.workers.dev';
+  if (local) { try { endpoint = localStorage.getItem('obgyn-api-dev') || endpoint; } catch (e) {} }
+  const ITERATIONS = 600000;
+  const AAD = { dk: 'obgyn:dk:v1', topics: 'obgyn:topics:v1', notes: 'obgyn:notes:v1', vault: 'obgyn:vault:v1', name: 'obgyn:name:v1' };
+  const enc = new TextEncoder();
+  const b64e = (bytes) => {
+    const u = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+    let str = '';
+    for (let i = 0; i < u.length; i += 0x8000) str += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
+    return btoa(str);
+  };
+  const b64d = (str) => Uint8Array.from(atob(str), c => c.charCodeAt(0));
+  let token = '', dataKey = null, lastProof = null;
+  function endLocal() {
+    token = ''; dataKey = null; lastProof = null;
+    try { ['obgyn-decrypted', 'obgyn-sess', 'obgyn-dk', 'obgyn-must-change'].forEach(k => sessionStorage.removeItem(k)); } catch (e) {}
+  }
+  try {
+    token = sessionStorage.getItem('obgyn-sess') || '';
+    // remove old local keys
+    sessionStorage.removeItem('obgyn-pw'); localStorage.removeItem('obgyn-gh-token');
+  } catch (e) {}
+
+  // master = PBKDF2(password); proof (sent to the service) and kek (unwraps the data key) are separate HKDF outputs
+  async function derive(password, salt, iterations) {
+    const km = await crypto.subtle.importKey('raw', enc.encode(String(password).normalize('NFC')), 'PBKDF2', false, ['deriveBits']);
+    const master = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt, iterations, hash: 'SHA-256' }, km, 256);
+    const hk = await crypto.subtle.importKey('raw', master, 'HKDF', false, ['deriveBits', 'deriveKey']);
+    const proof = new Uint8Array(await crypto.subtle.deriveBits({ name: 'HKDF', hash: 'SHA-256', salt: new Uint8Array(0), info: enc.encode('obgyn-auth-v1') }, hk, 256));
+    const kek = await crypto.subtle.deriveKey({ name: 'HKDF', hash: 'SHA-256', salt: new Uint8Array(0), info: enc.encode('obgyn-kek-v1') }, hk, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+    return { proof, kek };
+  }
+  async function seal(key, kind, bytes) {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv, additionalData: enc.encode(AAD[kind]) }, key, bytes));
+    const out = new Uint8Array(12 + ct.length);
+    out.set(iv, 0); out.set(ct, 12);
+    return out;
+  }
+  async function open(key, kind, blob) {
+    return new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: blob.slice(0, 12), additionalData: enc.encode(AAD[kind]) }, key, blob.slice(12)));
+  }
+  async function key() {
+    if (dataKey) return dataKey;
+    let raw = null;
+    try { raw = sessionStorage.getItem('obgyn-dk'); } catch (e) {}
+    if (!raw) return null;
+    dataKey = await crypto.subtle.importKey('raw', b64d(raw), 'AES-GCM', false, ['encrypt', 'decrypt']);
+    return dataKey;
+  }
+  function api(method, path, body, headers) {
+    const h = Object.assign({}, headers || {});
+    if (token) h['Authorization'] = 'Bearer ' + token;
+    let payload;
+    if (body instanceof Uint8Array) { payload = body; h['Content-Type'] = 'application/octet-stream'; }
+    else if (body) { payload = JSON.stringify(body); h['Content-Type'] = 'application/json'; }
+    return fetch(endpoint + path, { method, headers: h, body: payload, cache: 'no-store' })
+      .then(r => { if (r.status === 401 && token && path !== '/auth/change') endLocal(); return r; });
+  }
+  async function params() {
+    const r = await fetch(endpoint + '/auth/params', { cache: 'no-store' });
+    if (!r.ok) throw new Error('service');
+    const p = await r.json();
+    const salt = b64d(p.salt);
+    // never accept weakened parameters, whatever the service says
+    if (salt.length !== 16 || !Number.isInteger(p.iter) || p.iter < 300000 || p.iter > 5000000) throw new Error('service');
+    return { salt, iter: p.iter };
+  }
+  // Resolves to { code, mustChange }. Throws Error('denied') when the service refuses the password, Error('service') otherwise.
+  async function login(password) {
+    let j, d;
+    try {
+      const p = await params();
+      d = await derive(password, p.salt, p.iter);
+      const r = await fetch(endpoint + '/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ proof: b64e(d.proof) }), cache: 'no-store' });
+      if (r.status === 401) throw new Error('denied');
+      if (!r.ok) throw new Error('service');
+      j = await r.json();
+    } catch (e) { throw new Error(e && e.message === 'denied' ? 'denied' : 'service'); }
+    try {
+      const raw = await open(d.kek, 'dk', b64d(j.wrappedDK));
+      dataKey = await crypto.subtle.importKey('raw', raw, 'AES-GCM', false, ['encrypt', 'decrypt']);
+      token = j.token;
+      lastProof = j.mustChange ? d.proof : null;
+      const t = await api('GET', '/topics');
+      if (!t.ok) throw new Error('service');
+      const code = new TextDecoder().decode(await open(dataKey, 'topics', new Uint8Array(await t.arrayBuffer())));
+      try { sessionStorage.setItem('obgyn-sess', token); sessionStorage.setItem('obgyn-dk', b64e(raw)); } catch (e) {}
+      return { code, mustChange: !!j.mustChange };
+    } catch (e) { token = ''; dataKey = null; lastProof = null; throw new Error('service'); }
+  }
+  // current === null uses the proof kept from this page's login.
+  // Throws Error('denied') wrong current password, Error('ended') no valid session,
+  // Error('unknown') the request was sent but no answer arrived, Error('service') otherwise.
+  async function changePassword(current, next) {
+    let raw = null;
+    try { raw = sessionStorage.getItem('obgyn-dk'); } catch (e) {}
+    if (!raw || !token) throw new Error('ended');
+    let proof, salt, neu, wrapped, r;
+    try {
+      if (current === null) { if (!lastProof) throw new Error('service'); proof = lastProof; }
+      else { const p = await params(); proof = (await derive(current, p.salt, p.iter)).proof; }
+      salt = crypto.getRandomValues(new Uint8Array(16));
+      neu = await derive(next, salt, ITERATIONS);
+      wrapped = await seal(neu.kek, 'dk', b64d(raw));
+    } catch (e) { throw new Error('service'); }
+    try {
+      r = await api('POST', '/auth/change', { proof: b64e(proof), newSalt: b64e(salt), newIter: ITERATIONS, newProof: b64e(neu.proof), newWrappedDK: b64e(wrapped) });
+    } catch (e) {
+      // the request may have been applied: the salt in force tells which password is current
+      let now = null;
+      try { now = await params(); } catch (e2) { throw new Error('unknown'); }
+      if (b64e(now.salt) !== b64e(salt)) throw new Error('service');
+      lastProof = null;
+      return;
+    }
+    if (r.status === 401) {
+      const probe = await api('GET', '/vault').catch(() => null);
+      throw new Error(probe && probe.status === 401 ? 'ended' : 'denied');
+    }
+    if (!r.ok) throw new Error('service');
+    lastProof = null;
+  }
+  function logout() {
+    try { if (token) fetch(endpoint + '/auth/logout', { method: 'POST', headers: { 'Authorization': 'Bearer ' + token }, keepalive: true }).catch(() => {}); } catch (e) {}
+    endLocal();
+  }
+  const hasSession = () => !!token;
+  const knowsCurrent = () => !!lastProof;
+  const forgetCurrent = () => { lastProof = null; };
+  return { login, logout, changePassword, api, key, seal, open, b64e, b64d, hasSession, knowsCurrent, forgetCurrent };
+})();
+
+function runAppCode(code) {
+  // Execute the decrypted JS (defines window.TOPICS, etc.)
+  const s = document.createElement('script');
+  s.textContent = code;
+  document.head.appendChild(s);
+}
+
+(function loginInit() {
+  const form = document.getElementById('login-form');
+  const pwField = document.getElementById('login-password');
+  const btn = document.getElementById('login-btn');
+  const errEl = document.getElementById('login-error');
+  const overlay = document.getElementById('login-overlay');
+
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    GateClient.logout();
+    location.reload();
+  });
+
+  // Password change dialog
+  const pwOverlay = document.getElementById('pw-overlay');
+  const pwForm = document.getElementById('pw-form');
+  const pwErr = document.getElementById('pw-error');
+  const pwSubmit = document.getElementById('pw-submit');
+  const pwBanner = document.getElementById('pw-banner');
+  const showBanner = () => { let m = null; try { m = sessionStorage.getItem('obgyn-must-change'); } catch (e) {} pwBanner.hidden = !m; };
+  const pwCurrent = document.getElementById('pw-current');
+  const openPw = () => {
+    pwForm.reset(); pwErr.textContent = ''; pwErr.className = 'login-error';
+    const skip = GateClient.knowsCurrent();
+    pwCurrent.hidden = skip; pwCurrent.required = !skip;
+    pwOverlay.classList.remove('hidden');
+    (skip ? document.getElementById('pw-new') : pwCurrent).focus();
+  };
+  const closePw = () => { pwForm.reset(); pwOverlay.classList.add('hidden'); GateClient.forgetCurrent(); };
+  document.getElementById('pw-btn').addEventListener('click', openPw);
+  document.getElementById('pw-banner-btn').addEventListener('click', openPw);
+  document.getElementById('pw-cancel').addEventListener('click', closePw);
+  pwForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const cur = pwCurrent.hidden ? null : pwCurrent.value, a = document.getElementById('pw-new').value, b = document.getElementById('pw-new2').value;
+    pwErr.className = 'login-error';
+    if (a.length < 12) { pwErr.textContent = 'הסיסמה החדשה קצרה מדי. נדרשים 12 תווים לפחות.'; return; }
+    if (a !== b) { pwErr.textContent = 'שתי ההקלדות של הסיסמה החדשה אינן זהות.'; return; }
+    if (a === cur) { pwErr.textContent = 'הסיסמה החדשה זהה לנוכחית.'; return; }
+    pwSubmit.disabled = true; pwSubmit.textContent = 'מחליף...'; pwErr.textContent = '';
+    try {
+      await GateClient.changePassword(cur, a);
+      try { sessionStorage.removeItem('obgyn-must-change'); } catch (e2) {}
+      showBanner();
+      pwForm.reset();
+      pwErr.className = 'login-error ok';
+      pwErr.textContent = 'הסיסמה הוחלפה. מעכשיו הכניסה לאתר בסיסמה החדשה.';
+      setTimeout(closePw, 2500);
+    } catch (err) {
+      const m = err && err.message;
+      pwErr.textContent = m === 'denied' ? 'הסיסמה הנוכחית שגויה.'
+        : m === 'ended' ? 'ההתחברות הסתיימה. יש להתנתק ולהתחבר מחדש.'
+        : m === 'unknown' ? 'לא ניתן לוודא אם ההחלפה בוצעה. בכניסה הבאה יש לנסות קודם את הסיסמה החדשה.'
+        : 'ההחלפה לא בוצעה. בדוק את חיבור האינטרנט ונסה שוב.';
+    }
+    pwSubmit.disabled = false; pwSubmit.textContent = 'החלפה';
+  });
+
+  // Try auto-login from sessionStorage
+  let saved = null;
+  try { saved = sessionStorage.getItem('obgyn-decrypted'); } catch (e) {}
+  if (saved) {
+    try {
+      runAppCode(saved);
+      overlay.classList.add('hidden');
+      showBanner();
+      // Defer: this IIFE runs mid-script, before later top-level const declarations
+      // (PCT_TABLES etc.) are initialized. Rendering synchronously here hits the TDZ.
+      setTimeout(initApp, 0);
+      return;
+    } catch (e) {
+      try { sessionStorage.removeItem('obgyn-decrypted'); } catch (e2) {}
+    }
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pw = pwField.value;
+    if (!pw) return;
+    btn.disabled = true;
+    btn.textContent = 'מתחבר...';
+    errEl.textContent = '';
+    let res;
+    try {
+      res = await GateClient.login(pw);
+    } catch (err) {
+      btn.textContent = 'כניסה';
+      btn.disabled = false;
+      if (err && err.message === 'denied') { errEl.textContent = 'סיסמה שגויה.'; pwField.select(); }
+      else errEl.textContent = 'לא ניתן להתחבר לשירות. בדוק את חיבור האינטרנט ונסה שוב.';
+      return;
+    }
+    // Login succeeded: any error from here on is not a password problem
+    try {
+      runAppCode(res.code);
+      try {
+        sessionStorage.setItem('obgyn-decrypted', res.code);
+        if (res.mustChange) sessionStorage.setItem('obgyn-must-change', '1'); else sessionStorage.removeItem('obgyn-must-change');
+      } catch (e2) {}
+      pwField.value = '';
+      overlay.classList.add('hidden');
+      showBanner();
+      initApp();
+      if (res.mustChange) openPw();
+    } catch (err) {
+      console.error(err);
+      btn.textContent = 'כניסה';
+      btn.disabled = false;
+      errEl.textContent = 'הסיסמה נכונה אך טעינת התוכן נכשלה. רענן את הדף ונסה שוב.';
+    }
+  });
+})();
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ===== Fetal ultrasound percentile tables =====
+   Each table maps GA week -> [p3, p10, p50, p90, p97].
+   EFW (Hadlock 1991) in grams. Others in mm. HC uses Chervenak. */
+const PCT_TABLES = {
+  efw: {
+    label: "משקל מוערך (EFW)", unit: "גרם", source: "Hadlock 1991",
+    classify: (p) => p < 3 ? {label: 'מתחת לאחוזון 3, FGR חמור', cls: 'warn'}
+                : p < 10 ? {label: 'אחוזון 3-10, SGA', cls: 'warn'}
+                : p <= 90 ? {label: 'תקין (AGA, 10-90)', cls: ''}
+                : p <= 97 ? {label: 'אחוזון 90-97, LGA', cls: 'warn'}
+                : {label: 'מעל אחוזון 97, מקרוזומיה', cls: 'warn'},
+    table: {
+      14: [70,77,93,109,116], 15: [88,97,117,137,146], 16: [110,121,146,171,183],
+      17: [136,150,181,212,226], 18: [167,185,223,261,279], 19: [205,227,273,319,341],
+      20: [248,275,331,387,414], 21: [299,331,399,467,499], 22: [359,398,478,559,598],
+      23: [426,471,568,665,711], 24: [503,556,670,784,838], 25: [589,652,785,918,981],
+      26: [685,758,913,1068,1141], 27: [791,876,1055,1234,1319], 28: [908,1004,1210,1416,1513],
+      29: [1034,1145,1379,1613,1724], 30: [1169,1294,1559,1824,1949], 31: [1313,1453,1751,2049,2189],
+      32: [1465,1621,1953,2285,2441], 33: [1622,1794,2162,2530,2703], 34: [1783,1973,2377,2781,2971],
+      35: [1946,2154,2595,3036,3244], 36: [2110,2335,2813,3291,3517], 37: [2271,2513,3028,3543,3786],
+      38: [2427,2686,3236,3786,4045], 39: [2576,2851,3435,4019,4294], 40: [2714,3004,3619,4234,4524]
+    }
+  },
+  bpd: {
+    label: "BPD, קוטר דו-קודקודי", unit: 'מ״מ', source: "Hadlock 1991",
+    classify: (p) => p < 10 ? {label: 'מתחת לאחוזון 10', cls: 'warn'}
+                : p > 90 ? {label: 'מעל אחוזון 90', cls: 'warn'}
+                : {label: 'בטווח התקין (10-90)', cls: ''},
+    table: {
+      14: [23,25,27,29,31], 15: [26,28,30,33,35], 16: [29,31,34,37,39],
+      17: [32,34,37,40,42], 18: [35,38,41,44,47], 19: [38,41,44,48,50],
+      20: [41,44,47,51,54], 21: [44,47,50,54,57], 22: [47,50,53,57,60],
+      23: [50,53,56,60,63], 24: [52,55,59,63,66], 25: [55,58,62,66,69],
+      26: [57,61,65,69,72], 27: [60,63,68,72,75], 28: [62,66,71,75,78],
+      29: [64,68,73,78,81], 30: [67,70,76,81,84], 31: [69,73,78,83,86],
+      32: [71,75,81,86,89], 33: [73,77,83,88,91], 34: [75,79,85,90,93],
+      35: [76,81,87,92,95], 36: [78,82,89,94,97], 37: [79,84,91,96,99],
+      38: [81,85,92,97,100], 39: [82,86,94,99,102], 40: [83,87,95,100,103]
+    }
+  },
+  hc: {
+    label: "HC, היקף ראש", unit: 'מ״מ', source: "Chervenak",
+    classify: (p) => p < 3 ? {label: 'מתחת לאחוזון 3, חשד למיקרוצפליה', cls: 'warn'}
+                : p < 10 ? {label: 'אחוזון 3-10', cls: 'warn'}
+                : p <= 90 ? {label: 'בטווח התקין (10-90)', cls: ''}
+                : p <= 97 ? {label: 'אחוזון 90-97', cls: 'warn'}
+                : {label: 'מעל אחוזון 97, חשד למקרוצפליה', cls: 'warn'},
+    table: {
+      14: [93,97,103,109,113], 15: [105,110,117,124,129], 16: [117,122,130,138,143],
+      17: [128,134,142,150,156], 18: [139,146,154,162,169], 19: [149,156,165,174,181],
+      20: [159,167,175,183,191], 21: [169,177,187,197,205], 22: [179,188,198,208,217],
+      23: [188,198,209,220,230], 24: [198,209,220,231,242], 25: [208,219,230,241,252],
+      26: [217,228,240,252,263], 27: [226,237,250,263,274], 28: [235,247,260,273,285],
+      29: [244,256,270,284,296], 30: [253,266,280,294,307], 31: [261,275,290,305,319],
+      32: [269,283,295,310,324], 33: [278,292,305,318,332], 34: [285,299,312,325,339],
+      35: [292,306,320,334,348], 36: [299,312,325,338,351], 37: [305,318,330,342,355],
+      38: [310,322,335,348,360], 39: [316,328,340,352,364], 40: [320,333,345,357,370]
+    }
+  },
+  ac: {
+    label: "AC, היקף בטן", unit: 'מ״מ', source: "Hadlock 1984",
+    classify: (p) => p < 10 ? {label: 'מתחת לאחוזון 10', cls: 'warn'}
+                : p > 90 ? {label: 'מעל אחוזון 90', cls: 'warn'}
+                : {label: 'בטווח התקין (10-90)', cls: ''},
+    table: {
+      14: [75,82,91,100,107], 15: [84,91,100,109,116], 16: [93,100,110,120,127],
+      17: [102,109,119,129,136], 18: [111,119,130,141,149], 19: [120,129,140,151,160],
+      20: [129,139,150,161,171], 21: [139,149,160,171,181], 22: [148,158,170,182,192],
+      23: [157,168,180,192,203], 24: [167,179,192,205,217], 25: [178,190,204,218,230],
+      26: [188,200,215,230,242], 27: [198,211,226,241,254], 28: [208,221,237,253,266],
+      29: [217,231,248,265,279], 30: [226,240,258,276,290], 31: [235,251,269,287,303],
+      32: [245,261,280,299,315], 33: [254,271,290,309,326], 34: [263,280,300,320,337],
+      35: [272,290,311,332,350], 36: [280,299,320,341,360], 37: [289,308,330,352,371],
+      38: [297,316,339,362,381], 39: [304,325,348,371,392], 40: [312,333,357,381,402]
+    }
+  },
+  fl: {
+    label: "FL, אורך עצם הירך", unit: 'מ״מ', source: "Hadlock 1984",
+    classify: (p) => p < 10 ? {label: 'מתחת לאחוזון 10', cls: 'warn'}
+                : p > 90 ? {label: 'מעל אחוזון 90', cls: 'warn'}
+                : {label: 'בטווח התקין (10-90)', cls: ''},
+    table: {
+      14: [12,14,16,18,20], 15: [14,16,19,22,24], 16: [17,19,22,25,27],
+      17: [20,22,25,28,30], 18: [23,25,28,31,33], 19: [26,28,31,34,36],
+      20: [28,30,33,36,39], 21: [31,33,36,39,42], 22: [34,36,39,42,45],
+      23: [36,38,41,44,47], 24: [39,41,44,47,50], 25: [41,44,47,50,53],
+      26: [43,46,49,52,55], 27: [45,48,51,54,57], 28: [47,50,54,58,61],
+      29: [49,52,56,60,63], 30: [51,54,58,62,65], 31: [53,56,60,64,67],
+      32: [55,58,62,66,69], 33: [57,60,64,68,71], 34: [58,62,66,70,73],
+      35: [60,63,67,71,74], 36: [61,64,69,73,76], 37: [63,66,71,75,78],
+      38: [64,67,72,76,79], 39: [65,68,73,77,80], 40: [66,70,75,79,82]
+    }
+  }
+};
+
+function formatDateIL(date) {
+  if (!date || isNaN(date)) return '...';
+  const d = String(date.getDate()).padStart(2, '0');
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const y = date.getFullYear();
+  return `${d}/${m}/${y}`;
+}
+
+function daysBetween(d1, d2) {
+  return Math.round((d2 - d1) / 86400000); // both are local midnights; rounding absorbs the DST hour
+}
+function addCalDays(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
+
+function isoLocal(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+function todayISO() {
+  const now = new Date();
+  const offset = now.getTimezoneOffset();
+  return new Date(now.getTime() - offset * 60000).toISOString().split('T')[0];
+}
+
+function computeGAFromLMP(lmpStr, todayStr) {
+  const lmp = new Date(lmpStr + 'T00:00:00');
+  const today = new Date(todayStr + 'T00:00:00');
+  if (isNaN(lmp) || isNaN(today)) return null;
+  const diffDays = daysBetween(lmp, today);
+  if (diffDays < 0 || diffDays > 320) return null;
+  const weeks = Math.floor(diffDays / 7);
+  const days = diffDays % 7;
+  const edd = addCalDays(lmp, 280);
+  const w38Start = addCalDays(lmp, 259); // 37+0
+  const w38End = addCalDays(lmp, 265);   // 37+6
+  const daysToEdd = daysBetween(today, edd);
+  return { weeks, days, edd, daysToEdd, lmp, w38Start, w38End };
+}
+
+function computeGAFromKnownGA(weeks, days, atDateStr, todayStr) {
+  const atDate = new Date(atDateStr + 'T00:00:00');
+  if (isNaN(atDate) || weeks == null || days == null) return null;
+  const gaDays = weeks * 7 + days;
+  const lmp = addCalDays(atDate, -gaDays);
+  const lmpStr = isoLocal(lmp);
+  return computeGAFromLMP(lmpStr, todayStr);
+}
+
+/* ===== Chervenak HC mean and SDs by week (full table from נייר עמדה 31) =====
+   Each row: [-5SD, -4SD, -3SD, -2SD, -1SD, mean, +1SD, +2SD] in mm.
+   Source: Chervenak FA et al. 1984; Israeli Society OB/GYN Position Paper 31. */
+const CHERVENAK_HC = {
+  20: [101,116,131,145,160,175,189,204], 21: [113,128,143,157,172,187,201,216],
+  22: [125,140,154,169,184,198,213,228], 23: [136,151,166,180,195,210,224,239],
+  24: [147,162,177,191,206,221,235,250], 25: [158,173,188,202,217,232,246,261],
+  26: [169,183,198,213,227,242,257,271], 27: [179,194,208,223,238,252,267,282],
+  28: [189,203,218,233,247,262,277,291], 29: [198,213,227,242,257,271,286,301],
+  30: [207,222,236,251,266,281,295,310], 31: [216,230,245,260,274,289,304,318],
+  32: [224,239,253,268,283,297,312,327], 33: [232,246,261,276,290,305,320,334],
+  34: [239,253,268,283,297,312,327,341], 35: [245,260,275,289,304,319,333,348],
+  36: [251,266,281,295,310,325,339,354], 37: [257,272,286,301,316,330,345,360],
+  38: [262,276,291,306,320,335,350,364], 39: [266,281,295,310,325,339,354,369],
+  40: [270,284,299,314,328,343,358,372], 41: [272,287,302,316,331,346,360,375],
+  42: [275,289,304,319,333,348,363,377]
+};
+
+function computeChervenakZ(week, hc) {
+  const row = CHERVENAK_HC[week];
+  if (!row) return null;
+  const zVals = [-5,-4,-3,-2,-1,0,1,2];
+  const mean = row[5];
+  const sdEst = mean - row[4];
+  if (hc <= row[0]) {
+    const sd = row[1] - row[0];
+    return { z: -5 - (row[0] - hc) / sd, mean, sd: sdEst };
+  }
+  if (hc >= row[7]) {
+    const sd = row[7] - row[6];
+    return { z: 2 + (hc - row[7]) / sd, mean, sd: sdEst };
+  }
+  for (let i = 0; i < 7; i++) {
+    if (hc >= row[i] && hc <= row[i+1]) {
+      const frac = (hc - row[i]) / (row[i+1] - row[i]);
+      return { z: zVals[i] + frac * (zVals[i+1] - zVals[i]), mean, sd: sdEst };
+    }
+  }
+  return null;
+}
+
+function microcephalyClassify(z) {
+  if (z >= -2) {
+    return {
+      label: "בטווח התקין (לא מתחת ל-2SD)",
+      cls: "",
+      recommendation: "היקף הראש בטווח התקין. אין צורך בבירור ייעודי למיקרוצפליה. המשך מעקב הריון רגיל."
+    };
+  }
+  if (z > -3) {
+    return {
+      label: "חשד למיקרוצפליה (בין -2SD ל--3SD)",
+      cls: "warn",
+      recommendation: "מומלץ בירור:\n1. אישור גיל הריון מדויק (חיוני; ייעוץ עלול להיות לא מדויק בהיעדר אישור).\n2. הערכה ביומטרית וביופיזיקאלית של העובר.\n3. בדיקת על-שמע מכוונת למבנה המוח: חתכים אקסיאליים (החריץ האינטר-המיספרי, CSP, חדרים לטרליים עם רוחב האטריום, חדר שלישי ותלמוס, מוחון, חדר רביעי, וורמיס וציסטרנה מאגנה), חתך מיד-סגיטאלי (קורפוס קלוסום ווורמיס), וחתך קורונלי (קרניים קדמיות, CSP).\n4. השלמת סקירת מערכות אם לא בוצעה.\n5. השוואה למגמת גדילת ראש בבדיקות קודמות.\n6. הפניה לייעוץ גנטי וסקר STORCH.\n7. מעקב סונוגרפי בפער שלא יקטן מ-3 שבועות.\n8. במקרה של ממצא חריג בבדיקה הסונוגרפית או בדיקה לא מספקת, הפניה ל-MRI מוח עוברי.\n\nנתון פרוגנוסטי: בכ-90% מהעוברים בטווח זה, היקף הראש לאחר הלידה תקין. סיכון לפיגור שכלי (IQ מתחת ל-70) הינו כ-10.5%."
+    };
+  }
+  if (z > -4) {
+    return {
+      label: "מיקרוצפליה (בין -3SD ל--4SD)",
+      cls: "warn",
+      recommendation: "אבחנת מיקרוצפליה (היקף ראש נמוך משלוש סטיות תקן מתחת לממוצע). בנוסף לבירור הסטנדרטי, מומלץ:\n1. MRI של מוח העובר.\n2. ייעוץ נוירולוג ילדים.\n3. ייעוץ גנטי מורחב + סקר STORCH.\n4. דיון מסכם במסגרת ייעוץ מקצועי רב-תחומי (גנטיקה, נוירולוגית עובר, נוירולוג ילדים, מרפאת הריון בסיכון).\n\nנתון פרוגנוסטי: סיכון לפיגור שכלי (IQ מתחת ל-70) הינו כ-51.2%."
+    };
+  }
+  return {
+    label: "מיקרוצפליה חמורה (מתחת ל--4SD)",
+    cls: "warn",
+    recommendation: "מיקרוצפליה חמורה. נדרש בירור מקיף:\n1. MRI של מוח העובר.\n2. ייעוץ נוירולוג ילדים דחוף.\n3. ייעוץ גנטי מורחב + סקר STORCH.\n4. דיון מסכם רב-תחומי לגבי המשך ההריון.\n\nנתון פרוגנוסטי: סיכון לפיגור שכלי קרוב ל-100%."
+  };
+}
+
+function getPercentileFor(measure, value, gaWeeks, gaDays) {
+  const cfg = PCT_TABLES[measure];
+  if (!cfg) return null;
+  const tbl = cfg.table;
+  const gaDecimal = gaWeeks + gaDays / 7;
+  const lower = Math.floor(gaDecimal);
+  const upper = lower + 1;
+  if (!tbl[lower]) return null;
+  const frac = gaDecimal - lower;
+  const upTbl = tbl[upper] || tbl[lower];
+  const interp = tbl[lower].map((v, i) => v + (upTbl[i] - v) * frac);
+  return interpolatePercentile(value, interp);
+}
+
+function interpolatePercentile(value, [p3, p10, p50, p90, p97]) {
+  let p;
+  if (value < p3) p = Math.max(0.5, 3 * (value / p3));
+  else if (value < p10) p = 3 + (10 - 3) * (value - p3) / (p10 - p3);
+  else if (value < p50) p = 10 + (50 - 10) * (value - p10) / (p50 - p10);
+  else if (value < p90) p = 50 + (90 - 50) * (value - p50) / (p90 - p50);
+  else if (value < p97) p = 90 + (97 - 90) * (value - p90) / (p97 - p90);
+  else p = Math.min(99.5, 97 + (value - p97) / Math.max(1, (p97 - p90)) * 3);
+  return { percentile: p, p3, p10, p50, p90, p97 };
+}
+
+function renderCalculatorGA(content) {
+  const today = todayISO();
+  content.innerHTML = `
+    <h2>מחשבון גיל הריון + EDD</h2>
+    <div class="topic-meta">מחשבונים וכלים</div>
+
+    <div class="calc-card">
+      <h3>שיטה 1: לפי וסת אחרונה (LMP)</h3>
+      <div class="calc-row">
+        <div class="calc-field"><label>תאריך LMP</label><input type="date" id="lmp"></div>
+        <div class="calc-field"><label>תאריך הבדיקה</label><input type="date" id="today1" value="${today}"></div>
+        <button class="calc-btn" id="calc-lmp-btn">חשב</button>
+      </div>
+      <div id="ga-result-lmp"></div>
+    </div>
+
+    <div class="calc-card">
+      <h3>שיטה 2: לפי גיל הריון בתאריך נתון</h3>
+      <div class="calc-row">
+        <div class="calc-field"><label>שבועות</label><input type="number" id="ga-w" min="4" max="42" step="1" placeholder="12"></div>
+        <div class="calc-field"><label>ימים</label><input type="number" id="ga-d" min="0" max="6" step="1" value="0"></div>
+        <div class="calc-field"><label>בתאריך</label><input type="date" id="ga-at"></div>
+        <div class="calc-field"><label>תאריך הבדיקה</label><input type="date" id="today2" value="${today}"></div>
+        <button class="calc-btn" id="calc-ga-btn">חשב</button>
+      </div>
+      <div class="calc-help">לדוגמה: סקירה ראשונה בתאריך X הראתה גיל הריון 12+3, מה ה-EDD?</div>
+      <div id="ga-result-ga"></div>
+    </div>
+  `;
+
+  function renderGAResult(elId, r, methodNote) {
+    const el = document.getElementById(elId);
+    if (!r) {
+      el.innerHTML = '<div class="calc-result warn">תאריכים לא תקינים או טווח חורג מ-0-46 שבועות.</div>';
+      return;
+    }
+    const lmpStr = formatDateIL(r.lmp);
+    const eddStr = formatDateIL(r.edd);
+    const w38a = formatDateIL(r.w38Start);
+    const w38b = formatDateIL(r.w38End);
+    const summary = `גיל הריון ${r.weeks}+${r.days}, EDD ${eddStr}, שבוע 38 (37+0-37+6): ${w38a}, ${w38b} (לפי ${methodNote}).`;
+    el.innerHTML = `
+      <div class="calc-result">
+        <div class="result-line"><strong>LMP:</strong> ${lmpStr}</div>
+        <div class="result-line"><strong>גיל הריון נוכחי:</strong> ${r.weeks} שבועות + ${r.days} ימים</div>
+        <div class="result-line"><strong>EDD (תאריך משוער ללידה):</strong> ${eddStr}</div>
+        <div class="result-line"><strong>שבוע 38 (37+0 → 37+6):</strong> ${w38a}, ${w38b}</div>
+        <div class="result-line"><strong>${r.daysToEdd >= 0 ? 'ימים עד EDD' : 'ימים מעבר ל-EDD'}:</strong> ${Math.abs(r.daysToEdd)}</div>
+        <button class="copy-summary-btn" data-text="${escapeHtml(summary)}">העתק לסיכום</button>
+      </div>
+    `;
+    attachCopySummary(el);
+  }
+
+  document.getElementById('calc-lmp-btn').addEventListener('click', () => {
+    const lmp = document.getElementById('lmp').value;
+    const today = document.getElementById('today1').value;
+    if (!lmp) {
+      document.getElementById('ga-result-lmp').innerHTML = '<div class="calc-result warn">יש להזין תאריך LMP.</div>';
+      return;
+    }
+    renderGAResult('ga-result-lmp', computeGAFromLMP(lmp, today), `LMP ${formatDateIL(new Date(lmp + 'T00:00:00'))}`);
+  });
+
+  document.getElementById('calc-ga-btn').addEventListener('click', () => {
+    const w = parseInt(document.getElementById('ga-w').value);
+    const d = parseInt(document.getElementById('ga-d').value) || 0;
+    const at = document.getElementById('ga-at').value;
+    const today = document.getElementById('today2').value;
+    if (isNaN(w) || !at) {
+      document.getElementById('ga-result-ga').innerHTML = '<div class="calc-result warn">יש להזין שבועות + תאריך הבדיקה.</div>';
+      return;
+    }
+    renderGAResult('ga-result-ga', computeGAFromKnownGA(w, d, at, today), `גיל הריון ${w}+${d} בתאריך ${formatDateIL(new Date(at + 'T00:00:00'))}`);
+  });
+}
+
+function renderCalculatorFWP(content) {
+  const fields = Object.entries(PCT_TABLES).map(([k, v]) => `
+    <div class="calc-row" style="margin-bottom: 8px;">
+      <div class="calc-field" style="flex: 2;">
+        <label>${v.label} <span style="color: var(--text-muted); font-weight: 400; font-size: 12px;">(${v.source})</span></label>
+        <input type="number" id="us-v-${k}" min="0" step="0.1" placeholder="ערך ב${v.unit}">
+      </div>
+    </div>
+  `).join('');
+
+  content.innerHTML = `
+    <h2>אחוזון מדדי אולטרסאונד עוברי</h2>
+    <div class="topic-meta">מחשבונים וכלים</div>
+
+    <div class="calc-card">
+      <div class="calc-row">
+        <div class="calc-field"><label>שבועות</label><input type="number" id="us-w" min="14" max="42" step="1" placeholder="32"></div>
+        <div class="calc-field"><label>ימים</label><input type="number" id="us-d" min="0" max="6" step="1" value="0"></div>
+        <button class="calc-btn" id="calc-us-btn" style="align-self: flex-end;">חשב</button>
+      </div>
+      <div style="border-top: 1px solid var(--border); margin: 14px 0 12px; padding-top: 12px;">
+        <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 10px;">הזן ערכים רק במדדים שמעניינים אותך, השאר ריקים את השאר.</div>
+        ${fields}
+      </div>
+      <div class="calc-help">טווח שבועות נתמך: 14-40. EFW, BPD, AC, FL לפי Hadlock; HC לפי Chervenak. להערכת מיקרוצפליה עם סטיות תקן והמלצות, ראה: "הערכת מיקרוצפליה (HC + Chervenak)".</div>
+      <div id="us-result"></div>
+    </div>
+  `;
+
+  document.getElementById('calc-us-btn').addEventListener('click', () => {
+    const w = parseInt(document.getElementById('us-w').value);
+    const d = parseInt(document.getElementById('us-d').value) || 0;
+    const out = document.getElementById('us-result');
+    if (!w || w < 14 || w > 42) {
+      out.innerHTML = '<div class="calc-result warn">יש להזין שבועות (14-42) וימים (0-6).</div>';
+      return;
+    }
+    const results = [];
+    for (const [k, cfg] of Object.entries(PCT_TABLES)) {
+      const raw = document.getElementById(`us-v-${k}`).value;
+      if (raw === '' || raw === null) continue;
+      const v = parseFloat(raw);
+      if (isNaN(v) || v <= 0) continue;
+      const r = getPercentileFor(k, v, w, d);
+      if (!r) continue;
+      results.push({ k, cfg, v, r, cls: cfg.classify(r.percentile) });
+    }
+    if (results.length === 0) {
+      out.innerHTML = '<div class="calc-result warn">לא הוזן אף ערך. הזן ערך לפחות במדד אחד.</div>';
+      return;
+    }
+    const hasWarn = results.some(x => x.cls.cls === 'warn');
+    const round = (n, unit) => unit === 'גרם' ? Math.round(n) : Math.round(n * 10) / 10;
+    const pDisp = (p) => p < 1 ? '<1' : p > 99 ? '>99' : Math.round(p);
+
+    const resultLines = results.map(({ k, cfg, v, r, cls }) => {
+      const p = pDisp(r.percentile);
+      const cssMark = cls.cls === 'warn' ? '⚠️ ' : '';
+      return `<div class="result-line">
+        <strong>${cfg.label}:</strong> ${v} ${cfg.unit}, אחוזון <strong>${p}</strong> לפי ${cfg.source}. ${cssMark}${cls.label}.
+        <span style="color: var(--text-muted); font-size: 13px;"> (טווח 10 עד 90 בשבוע ${w}+${d}: ${round(r.p10, cfg.unit)} עד ${round(r.p90, cfg.unit)} ${cfg.unit})</span>
+      </div>`;
+    }).join('');
+
+    const summaryLines = results.map(({ cfg, v, r }) =>
+      `${cfg.label}: ${v} ${cfg.unit} (אחוזון ${pDisp(r.percentile)} לפי ${cfg.source})`
+    ).join('; ');
+    const summary = `מדדי אולטרסאונד בשבוע ${w}+${d}: ${summaryLines}.`;
+
+    out.innerHTML = `
+      <div class="calc-result ${hasWarn ? 'warn' : ''}">
+        <div class="result-line" style="margin-bottom: 10px;"><strong>גיל הריון:</strong> ${w}+${d}</div>
+        ${resultLines}
+        <button class="copy-summary-btn" data-text="${escapeHtml(summary)}">העתק סיכום לכל המדדים</button>
+      </div>
+    `;
+    attachCopySummary(out);
+  });
+}
+
+function renderCalculatorBishop(content) {
+  content.innerHTML = `
+    <h2>מחשבון Bishop Score</h2>
+    <div class="topic-meta">מחשבונים וכלים. ציון להערכת בשלות צוואר לזירוז.</div>
+    <div class="calc-card">
+      <h3>הזן ממצאי בדיקה צווארית</h3>
+      <div class="calc-row">
+        <div class="calc-field"><label>פתיחה (ס״מ)</label>
+          <select id="b-dil">
+            <option value="0">0 (סגור)</option>
+            <option value="1">1-2</option>
+            <option value="2">3-4</option>
+            <option value="3">5 ומעלה</option>
+          </select></div>
+        <div class="calc-field"><label>מחיקה (%)</label>
+          <select id="b-eff">
+            <option value="0">0-30%</option>
+            <option value="1">40-50%</option>
+            <option value="2">60-70%</option>
+            <option value="3">80% ומעלה</option>
+          </select></div>
+        <div class="calc-field"><label>גובה הראש (Station)</label>
+          <select id="b-sta">
+            <option value="0">-3</option>
+            <option value="1">-2</option>
+            <option value="2">-1 / 0</option>
+            <option value="3">+1 / +2</option>
+          </select></div>
+        <div class="calc-field"><label>גמישות הצוואר</label>
+          <select id="b-con">
+            <option value="0">קשה (Firm)</option>
+            <option value="1">בינוני (Medium)</option>
+            <option value="2">רך (Soft)</option>
+          </select></div>
+        <div class="calc-field"><label>מיקום הצוואר</label>
+          <select id="b-pos">
+            <option value="0">אחורי (Posterior)</option>
+            <option value="1">אמצעי (Mid)</option>
+            <option value="2">קדמי (Anterior)</option>
+          </select></div>
+      </div>
+      <button class="calc-btn" id="calc-b-btn">חשב Bishop</button>
+      <div class="calc-help">טווח 0-13. ≥8 בשל, 7 גבולי, ≤6 לא בשל ודורש הבשלה צווארית.</div>
+      <div id="b-result"></div>
+    </div>
+  `;
+  document.getElementById('calc-b-btn').addEventListener('click', () => {
+    const dil = +document.getElementById('b-dil').value;
+    const eff = +document.getElementById('b-eff').value;
+    const sta = +document.getElementById('b-sta').value;
+    const con = +document.getElementById('b-con').value;
+    const pos = +document.getElementById('b-pos').value;
+    const score = dil + eff + sta + con + pos;
+    let cls = '', label = '', plan = '';
+    if (score >= 8) { cls = 'good'; label = 'צוואר בשל (Favorable)'; plan = 'ניתן לזירוז ישיר עם אוקסיטוצין +/- ARM.'; }
+    else if (score >= 7) { label = 'גבולי'; plan = 'זירוז ישיר אפשרי, או הבשלה צווארית קלה.'; }
+    else { cls = 'warn'; label = 'לא בשל (Unfavorable)'; plan = 'הבשלה צווארית טרם זירוז: בלון, PGE2 (Propess) או PGE1 (Misoprostol, off-label). שילובים אפשריים. אין להשתמש ב-PGE1 לאחר ניתוח קיסרי בעבר.'; }
+    const summary = `Bishop Score: ${score}/13 (פתיחה ${dil}, מחיקה ${eff}, station ${sta}, גמישות ${con}, מיקום ${pos}). ${label}.`;
+    document.getElementById('b-result').innerHTML = `<div class="calc-result ${cls}"><div class="result-line"><strong>Bishop Score:</strong> ${score}/13</div><div class="result-line"><strong>סיווג:</strong> ${label}</div><div class="result-line" style="margin-top: 8px;"><strong>גישה מומלצת:</strong></div><div class="result-line">${plan}</div><button class="copy-summary-btn" data-text="${escapeHtml(summary)}">העתק לסיכום</button></div>`;
+    attachCopySummary(document.getElementById('b-result'));
+  });
+}
+
+function renderCalculatorClexane(content) {
+  content.innerHTML = `
+    <h2>מחשבון מינון Clexane (Enoxaparin)</h2>
+    <div class="topic-meta">מחשבונים וכלים. מינון לפי משקל ואינדיקציה.</div>
+    <div class="calc-card">
+      <div class="calc-row">
+        <div class="calc-field"><label>משקל (ק״ג)</label><input type="number" id="cx-w" min="30" max="200" step="0.5" placeholder="70"></div>
+        <div class="calc-field"><label>אינדיקציה</label>
+          <select id="cx-ind">
+            <option value="prophy">מנע סטנדרטי</option>
+            <option value="interm">ביניים</option>
+            <option value="thera">טיפולי</option>
+          </select></div>
+        <button class="calc-btn" id="calc-cx-btn">חשב</button>
+      </div>
+      <div class="calc-help">מנע 40 מ״ג ליום (1 מ״ג/ק״ג ב-BMI גבוה); טיפולי 1 מ״ג/ק״ג כל 12 שעות. בהריון נדרשת לעיתים הגדלה של ~1.5x ומעקב Anti-Xa ב-BMI קיצוני / GFR נמוך.</div>
+      <div id="cx-result"></div>
+    </div>
+  `;
+  document.getElementById('calc-cx-btn').addEventListener('click', () => {
+    const w = parseFloat(document.getElementById('cx-w').value);
+    const ind = document.getElementById('cx-ind').value;
+    const out = document.getElementById('cx-result');
+    if (!w || w < 30 || w > 200) { out.innerHTML = '<div class="calc-result warn">משקל לא תקין (30-200 ק״ג).</div>'; return; }
+    let dose = '', schedule = '', note = '';
+    if (ind === 'prophy') {
+      if (w < 50) { dose = '20 מ״ג'; schedule = 'פעם ביום'; }
+      else if (w <= 90) { dose = '40 מ״ג'; schedule = 'פעם ביום'; }
+      else if (w <= 130) { dose = '60 מ״ג'; schedule = 'פעם ביום'; note = 'או 40 מ״ג x2 ביום'; }
+      else { dose = `${Math.round(w*0.5)} מ״ג`; schedule = 'פעם ביום (0.5 מ״ג/ק״ג)'; note = 'BMI גבוה, שיקול Anti-Xa'; }
+    } else if (ind === 'interm') {
+      dose = `${Math.round(w*0.75)} מ״ג`; schedule = 'פעם ביום (0.75 מ״ג/ק״ג)';
+      note = 'מינון ביניים, סיכון בינוני (לדוגמה APS עם תחלואה הריונית, היסטוריה של VTE)';
+    } else {
+      dose = `${Math.round(w*1.0)} מ״ג`; schedule = 'כל 12 שעות (1 מ״ג/ק״ג x2 ביום)';
+      note = 'מינון טיפולי. בהריון לעיתים נדרשת הגדלה של 1.5x. מעקב Anti-Xa: יעד 0.6-1.0 IU/mL ב-Peak (4 שעות לאחר מנה).';
+    }
+    const summary = `Clexane: ${dose} ${schedule}. ${note ? '(' + note + ')' : ''}`;
+    out.innerHTML = `<div class="calc-result"><div class="result-line"><strong>מינון:</strong> ${dose}, ${schedule}</div>${note ? `<div class="result-line" style="color: var(--text-muted);">${note}</div>` : ''}<button class="copy-summary-btn" data-text="${escapeHtml(summary)}">העתק לסיכום</button></div>`;
+    attachCopySummary(out);
+  });
+}
+
+function renderCalculatorBMI(content) {
+  content.innerHTML = `
+    <h2>מחשבון BMI + עלייה במשקל בהריון (IOM)</h2>
+    <div class="topic-meta">מחשבונים וכלים. המלצות לפי Institute of Medicine.</div>
+    <div class="calc-card">
+      <div class="calc-row">
+        <div class="calc-field"><label>גובה (ס״מ)</label><input type="number" id="bmi-h" min="130" max="220" step="0.5" placeholder="165"></div>
+        <div class="calc-field"><label>משקל לפני הריון (ק״ג)</label><input type="number" id="bmi-w" min="30" max="200" step="0.5" placeholder="65"></div>
+        <div class="calc-field"><label>הריון</label>
+          <select id="bmi-twin">
+            <option value="single">יחיד</option>
+            <option value="twin">תאומים</option>
+          </select></div>
+        <button class="calc-btn" id="calc-bmi-btn">חשב</button>
+      </div>
+      <div id="bmi-result"></div>
+    </div>
+  `;
+  document.getElementById('calc-bmi-btn').addEventListener('click', () => {
+    const h = parseFloat(document.getElementById('bmi-h').value);
+    const w = parseFloat(document.getElementById('bmi-w').value);
+    const twin = document.getElementById('bmi-twin').value === 'twin';
+    const out = document.getElementById('bmi-result');
+    if (!h || !w) { out.innerHTML = '<div class="calc-result warn">יש להזין גובה ומשקל.</div>'; return; }
+    const bmi = w / Math.pow(h/100, 2);
+    let cat = '', range = '', cls = '';
+    if (bmi < 18.5) { cat = 'תת-משקל'; range = twin ? 'מידע מוגבל בתאומים' : '12.5-18 ק״ג'; cls = 'warn'; }
+    else if (bmi < 25) { cat = 'תקין'; range = twin ? '17-25 ק״ג' : '11.5-16 ק״ג'; }
+    else if (bmi < 30) { cat = 'עודף משקל'; range = twin ? '14-23 ק״ג' : '7-11.5 ק״ג'; cls = 'warn'; }
+    else { cat = 'השמנה'; range = twin ? '11-19 ק״ג' : '5-9 ק״ג'; cls = 'warn'; }
+    const summary = `BMI ${bmi.toFixed(1)} (${cat}). המלצת עלייה במשקל: ${range}.`;
+    out.innerHTML = `<div class="calc-result ${cls}"><div class="result-line"><strong>BMI:</strong> ${bmi.toFixed(1)} kg/m²</div><div class="result-line"><strong>קטגוריה:</strong> ${cat}</div><div class="result-line"><strong>עלייה במשקל מומלצת:</strong> ${range}</div><button class="copy-summary-btn" data-text="${escapeHtml(summary)}">העתק לסיכום</button></div>`;
+    attachCopySummary(out);
+  });
+}
+
+function renderCalculatorMicrocephaly(content) {
+  content.innerHTML = `
+    <h2>הערכת מיקרוצפליה (HC + Chervenak)</h2>
+    <div class="topic-meta">מחשבונים וכלים, לפי נייר עמדה 31</div>
+
+    <div class="calc-card">
+      <h3>חישוב סטיות תקן והמלצות לפי נייר עמדה 31</h3>
+      <div class="calc-row">
+        <div class="calc-field"><label>שבועות מלאים</label><input type="number" id="ch-w" min="20" max="42" step="1" placeholder="32"></div>
+        <div class="calc-field"><label>HC במ״מ</label><input type="number" id="ch-hc" min="50" max="500" step="0.5" placeholder="295"></div>
+        <button class="calc-btn" id="calc-ch-btn">חשב</button>
+      </div>
+      <div class="calc-help">השתמש בטבלת Chervenak (האיגוד הישראלי לגינקולוגיה ומיילדות, נייר עמדה 31, 2015). שבועות מלאים בלבד (20 בטבלה מייצג 20+0 עד 20+6).</div>
+      <div id="ch-result"></div>
+    </div>
+  `;
+
+  document.getElementById('calc-ch-btn').addEventListener('click', () => {
+    const w = parseInt(document.getElementById('ch-w').value);
+    const hc = parseFloat(document.getElementById('ch-hc').value);
+    const out = document.getElementById('ch-result');
+    if (!w || w < 20 || w > 42 || isNaN(hc) || hc <= 0) {
+      out.innerHTML = '<div class="calc-result warn">יש להזין שבועות (20-42) ו-HC במ״מ.</div>';
+      return;
+    }
+    const r = computeChervenakZ(w, hc);
+    if (!r) {
+      out.innerHTML = '<div class="calc-result warn">טווח שבועות מחוץ לטבלה.</div>';
+      return;
+    }
+    const cls = microcephalyClassify(r.z);
+    const zStr = r.z.toFixed(2);
+    const zSigned = r.z >= 0 ? '+' + zStr : zStr;
+    const recLines = cls.recommendation.split('\n').map(line =>
+      `<div class="result-line">${escapeHtml(line)}</div>`
+    ).join('');
+    const summary = `HC עוברי בשבוע ${w}: ${hc} מ״מ. ממוצע לשבוע זה ${r.mean} מ״מ (SD ${r.sd} מ״מ). מספר סטיות תקן מהממוצע: ${zSigned}. סיווג: ${cls.label}.`;
+    out.innerHTML = `
+      <div class="calc-result ${cls.cls}">
+        <div class="result-line"><strong>גיל הריון:</strong> ${w} שבועות מלאים</div>
+        <div class="result-line"><strong>ממוצע HC לשבוע ${w}:</strong> ${r.mean} מ״מ (SD ${r.sd})</div>
+        <div class="result-line"><strong>HC הנוכחי:</strong> ${hc} מ״מ</div>
+        <div class="result-line"><strong>מספר סטיות תקן מהממוצע:</strong> ${zSigned} SD לפי עקומות Chervenak</div>
+        <div class="result-line"><strong>סיווג:</strong> ${cls.label}</div>
+        <div class="result-line" style="margin-top: 10px;"><strong>המלצות:</strong></div>
+        ${recLines}
+        <button class="copy-summary-btn" data-text="${escapeHtml(summary)}">העתק סיכום</button>
+      </div>
+    `;
+    attachCopySummary(out);
+  });
+}
+
+/* ===== file vault (any file type): each file and its name are encrypted in the browser and stored by the gate service ===== */
+function fmtSize(n) { return n < 1024 * 1024 ? (n / 1024).toFixed(0) + ' KB' : (n / 1048576).toFixed(1) + ' MB'; }
+
+function renderPdfVault(content) {
+  content.innerHTML = `
+    <h2>מסמכים (כספת מוצפנת)</h2>
+    <div class="topic-meta">כספת מסמכים. כל קובץ, כולל שמו, מוצפן בדפדפן לפני שהוא נשמר, ומפוענח רק בהורדה.</div>
+
+    <div class="calc-card">
+      <h3>מסמכים שמורים</h3>
+      <div class="vault-status" id="vault-list-status">טוען...</div>
+      <ul class="vault-list" id="vault-list"></ul>
+      <button class="copy-summary-btn" id="vault-refresh" style="margin-top:6px">רענן רשימה</button>
+    </div>
+
+    <details class="vault-help vault-upload" id="vault-upload-box">
+      <summary>העלאת מסמך (למי שמנהל את האתר)</summary>
+    <div class="calc-card">
+      <h3>העלאת מסמך</h3>
+      <div class="vault-drop" id="vault-drop" role="button" tabindex="0" aria-label="בחירת קבצים להעלאה">
+        <strong>גרור לכאן קבצים, או לחץ לבחירה</strong>
+        <span>כל סוג קובץ (מסמך, גיליון, מצגת, תמונה וכיו״ב) עד 15 מגה-בייט לקובץ.</span>
+        <span>לפני ההעלאה תתבקש לתת לקובץ שם (ברירת המחדל: מסמך ותאריך).</span>
+        <input type="file" id="vault-file" multiple>
+      </div>
+      <div class="vault-progress" id="vault-progress"><div></div></div>
+      <div class="vault-status" id="vault-up-status"></div>
+    </div>
+    </details>
+  `;
+
+  const drop = document.getElementById('vault-drop');
+  const fileInput = document.getElementById('vault-file');
+  const upStatus = document.getElementById('vault-up-status');
+  const prog = document.getElementById('vault-progress');
+  const progBar = prog.firstElementChild;
+  const listEl = document.getElementById('vault-list');
+  const listStatus = document.getElementById('vault-list-status');
+  const SESSION_ENDED = 'ההתחברות הסתיימה. יש להתנתק ולהתחבר מחדש.';
+  const setStatus = (el, msg, cls) => { el.textContent = msg; el.className = 'vault-status' + (cls ? ' ' + cls : ''); };
+  let vaultItems = [], listLoaded = false;
+
+  async function loadList() {
+    setStatus(listStatus, 'טוען...');
+    listEl.innerHTML = '';
+    listLoaded = false;
+    try {
+      const key = await GateClient.key();
+      if (!key || !GateClient.hasSession()) { setStatus(listStatus, SESSION_ENDED, 'err'); return; }
+      const r = await GateClient.api('GET', '/vault');
+      if (r.status === 401) { setStatus(listStatus, SESSION_ENDED, 'err'); return; }
+      if (!r.ok) throw new Error('service ' + r.status);
+      const files = (await r.json()).files || [];
+      const items = [];
+      for (const f of files) {
+        let name;
+        try { name = new TextDecoder().decode(await GateClient.open(key, 'name', GateClient.b64d(f.name))); }
+        catch (e) { name = 'קובץ ששמו אינו קריא'; }
+        items.push({ id: f.id, name, size: f.size });
+      }
+      vaultItems = items;
+      listLoaded = true;
+      if (!items.length) { setStatus(listStatus, 'אין מסמכים עדיין.'); return; }
+      setStatus(listStatus, items.length === 1 ? 'מסמך אחד' : `${items.length} מסמכים`);
+      items.slice().sort((a, b) => a.name.localeCompare(b.name, 'he')).forEach(it => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span class="vname">📎 ${escapeHtml(it.name)}</span><span class="vsize">${fmtSize(it.size)}</span><button class="vdl">הורד</button><button class="vdel" title="מחיקה מהאתר">מחק</button>`;
+        li.querySelector('.vdl').addEventListener('click', (e) => downloadItem(it, e.currentTarget));
+        li.querySelector('.vdel').addEventListener('click', () => deleteItem(it));
+        listEl.appendChild(li);
+      });
+    } catch (e) {
+      setStatus(listStatus, 'לא ניתן לטעון את רשימת המסמכים. בדוק את חיבור האינטרנט ונסה שוב.', 'err');
+    }
+  }
+
+  async function downloadItem(it, btn) {
+    const orig = btn.textContent; btn.textContent = 'מפענח...'; btn.disabled = true;
+    try {
+      const key = await GateClient.key();
+      const r = await GateClient.api('GET', '/vault/' + it.id);
+      if (r.status === 401 || !key) { alert(SESSION_ENDED); btn.textContent = orig; return; }
+      if (!r.ok) throw new Error('הורדה נכשלה ' + r.status);
+      const plain = await GateClient.open(key, 'vault', new Uint8Array(await r.arrayBuffer()));
+      const blob = new Blob([plain], { type: vaultMime(it.name) });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = it.name; document.body.appendChild(a); a.click();
+      setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+      btn.textContent = 'הורד ✓';
+    } catch (e) {
+      alert('לא ניתן לפתוח את הקובץ. ייתכן שההורדה נקטעה. נסה שוב.');
+      btn.textContent = orig;
+    } finally { btn.disabled = false; setTimeout(() => { btn.textContent = orig; }, 2000); }
+  }
+
+  async function deleteItem(it) {
+    if (!confirm(`למחוק את "${it.name}" מהאתר? הפעולה אינה הפיכה.`)) return;
+    try {
+      const r = await GateClient.api('DELETE', '/vault/' + it.id);
+      if (r.status === 401) { alert(SESSION_ENDED); return; }
+      if (!r.ok && r.status !== 404) throw new Error('service ' + r.status);
+      loadList();
+    } catch (e) { alert('המחיקה נכשלה. בדוק את חיבור האינטרנט ונסה שוב.'); }
+  }
+
+  const VAULT_MIME = { pdf: 'application/pdf', docx: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', doc: 'application/msword', xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', xls: 'application/vnd.ms-excel', pptx: 'application/vnd.openxmlformats-officedocument.presentationml.presentation', jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', gif: 'image/gif', heic: 'image/heic', txt: 'text/plain', csv: 'text/csv', zip: 'application/zip', mp4: 'video/mp4', mp3: 'audio/mpeg' };
+  function vaultExt(name) { const m = /\.([A-Za-z0-9]{1,8})$/.exec(String(name || '')); return m ? '.' + m[1].toLowerCase() : ''; }
+  function vaultMime(name) { return VAULT_MIME[vaultExt(name).slice(1)] || 'application/octet-stream'; }
+  function vaultSanitizeName(raw, ext) {
+    // ext: the original file's extension (e.g. ".docx"); it is always kept so the file opens correctly after download
+    let n = String(raw || '').trim().split(/[\\/]/).pop();
+    if (ext && n.toLowerCase().endsWith(ext)) n = n.slice(0, -ext.length);
+    n = n.replace(/[^\w.\- ()֐-׿]+/g, '-').replace(/-{2,}/g, '-').replace(/\.{2,}/g, '.').slice(0, 80).replace(/^[-. ]+|[-. ]+$/g, '');
+    return n ? n + ext : '';
+  }
+  function vaultAskName(i, total, ext) {
+    const d = new Date(), p = (x) => String(x).padStart(2, '0');
+    const def = `מסמך-${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}-${p(d.getHours())}${p(d.getMinutes())}` + (total > 1 ? `-${i + 1}` : '') + ext;
+    for (;;) {
+      const ans = prompt('שם לקובץ בכספת. הסיומת נשמרת אוטומטית, אין צורך להקליד אותה.', def);
+      if (ans === null) return null;
+      const clean = vaultSanitizeName(ans, ext);
+      if (clean) return clean;
+      alert('השם ריק או לא תקין. אפשר להשתמש באותיות, ספרות, רווח, מקף ונקודה.');
+    }
+  }
+  async function handleFiles(files) {
+    let key = null;
+    try { key = await GateClient.key(); } catch (e) {}
+    if (!key || !GateClient.hasSession()) { setStatus(upStatus, SESSION_ENDED, 'err'); return; }
+    const list = Array.from(files);
+    if (!list.length) { setStatus(upStatus, 'לא נבחר קובץ.', 'err'); return; }
+    if (!listLoaded) await loadList();
+    if (!listLoaded) { setStatus(upStatus, 'לא ניתן להעלות כרגע: רשימת המסמכים לא נטענה. בדוק את חיבור האינטרנט ונסה שוב.', 'err'); return; }
+    prog.style.display = 'block';
+    for (let i = 0; i < list.length; i++) {
+      const f = list[i];
+      progBar.style.width = Math.round((i / list.length) * 100) + '%';
+      if (f.size > 15 * 1024 * 1024) { setStatus(upStatus, `${f.name}: גדול מ-15 מגה-בייט ולכן לא הועלה.`, 'err'); alert(`${f.name} גדול מ-15 מגה-בייט ולכן לא הועלה. שאר הקבצים ימשיכו כרגיל.`); continue; }
+      const shown = vaultAskName(i, list.length, vaultExt(f.name));
+      if (!shown) { setStatus(upStatus, `${f.name}: ההעלאה בוטלה.`); continue; }
+      const existing = vaultItems.filter(x => x.name === shown);
+      if (existing.length && !confirm(`בכספת כבר קיים קובץ בשם "${shown}". להחליף אותו? הקובץ הקודם יימחק.`)) { setStatus(upStatus, `${shown}: לא הועלה, קיים קובץ באותו שם.`, 'err'); continue; }
+      try {
+        setStatus(upStatus, `מצפין ${shown}...`);
+        const body = await GateClient.seal(key, 'vault', new Uint8Array(await f.arrayBuffer()));
+        const nameEnc = GateClient.b64e(await GateClient.seal(key, 'name', new TextEncoder().encode(shown)));
+        setStatus(upStatus, `מעלה ${shown}...`);
+        const r = await GateClient.api('PUT', '/vault', body, { 'X-Name': nameEnc });
+        if (r.status === 401) { setStatus(upStatus, SESSION_ENDED, 'err'); alert(SESSION_ENDED); break; }
+        if (r.status === 507) throw new Error('full');
+        if (!r.ok) throw new Error('service ' + r.status);
+        const made = await r.json();
+        // replace: the previous copy is removed only after the new one is safely stored
+        let stale = 0;
+        for (const old of existing) {
+          let gone = false;
+          try { const d = await GateClient.api('DELETE', '/vault/' + old.id); gone = d.ok || d.status === 404; } catch (e2) {}
+          if (!gone) stale++;
+        }
+        vaultItems = vaultItems.filter(x => x.name !== shown).concat([{ id: made.id, name: shown, size: body.length }]);
+        if (stale) setStatus(upStatus, `${shown} הועלה, אך העותק הקודם לא נמחק ומופיע ברשימה פעמיים. אפשר למחוק אותו מהרשימה.`, 'err');
+        else setStatus(upStatus, `${shown} הועלה בהצלחה.`, 'ok');
+      } catch (e) {
+        const hint = e && e.message === 'full' ? 'הכספת מלאה. יש למחוק מסמכים ישנים ולנסות שוב.' : 'בדוק את חיבור האינטרנט ונסה שוב.';
+        setStatus(upStatus, `${shown}: ההעלאה נכשלה. ${hint}`, 'err'); alert(`${shown}: ההעלאה נכשלה. ${hint}`);
+      }
+    }
+    progBar.style.width = '100%';
+    setTimeout(() => { prog.style.display = 'none'; progBar.style.width = '0'; }, 800);
+    fileInput.value = '';
+    loadList();
+  }
+
+  drop.addEventListener('click', () => fileInput.click());
+  drop.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); } });
+  fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+  ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+  ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+  drop.addEventListener('drop', e => handleFiles(e.dataTransfer.files));
+  document.getElementById('vault-refresh').addEventListener('click', loadList);
+  loadList();
+}
+
+function renderToolRuptureReview(content) {
+  content.innerHTML = `
+    <h2>כלי סקירת קרעי רחם</h2>
+    <div class="topic-meta">כלי מחקר · בונה מקומי של דף סקירה אינטראקטיבי</div>
+
+    <div class="calc-card">
+      <h3>מה זה?</h3>
+      <p style="line-height:1.7">סקריפט פייתון שבונה דף HTML מאובטח בסיסמה לסקירה ידנית של מקרי קרע רחם מתוך MDClone. רץ לוקאלית בלבד, ללא חיבור לאינטרנט. מתאים גם לרשתות סגורות (בית-חולים).</p>
+
+      <h3 style="margin-top:18px">דרישות</h3>
+      <ul style="line-height:1.8">
+        <li>Python 3.8+ (פייתון רגיל, לא דורש Jupyter)</li>
+        <li>3 חבילות: <code>pandas</code>, <code>openpyxl</code>, <code>cryptography</code></li>
+        <li>6 קבצי קלט (XLSX + CSV של MDClone) שיש להעתיק לאותה תיקייה כמו הסקריפט</li>
+      </ul>
+
+      <h3 style="margin-top:18px">הפעלה (אחרי העתקת הקבצים)</h3>
+      <pre style="background:#f3f3f3;padding:10px;border-radius:6px;direction:ltr;text-align:left;unicode-bidi:plaintext">pip install -r requirements.txt
+python3 build_review.py</pre>
+      <p style="margin-top:8px;color:#555;font-size:0.9em">קובץ הפלט: <code>rupture_review_INTERACTIVE_v2.html</code> (כ-11 MB) - פתחי בדפדפן, סיסמה: <code>Rupture</code>.</p>
+    </div>
+
+    <div class="calc-card" style="margin-top:18px">
+      <h3>הורדות</h3>
+      <p style="color:#555;font-size:0.9em">המחשב שלך עלול לחסום סוגי קבצים מסוימים. אם אחת לא עובדת, נסי אחרת:</p>
+
+      <h4 style="margin-top:14px;margin-bottom:6px">אופציה 1: חבילה ZIP מאוגדת (הכי פשוט)</h4>
+      <p>
+        <a href="tools/rupture_review_builder.zip" download class="copy-summary-btn" style="display:inline-block;text-decoration:none">📦 הורד rupture_review_builder.zip</a>
+      </p>
+
+      <h4 style="margin-top:18px;margin-bottom:6px">אופציה 2: קבצים נפרדים</h4>
+      <p>
+        <a href="tools/rupture_review_builder/build_review.py" download style="display:block;margin-bottom:6px">📄 build_review.py (הסקריפט הראשי)</a>
+        <a href="tools/rupture_review_builder/README.md" download style="display:block;margin-bottom:6px">📄 README.md (הוראות הפעלה)</a>
+        <a href="tools/rupture_review_builder/requirements.txt" download style="display:block">📄 requirements.txt (רשימת חבילות)</a>
+      </p>
+
+      <h4 style="margin-top:18px;margin-bottom:6px">אופציה 3: גרסת GitHub (לעת עתה — להוסיף כ-Release)</h4>
+      <p style="color:#555;font-size:0.9em">לא זמין עדיין. נסי קודם את האופציות הראשונות.</p>
+    </div>
+
+    <div class="calc-card" style="margin-top:18px">
+      <h3>קבצי קלט נדרשים</h3>
+      <ol style="line-height:1.8">
+        <li><code>rupture_TRUE_only.xlsx</code> — פלט סיווג 584 הקיסים</li>
+        <li><code>rupture_full_cohort_extract.xlsx</code> — טקסט חופשי מ-20 הטבלאות</li>
+        <li><code>v_BFR_25.csv</code> — נתוני קבלה (שבוע הריון)</li>
+        <li><code>v_BFR_26.csv</code> — נוסחה מיילדותית</li>
+        <li><code>v_BFR_60.csv</code> — פרטי לידה</li>
+        <li><code>v_BFR_61.csv</code> — פרטי יילוד (אפגר, משקל)</li>
+      </ol>
+      <p style="color:#555;font-size:0.9em;margin-top:10px">קבצי הקלט נמצאים אצלך - לא בריפו (הם מכילים PHI).</p>
+    </div>
+  `;
+}
+
+function attachCopySummary(parentEl) {
+  parentEl.querySelectorAll('.copy-summary-btn[data-text]').forEach(btn => {
+    if (btn.nextElementSibling && btn.nextElementSibling.classList.contains('add-extra-btn')) return;
+    const add = document.createElement('button'); add.type = 'button'; add.className = 'copy-summary-btn add-extra-btn'; add.textContent = '➕ למכתב המאוחד'; add.style.marginInlineStart = '8px';
+    add.title = 'מוסיף את התוצאה למכתב הסיכום המאוחד (בלשונית זו בלבד)';
+    add.addEventListener('click', () => document.dispatchEvent(new CustomEvent('obgyn-extra', { detail: btn.getAttribute('data-text') })));
+    btn.insertAdjacentElement('afterend', add);
+  });
+  parentEl.querySelectorAll('.copy-summary-btn:not(.add-extra-btn)').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.getAttribute('data-text');
+      if (text == null) return;
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.classList.add('copied');
+        btn.textContent = 'הועתק';
+        setTimeout(() => { btn.classList.remove('copied'); btn.textContent = orig; }, 1500);
+      }).catch(() => alert('ההעתקה נכשלה. סמן את הטקסט והעתק ידנית.'));
+    });
+  });
+}
+
+function initApp() {
+  const list = document.getElementById('topic-list');
+  const content = document.getElementById('content');
+  const search = document.getElementById('search');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  const menuToggle = document.getElementById('menu-toggle');
+
+  // ===== Visit bar (memory only) =====
+  // Nothing here is stored: the values live in this object until "מטופלת חדשה" or a page reload.
+  const visit = { edd: null, w: null, h: null };
+  function fmtDate(d) { return `${String(d.getDate()).padStart(2, '0')}.${String(d.getMonth() + 1).padStart(2, '0')}.${d.getFullYear()}`; }
+  function addDays(d, n) { const x = new Date(d); x.setDate(x.getDate() + n); return x; }
+  function todayMidnight() { const d = new Date(); d.setHours(0, 0, 0, 0); return d; }
+  // Texts are copied exactly as written (the doctor edits placeholders in the medical record).
+  const fieldify = (text) => escapeHtml(text);
+  const applyFills = (text) => ({ text: text || '', missing: [] });
+  const copyChecked = (text, missing, btn) => copyText(text, btn);
+  // print: the patient handout carries the topic title instead of the site title
+  let savedTitle = null;
+  window.addEventListener('beforeprint', () => {
+    if (document.body.classList.contains('patient-open')) { const h = document.querySelector('#patient-view h1'); if (h) { savedTitle = document.title; document.title = h.textContent; } }
+  });
+  window.addEventListener('afterprint', () => { if (savedTitle != null) { document.title = savedTitle; savedTitle = null; } });
+
+  const vEdd = document.getElementById('visit-edd'), vGa = document.getElementById('visit-ga'), vW = document.getElementById('visit-w'), vH = document.getElementById('visit-h'), vNow = document.getElementById('visit-ga-now'), vBar = document.getElementById('visit-bar');
+  function visitGA() {
+    if (!visit.edd) return null;
+    const days = 280 - Math.round((visit.edd - todayMidnight()) / 86400000);
+    if (days < 0 || days > 320) return null;
+    const w = Math.floor(days / 7), d = days % 7; return { w, d, days, str: `${w}+${d}` };
+  }
+  function parseGA(str) { const m = /^\s*(\d{1,2})\s*(?:[+.,\/\s]\s*([0-6]))?\s*$/.exec(str || ''); return m && +m[1] <= 45 ? { w: +m[1], d: +(m[2] || 0) } : null; }
+  function refreshVisit() {
+    const ga = visitGA();
+    vNow.textContent = ga ? `שבוע ${ga.str} היום` : '';
+    vBar.classList.toggle('open', !!(visit.edd || visit.w || visit.h));
+    renderMilestones();
+  }
+  vEdd.addEventListener('change', () => { visit.edd = vEdd.value ? new Date(vEdd.value + 'T00:00:00') : null; if (visit.edd) vGa.value = (visitGA() || {}).str || ''; refreshVisit(); });
+  vGa.addEventListener('change', () => { const g = parseGA(vGa.value); if (g) { visit.edd = addDays(todayMidnight(), 280 - (g.w * 7 + g.d)); vEdd.value = isoLocal(visit.edd); vGa.value = `${g.w}+${g.d}`; } else if (!vGa.value) { visit.edd = null; vEdd.value = ''; } else { showToast('פורמט שבוע: 32+4'); } refreshVisit(); });
+  vW.addEventListener('change', () => { visit.w = parseFloat(vW.value) || null; refreshVisit(); });
+  vH.addEventListener('change', () => { visit.h = parseFloat(vH.value) || null; refreshVisit(); });
+  document.getElementById('visit-clear').addEventListener('click', () => {
+    visit.edd = null; visit.w = null; visit.h = null; extras.length = 0;
+    selected.clear(); persistSelection();
+    vEdd.value = ''; vGa.value = ''; vW.value = ''; vH.value = '';
+    if (closePatientView) closePatientView();
+    refreshVisit(); renderList(search.value);
+    const id = (location.hash || '').slice(1);
+    if (id === 'compose') showComposeView(); else if (id) renderTopic(id);
+    showToast('נוקה. מוכן למטופלת הבאה');
+  });
+  const MILESTONES = [
+    ['שקיפות עורפית וסקר ביוכימי', 11, 0, 13, 6], ['סקירת מערכות מוקדמת', 14, 0, 17, 6], ['חלבון עוברי (רצוי לפני שבוע 18)', 16, 0, 20, 0],
+    ['סקירת מערכות מאוחרת', 20, 0, 24, 6], ['העמסת סוכר 50 גר׳', 24, 0, 27, 6], ['קומבס ואנטי-D (בסוג דם שלילי)', 28, 0, 28, 6],
+    ['חיסון שעלת', 27, 0, 36, 6], ['הערכת משקל', 32, 0, 35, 6], ['משטח GBS ותרבית שתן', 36, 0, 37, 6], ['מועד (שבוע 37+0)', 37, 0, 37, 0], ['תאריך לידה משוער (40+0)', 40, 0, 40, 0], ['שבוע 41+0', 41, 0, 41, 0],
+  ];
+  function milestoneRows() {
+    if (!visit.edd) return [];
+    const lmp = addDays(visit.edd, -280), today = todayMidnight();
+    return MILESTONES.map(([label, w1, d1, w2, d2]) => ({ label, from: addDays(lmp, w1 * 7 + d1), to: addDays(lmp, w2 * 7 + d2), w1, w2 })).filter(r => r.to >= today);
+  }
+  function renderMilestones() {
+    const panel = document.getElementById('ms-panel'); const rows = milestoneRows();
+    if (!rows.length) { panel.innerHTML = '<div style="font-size:13px;color:var(--text-muted)">הזן תאריך לידה משוער או שבוע היום.</div>'; return; }
+    panel.innerHTML = '<table>' + rows.map(r => `<tr><td>${escapeHtml(r.label)}</td><td>${r.from.getTime() === r.to.getTime() ? fmtDate(r.from) : fmtDate(r.from) + ' עד ' + fmtDate(r.to)}</td></tr>`).join('') + '</table>' +
+      '<button type="button" class="copy-summary-btn" id="ms-copy" style="margin-top:8px">העתק כבלוק בדיקות מתוכננות</button>';
+    document.getElementById('ms-copy').addEventListener('click', (e) => {
+      const lines = rows.map(r => `${r.label}: ${r.from.getTime() === r.to.getTime() ? fmtDate(r.from) : 'בשבועות ' + (r.w1 === r.w2 ? r.w1 : r.w1 + '-' + r.w2) + ', ' + fmtDate(r.from) + ' עד ' + fmtDate(r.to)}`);
+      copyText('בדיקות ומועדים מתוכננים:\n' + lines.join('\n'), e.currentTarget);
+    });
+  }
+  function prefillCalculator(kind) {
+    const set = (id, val) => { const el = document.getElementById(id); if (el && val != null && val !== '' && (!el.value || el.value === '0')) { el.value = val; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); } };
+    const ga = visitGA();
+    if (kind === 'ga' && visit.edd) set('lmp', isoLocal(addDays(visit.edd, -280)));
+    if (kind === 'fwp' && ga) { set('us-w', ga.w); set('us-d', ga.d); }
+    if (kind === 'bmi') set('bmi-h', visit.h); // pre-pregnancy weight is not the visit weight
+    if (kind === 'clexane') set('cx-w', visit.w);
+  }
+  renderMilestones();
+
+  function slugify(s) {
+    return s.replace(/[^֐-׿a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '').toLowerCase();
+  }
+
+  // Pinned topics (Alt+1..9), saved bundles of topics for the composed letter, and calculator results added to it.
+  // Pins and bundles hold topic ids only; extras live in memory only (cleared by "מטופלת חדשה" or a reload).
+  const PINS_KEY = 'obgyn-pins', BUNDLES_KEY = 'obgyn-bundles', EXTRAS_KEY = 'obgyn-compose-extras';
+  const lsGet = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k) || 'null'); return v == null ? d : v; } catch { return d; } };
+  const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
+  const getPins = () => lsGet(PINS_KEY, []).filter(id => TOPICS.find(t => t.id === id));
+  function togglePin(id) {
+    const p = getPins(); const i = p.indexOf(id);
+    if (i >= 0) p.splice(i, 1); else { if (p.length >= 9) { showToast('אפשר לנעוץ עד 9 נושאים'); return; } p.push(id); }
+    lsSet(PINS_KEY, p); renderList(search.value);
+  }
+  const getBundles = () => lsGet(BUNDLES_KEY, []).filter(b => b && b.name && Array.isArray(b.ids));
+  function saveBundle(name, ids) { lsSet(BUNDLES_KEY, getBundles().filter(b => b.name !== name).concat([{ name, ids }])); }
+  function deleteBundle(name) { lsSet(BUNDLES_KEY, getBundles().filter(b => b.name !== name)); }
+  const extras = []; try { sessionStorage.removeItem(EXTRAS_KEY); } catch {} // memory only; the key is purged from older builds
+  const saveExtras = () => {};
+  document.addEventListener('obgyn-extra', (e) => {
+    const t = (e.detail || '').trim().replace(/\[/g, '(').replace(/\]/g, ')'); if (!t) return;
+    if (!extras.includes(t)) { extras.push(t); saveExtras(); }
+    showToast('התוצאה נוספה למכתב המאוחד');
+  });
+
+  // MRU (Most Recently Used) topics
+  const MRU_KEY = 'obgyn-mru';
+  function getMRU() {
+    try { return JSON.parse(localStorage.getItem(MRU_KEY) || '[]'); } catch { return []; }
+  }
+  function pushMRU(id) {
+    if (!id) return;
+    const cur = getMRU().filter(x => x !== id);
+    cur.unshift(id);
+    localStorage.setItem(MRU_KEY, JSON.stringify(cur.slice(0, 6)));
+  }
+
+  // Notes and usage: per-topic free-text notes plus view/copy counters, saved locally and synced
+  // (encrypted in the browser) through the gate service.
+  const NOTES_KEY = 'obgyn-notes-v1', DEV_KEY = 'obgyn-device';
+  let devId = localStorage.getItem(DEV_KEY);
+  if (!devId) { devId = Math.random().toString(36).slice(2, 10); localStorage.setItem(DEV_KEY, devId); }
+  let notesData = { notes: {}, devices: {}, updatedAt: 0 };
+  try { notesData = Object.assign(notesData, JSON.parse(localStorage.getItem(NOTES_KEY) || '{}')); } catch {}
+  notesData.notes = notesData.notes || {}; notesData.devices = notesData.devices || {};
+  let notesDirty = false, usageDirty = false, lastPush = 0, pushTimer = null;
+  const myDev = () => notesData.devices[devId] || (notesData.devices[devId] = { views: {}, copies: {}, lastSeen: 0 });
+  const saveNotesLocal = () => { try { localStorage.setItem(NOTES_KEY, JSON.stringify(notesData)); } catch {} };
+  const notesReady = () => GateClient.hasSession();
+  function bumpUsage(kind, id) {
+    if (!id) return;
+    const d = myDev(); d[kind][id] = (d[kind][id] || 0) + 1; d.lastSeen = Date.now();
+    usageDirty = true; saveNotesLocal(); refreshNotesStatus();
+  }
+  function mergeNotes(remote) {
+    for (const [id, n] of Object.entries(remote.notes || {})) {
+      const l = notesData.notes[id];
+      if (!l || (n.updatedAt || 0) > (l.updatedAt || 0)) notesData.notes[id] = n;
+    }
+    for (const [dev, d] of Object.entries(remote.devices || {})) {
+      if (dev !== devId) { notesData.devices[dev] = d; continue; }
+      const mine = myDev();
+      for (const k of ['views', 'copies']) for (const [t, v] of Object.entries(d[k] || {})) mine[k][t] = Math.max(mine[k][t] || 0, v);
+    }
+  }
+  async function notesPull() {
+    if (!notesReady()) return false;
+    try {
+      const key = await GateClient.key(); if (!key) return false;
+      const r = await GateClient.api('GET', '/notes');
+      if (!r.ok) return r.status === 404;
+      const plain = await GateClient.open(key, 'notes', new Uint8Array(await r.arrayBuffer()));
+      mergeNotes(JSON.parse(new TextDecoder().decode(plain)));
+      saveNotesLocal(); return true;
+    } catch (e) { return false; }
+  }
+  async function notesPush() {
+    if (!notesReady()) return false;
+    try {
+      const key = await GateClient.key(); if (!key) return false;
+      if (!(await notesPull())) return false;
+      notesData.updatedAt = Date.now();
+      const sealed = await GateClient.seal(key, 'notes', new TextEncoder().encode(JSON.stringify(notesData)));
+      const r = await GateClient.api('PUT', '/notes', sealed);
+      if (!r.ok) return false;
+      lastPush = Date.now(); notesDirty = false; usageDirty = false; saveNotesLocal(); return true;
+    } catch (e) { return false; }
+  }
+  function schedulePush(delayMs) {
+    clearTimeout(pushTimer);
+    pushTimer = setTimeout(async () => {
+      const ok = await notesPush();
+      if (ok) refreshNotesStatus('סונכרן');
+      else if (!notesReady()) refreshNotesStatus('נשמר במחשב זה. ההתחברות הסתיימה, לסנכרון יש להתנתק ולהתחבר מחדש.');
+      else { refreshNotesStatus('נשמר במחשב זה, הסנכרון יושלם בהמשך'); if (delayMs < 10 * 60 * 1000) schedulePush(Math.min(delayMs * 4, 10 * 60 * 1000)); }
+    }, delayMs);
+  }
+  function refreshNotesStatus(msg) {
+    const el = document.getElementById('note-status'); if (!el) return;
+    const id = (location.hash || '').slice(1), d = myDev();
+    const usage = document.getElementById('note-usage');
+    if (usage) usage.textContent = `נצפה ${d.views[id] || 0} פעמים, הועתק ${d.copies[id] || 0} פעמים במחשב זה`;
+    if (msg) { el.textContent = msg; return; }
+    el.textContent = !notesReady() ? 'נשמר במחשב זה בלבד' : notesDirty ? 'נשמר במחשב זה, מסתנכרן...' : 'נשמר';
+  }
+  function notesBoxHtml(id) {
+    const n = notesData.notes[id]; const has = !!(n && (n.text || '').trim());
+    return `<details class="notes-box" id="notes-box"${has ? ' open' : ''}>
+      <summary>הערות שלי לדף הזה${has ? ' ●' : ''}</summary>
+      <textarea id="topic-note" placeholder="מה לשנות בדף הזה: ניסוח, פריט חסר או מיותר, סדר. נשמר אוטומטית ומגיע לשדרוג הבא.">${escapeHtml(has ? n.text : '')}</textarea>
+      <div class="notes-status"><span id="note-status"></span><span id="note-usage"></span></div>
+    </details>`;
+  }
+  function wireNotesBox(id) {
+    const ta = document.getElementById('topic-note'); if (!ta) return;
+    ta.addEventListener('input', () => {
+      notesData.notes[id] = { text: ta.value, updatedAt: Date.now() };
+      notesDirty = true; saveNotesLocal(); refreshNotesStatus(); schedulePush(3000);
+    });
+    refreshNotesStatus();
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && (notesDirty || (usageDirty && Date.now() - lastPush > 10 * 60 * 1000))) notesPush();
+  });
+  notesPull().then(() => { const id = (location.hash || '').slice(1); const ta = document.getElementById('topic-note'); if (ta && !ta.value && notesData.notes[id]) { ta.value = notesData.notes[id].text || ''; document.getElementById('notes-box').open = true; } refreshNotesStatus(); });
+
+  // Selection state for compose
+  const SEL_KEY = 'obgyn-compose-sel';
+  let selected = new Set();
+  try { selected = new Set(JSON.parse(sessionStorage.getItem(SEL_KEY) || '[]')); } catch {}
+  function persistSelection() {
+    sessionStorage.setItem(SEL_KEY, JSON.stringify([...selected]));
+    updateComposeBar();
+  }
+  function updateComposeBar() {
+    const bar = document.getElementById('compose-bar');
+    const count = document.getElementById('compose-count');
+    if (selected.size > 0) {
+      bar.classList.add('show');
+      count.textContent = String(selected.size);
+    } else {
+      bar.classList.remove('show');
+    }
+  }
+  function toggleSelection(id, checked) {
+    if (checked) selected.add(id); else selected.delete(id);
+    persistSelection();
+  }
+
+  // Compose: merge selected topics into one letter
+  // The composed letter is a list of segments, each filled under its own topic's scope so values typed on the
+  // topic page carry over and never move when the selection changes. scope null = literal text (extras, general, signature).
+  function composeParts() {
+    if (selected.size === 0) return [];
+    const ordered = [...selected].map(id => TOPICS.find(t => t.id === id)).filter(t => t && t.type !== 'calculator' && t.type !== 'tool');
+    if (ordered.length === 0) return [];
+    const parts = [];
+    let recCounter = 0;
+    const allWarnings = new Map(); // text -> scope of the first topic that owns it
+    let warningsIntro = null, introScope = null;
+    let firstDiscussion = true;
+    let extrasAt = 0;
+
+    ordered.forEach(t => {
+      if (t.template) { parts.push({ text: t.template, scope: t.id + ':t' }); extrasAt = parts.length; return; }
+      if (t.discussion) {
+        let d = t.discussion;
+        if (!firstDiscussion) {
+          d = d.replace(/^שוחחנו על המשמעות של /, 'בנוסף, שוחחנו על ');
+          d = d.replace(/^שוחחנו על /, 'בנוסף, שוחחנו על ');
+        }
+        firstDiscussion = false;
+        parts.push({ text: d, scope: t.id + ':d' });
+      }
+      if (t.recommendations) {
+        const renumbered = t.recommendations.split('\n').map(line => {
+          const m = line.match(/^(\s*)(\d+)\.\s+(.*)$/);
+          if (m) { recCounter++; return `${m[1]}${recCounter}. ${m[3]}`; }
+          return line;
+        });
+        parts.push({ text: renumbered.join('\n'), scope: t.id + ':r' });
+      }
+      if (!t.is_us_finding && t.warnings_items && t.warnings_items.length) {
+        if (!warningsIntro) { warningsIntro = t.warnings_intro; introScope = t.id + ':wi'; }
+        t.warnings_items.forEach((w, n) => { const k = w.trim(); if (!allWarnings.has(k)) allWarnings.set(k, { text: w, scope: t.id + ':w' + n }); });
+      }
+    });
+
+    // Calculator results added to the letter, after any templates
+    if (extras.length) parts.splice(extrasAt, 0, { text: extras.join('\n'), scope: null });
+
+    // General recommendations - ONCE
+    const g = window.GENERAL_RECS || {};
+    if ((g.intro || (g.items || []).length) && ordered.some(t => !t.template && !t.is_us_finding)) {
+      const items = (g.items || []).map((x, i) => (i + 1) + '. ' + x).join('\n');
+      parts.push({ text: (g.intro || '') + (items ? '\n' + items : ''), scope: null });
+    }
+
+    // Warnings (deduped) - ONCE; the intro and every item keep their topic scope
+    if (allWarnings.size > 0) {
+      parts.push({ text: warningsIntro || 'יש להגיע מיידית לחדר לידה במקרה של:', scope: warningsIntro ? introScope : null });
+      [...allWarnings.values()].forEach(w => parts.push({ text: '• ' + w.text, scope: w.scope, glue: '\n' }));
+    }
+
+    // Signature (postpartum if any topic is postpartum; none when the letter is only certificates)
+    const isPostpartum = ordered.some(t => t.type === 'postpartum');
+    const sig = isPostpartum ? (window.SIGNATURE_POSTPARTUM || window.SIGNATURE) : window.SIGNATURE;
+    if (sig && !ordered.every(t => t.no_signature || t.group === 'אישורים')) parts.push({ text: sig, scope: null });
+    return parts;
+  }
+  function joinParts(parts, fn) { let out = ''; parts.forEach((p, i) => { out += (i === 0 ? '' : (p.glue || '\n\n')) + fn(p); }); return out; }
+  function composeLetter() { return joinParts(composeParts(), p => p.text); }
+
+  function showComposeView() {
+    const parts = composeParts();
+    if (!parts.length) {
+      content.innerHTML = '<div class="welcome"><h2>לא נבחרו נושאים</h2><p>סמן נושאים בתיבות הסימון בסיידבר</p></div>';
+      return;
+    }
+    const orderedTopics = [...selected].map(id => TOPICS.find(t => t.id === id)).filter(t => t && t.type !== 'calculator' && t.type !== 'tool');
+    const count = orderedTopics.length;
+    const chips = orderedTopics.map(t => `<span class="chip">${escapeHtml(t.title)}<button type="button" data-id="${escapeHtml(t.id)}" aria-label="הסר ${escapeHtml(t.title)} מהמכתב" title="הסר מהמכתב">✕</button></span>`).join('')
+      + extras.map((x, i) => `<span class="chip" title="${escapeHtml(x)}">🧮 ${escapeHtml(x.length > 28 ? x.slice(0, 28) + '…' : x)}<button type="button" data-extra="${i}" aria-label="הסר תוצאת מחשבון מהמכתב" title="הסר מהמכתב">✕</button></span>`).join('');
+    content.innerHTML = `
+      <div id="compose-view">
+        <h2>מכתב סיכום מורכב</h2>
+        <div class="compose-meta">${count === 1 ? 'נושא אחד.' : `מאוחד מ-${count} נושאים לפי סדר הסימון.`} ההמלצות ממוספרות ברצף, ההמלצות הכלליות מופיעות פעם אחת, האזהרות מאוחדות ללא כפילויות, ובסוף חתימה אחת.</div>
+        <div class="compose-chips" id="compose-chips">${chips}</div>
+        <div class="compose-actions">
+          <button class="copy-all-btn" id="compose-copy-btn">📋 העתק מכתב מלא</button>
+          <button class="copy-all-btn" id="compose-print-btn" style="background: var(--text-muted);">🖨️ הדפסה</button>
+          <button class="copy-all-btn" id="compose-save-btn" style="background: transparent; color: var(--primary);" title="שמירת צירוף הנושאים הזה בשם, לשימוש חוזר מהתפריט">📚 שמור כחבילה</button>
+          <button class="copy-all-btn" id="compose-back-btn" style="background: transparent; color: var(--primary);">← חזור לעריכה</button>
+        </div>
+        <div class="compose-letter" id="compose-letter-text">${joinParts(parts, p => p.scope ? fieldify(p.text, p.scope) : escapeHtml(p.text))}</div>
+      </div>
+    `;
+    document.getElementById('compose-copy-btn').addEventListener('click', (e) => {
+      const missing = [];
+      const txt = joinParts(parts, p => { if (!p.scope) return p.text; const r = applyFills(p.text, p.scope); missing.push(...r.missing); return r.text; });
+      copyChecked(txt, missing, e.currentTarget);
+    });
+    document.querySelectorAll('#compose-chips button').forEach(b => b.addEventListener('click', () => {
+      if (b.dataset.extra != null) extras.splice(+b.dataset.extra, 1);
+      else toggleSelection(b.dataset.id, false);
+      renderList(search.value);
+      showComposeView();
+    }));
+    document.getElementById('compose-save-btn').addEventListener('click', () => {
+      const name = (prompt('שם לחבילה (למשל: ביקור ראשון תאומים)') || '').trim(); if (!name) return;
+      saveBundle(name, orderedTopics.map(t => t.id)); renderList(search.value); showToast('החבילה נשמרה בתפריט');
+    });
+    document.getElementById('compose-print-btn').addEventListener('click', () => window.print());
+    document.getElementById('compose-back-btn').addEventListener('click', () => {
+      location.hash = '';
+      renderTopic('');
+    });
+  }
+
+  function renderList(filter) {
+    list.innerHTML = '';
+    const q = (filter || '').trim().toLowerCase();
+    const matches = TOPICS.filter(t => {
+      if (!q) return true;
+      const hay = (t.title + ' ' + (t.aliases || []).join(' ') + ' ' +
+                   (t.discussion || '') + ' ' + (t.recommendations || '') + ' ' +
+                   (t.warnings_intro || '') + ' ' + (t.warnings_items || []).join(' ')).toLowerCase();
+      return hay.includes(q);
+    });
+    if (matches.length === 0) {
+      list.innerHTML = '<li class="no-results">אין תוצאות</li>';
+      return;
+    }
+
+    // Pinned topics and saved bundles, then MRU, when not filtering
+    if (!q) {
+      const pins = getPins();
+      if (pins.length) {
+        const lab = document.createElement('li'); lab.className = 'group-label'; lab.textContent = '📌 נעוצים'; list.appendChild(lab);
+        pins.forEach((id, n) => {
+          const t = TOPICS.find(x => x.id === id); if (!t) return;
+          const li = document.createElement('li'); const a = document.createElement('a');
+          a.href = '#' + t.id; a.dataset.id = t.id; a.style.display = 'flex'; a.style.alignItems = 'center'; a.style.gap = '6px';
+          a.appendChild(document.createTextNode(t.title));
+          const hk = document.createElement('span'); hk.className = 'hotkey'; hk.textContent = 'Alt+' + (n + 1); hk.title = 'קיצור מקלדת'; a.appendChild(hk);
+          li.appendChild(a); list.appendChild(li);
+        });
+      }
+      const bundles = getBundles();
+      if (bundles.length) {
+        const lab = document.createElement('li'); lab.className = 'group-label'; lab.textContent = '📚 חבילות למכתב'; list.appendChild(lab);
+        bundles.forEach(b => {
+          const li = document.createElement('li'); li.className = 'bundle'; const a = document.createElement('a'); a.href = '#compose';
+          a.appendChild(document.createTextNode(b.name));
+          const del = document.createElement('button'); del.type = 'button'; del.textContent = '✕'; del.title = 'מחיקת החבילה';
+          del.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); if (confirm(`למחוק את החבילה "${b.name}"?`)) { deleteBundle(b.name); renderList(search.value); } });
+          a.appendChild(del);
+          a.addEventListener('click', (e) => {
+            e.preventDefault();
+            selected.clear(); b.ids.filter(id => TOPICS.find(t => t.id === id)).forEach(id => selected.add(id));
+            persistSelection(); renderList(search.value);
+            if (location.hash === '#compose') showComposeView(); else location.hash = '#compose';
+            if (window.innerWidth <= 768) { sidebar.classList.remove('open'); overlay.classList.remove('show'); }
+          });
+          li.appendChild(a); list.appendChild(li);
+        });
+      }
+    }
+    if (!q) {
+      const mru = getMRU().filter(id => TOPICS.find(t => t.id === id));
+      if (mru.length > 0) {
+        const lab = document.createElement('li');
+        lab.className = 'group-label';
+        lab.textContent = '🕘 נצפו לאחרונה';
+        list.appendChild(lab);
+        mru.forEach(id => {
+          const t = TOPICS.find(x => x.id === id);
+          if (!t) return;
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#' + t.id;
+          a.textContent = t.title;
+          a.dataset.id = t.id;
+          li.appendChild(a);
+          list.appendChild(li);
+        });
+      }
+    }
+
+    let lastGroup = null;
+    matches.forEach(t => {
+      if (t.group && t.group !== lastGroup) {
+        const lab = document.createElement('li');
+        lab.className = 'group-label';
+        lab.textContent = t.group;
+        list.appendChild(lab);
+        lastGroup = t.group;
+      } else if (!t.group && lastGroup !== null) {
+        lastGroup = null;
+      }
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#' + t.id;
+      a.dataset.id = t.id;
+      // Add checkbox only for content topics (not calculators/tools)
+      if (t.type !== 'calculator' && t.type !== 'tool') {
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.className = 'topic-cb';
+        cb.setAttribute('aria-label', 'צירוף הנושא ' + t.title + ' למכתב מאוחד');
+        cb.checked = selected.has(t.id);
+        cb.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleSelection(t.id, e.target.checked);
+        });
+        a.appendChild(cb);
+      }
+      a.appendChild(document.createTextNode(t.title));
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    highlightActive();
+  }
+
+  // Toast feedback for copy
+  function showToast(msg) {
+    let toast = document.getElementById('toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast';
+      toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--success);color:white;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:1000;opacity:0;transition:opacity 0.2s;pointer-events:none;';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = '✓ ' + msg;
+    toast.style.opacity = '1';
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(() => { toast.style.opacity = '0'; }, 1500);
+  }
+
+  function highlightActive() {
+    const id = (location.hash || '').slice(1);
+    document.querySelectorAll('#topic-list a').forEach(a => {
+      a.classList.toggle('active', a.dataset.id === id);
+    });
+  }
+
+  function generalRecsText() {
+    const g = window.GENERAL_RECS || {};
+    const items = (g.items || []).map((x, i) => (i + 1) + '. ' + x).join('\n');
+    return (g.intro || '') + (items ? '\n' + items : '');
+  }
+
+  function getSignature(topic) {
+    if (topic.no_signature || topic.group === 'אישורים') return '';
+    if (topic.type === 'postpartum') return window.SIGNATURE_POSTPARTUM || window.SIGNATURE;
+    return window.SIGNATURE;
+  }
+
+  // Large-type view for the screen facing the patient; also the printable handout.
+  function pictoHtml(p) {
+    const of = Math.min(400, Math.max(10, +p.of || 100)), n = Math.max(0, Math.min(of, +p.n || 0)), cols = of > 100 ? 20 : 10;
+    return `<div class="picto-wrap"><div class="picto" style="grid-template-columns: repeat(${cols}, 1fr)">${Array.from({ length: of }, (_, i) => `<i class="${i < n ? 'on' : ''}"></i>`).join('')}</div><p class="picto-cap">${escapeHtml(p.caption || '')}</p></div>`;
+  }
+  let closePatientView = null;
+  function openPatientView(topic) {
+    if (closePatientView) closePatientView();
+    const missing = [];
+    const take = (txt, scope) => { const r = applyFills(txt || '', scope, ''); missing.push(...r.missing); return r.text.replace(/[ \t]{2,}/g, ' ').replace(/ ([,.:;])/g, '$1'); };
+    const d = take(topic.discussion, topic.id + ':d');
+    const r = take(topic.recommendations, topic.id + ':r').replace(/^(התוכנית כוללת|ממליץ על התוכנית הבאה):?\s*\n?/, '');
+    const warn = !topic.is_us_finding && (topic.warnings_items || []).length;
+    const wItems = warn ? topic.warnings_items.map((x, i) => take(x, topic.id + ':w' + i)) : [];
+    const pts = topic.teach_points || [];
+    const el = document.createElement('div'); el.id = 'patient-view'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'תצוגה למטופלת');
+    el.innerHTML = `<div class="pv-actions"><button type="button" class="bar-btn" id="pv-print">🖨 הדפס עלון</button><button type="button" class="bar-btn" id="pv-close">סגור (Esc)</button></div>
+      <div class="pv-inner">
+        <h1>${escapeHtml(topic.title)}</h1>
+        ${pts.length ? `<ul class="pv-points">${pts.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul>` : (d ? `<p>${escapeHtml(d)}</p>` : '')}
+        ${(topic.pictos || []).map(pictoHtml).join('')}
+        ${r ? `<h3>התוכנית</h3><p>${escapeHtml(r)}</p>` : ''}
+        ${warn ? `<h3>${escapeHtml((topic.warnings_intro || 'מתי לפנות מיד').replace(/:\s*$/, ''))}</h3><ul>${wItems.map(x => `<li>${escapeHtml(x)}</li>`).join('')}</ul>` : ''}
+        <div class="pv-foot">${escapeHtml((getSignature(topic) || '').replace(/\n/g, ' · '))}</div>
+      </div>`;
+    document.body.appendChild(el); document.body.classList.add('patient-open');
+    [...document.body.children].forEach(c => { if (c !== el) c.inert = true; });
+    const close = () => { el.remove(); document.body.classList.remove('patient-open'); document.removeEventListener('keydown', onKey); [...document.body.children].forEach(c => { c.inert = false; }); closePatientView = null; };
+    const onKey = (e) => { if (e.key === 'Escape') close(); };
+    document.addEventListener('keydown', onKey);
+    closePatientView = close;
+    el.querySelector('#pv-close').addEventListener('click', close);
+    el.querySelector('#pv-print').addEventListener('click', () => window.print());
+    el.querySelector('#pv-close').focus();
+  }
+
+  function warningsFilled(topic) {
+    const missing = [];
+    const intro = topic.warnings_intro ? applyFills(topic.warnings_intro, topic.id + ':wi') : { text: '', missing: [] };
+    missing.push(...intro.missing);
+    const items = (topic.warnings_items || []).map((x, n) => { const r = applyFills(x, topic.id + ':w' + n); missing.push(...r.missing); return '• ' + r.text; }).join('\n');
+    return { text: intro.text + (items ? '\n' + items : ''), missing };
+  }
+  // withFills=true returns {text, missing}; false returns the raw text (used by compose, which fills on its own scope)
+  function buildBlockText(topic, withFills) {
+    const parts = []; const missing = [];
+    const take = (txt, scope) => { if (!withFills) return txt; const r = applyFills(txt, scope); missing.push(...r.missing); return r.text; };
+    if (topic.template) {
+      parts.push(take(topic.template, topic.id + ':t'));
+      if (getSignature(topic)) parts.push(getSignature(topic));
+      return withFills ? { text: parts.join('\n\n'), missing } : parts.join('\n\n');
+    }
+    if (topic.discussion) parts.push(take(topic.discussion, topic.id + ':d'));
+    if (topic.recommendations) parts.push(take(topic.recommendations, topic.id + ':r'));
+    if (!topic.is_us_finding) {
+      parts.push(generalRecsText());
+      if (topic.warnings_intro || (topic.warnings_items || []).length) {
+        if (withFills) { const w = warningsFilled(topic); missing.push(...w.missing); parts.push(w.text); }
+        else { const wi = (topic.warnings_items || []).map(x => '• ' + x).join('\n'); parts.push((topic.warnings_intro || '') + (wi ? '\n' + wi : '')); }
+      }
+    }
+    if (getSignature(topic)) parts.push(getSignature(topic));
+    return withFills ? { text: parts.join('\n\n'), missing } : parts.join('\n\n');
+  }
+
+  function cleanForEmr(t) {
+    return String(t || '')
+      .replace(/[\u200e\u200f\u202a-\u202e\u2066-\u2069\ufeff]/g, '')
+      .replace(/\u00a0/g, ' ')
+      .split('\n').map(l => l.replace(/[ \t]+$/g, '')).join('\n')
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  }
+  function copyText(text, btnEl) {
+    text = cleanForEmr(text);
+    const showFeedback = () => {
+      const orig = btnEl.textContent;
+      btnEl.classList.add('copied');
+      btnEl.textContent = 'הועתק';
+      showToast('הועתק לזיכרון');
+      setTimeout(() => {
+        btnEl.classList.remove('copied');
+        btnEl.textContent = orig;
+      }, 1500);
+    };
+    navigator.clipboard.writeText(text).then(showFeedback).catch(err => {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      if (ok) showFeedback(); else alert('ההעתקה נכשלה. סמן את הטקסט והעתק ידנית (Ctrl+C).');
+    });
+  }
+
+  function renderTopic(id) {
+    if (id === 'compose') { showComposeView(); return; }
+    const topic = TOPICS.find(t => t.id === id);
+    if (!topic) {
+      content.innerHTML = '<div class="welcome"><h2>בחר נושא מהתפריט</h2><p>או חפש בתיבה למעלה</p></div>';
+      return;
+    }
+
+    // Calculator topics: render with dedicated calculator UI
+    if (topic.type === 'calculator') {
+      if (topic.calc === 'ga') renderCalculatorGA(content);
+      else if (topic.calc === 'fwp') renderCalculatorFWP(content);
+      else if (topic.calc === 'microcephaly') renderCalculatorMicrocephaly(content);
+      else if (topic.calc === 'bishop') renderCalculatorBishop(content);
+      else if (topic.calc === 'clexane') renderCalculatorClexane(content);
+      else if (topic.calc === 'bmi') renderCalculatorBMI(content);
+      prefillCalculator(topic.calc);
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+      }
+      content.scrollTo(0, 0);
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    // Tool topics: render with dedicated tool UI (download page)
+    if (topic.type === 'tool') {
+      if (topic.tool === 'rupture_review') renderToolRuptureReview(content);
+      else if (topic.tool === 'pdf_vault') renderPdfVault(content);
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+      }
+      content.scrollTo(0, 0);
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    const g = window.GENERAL_RECS || {};
+    const showGeneral = !topic.template && !topic.is_us_finding;
+    const showWarnings = !topic.template && !topic.is_us_finding && (topic.warnings_intro || (topic.warnings_items || []).length);
+
+    const templateHtml = topic.template ? `
+      <div class="block">
+        <div class="block-header">
+          <h3 class="block-title">תבנית</h3>
+          <button class="copy-btn" data-block="template">העתק</button>
+        </div>
+        <div class="block-content"><p style="white-space: pre-wrap;">${fieldify(topic.template, topic.id + ':t')}</p></div>
+      </div>` : '';
+
+    const generalRecsHtml = showGeneral ? `
+      <div class="block">
+        <div class="block-header">
+          <h3 class="block-title">המלצות כלליות</h3>
+          <button class="copy-btn" data-block="general">העתק</button>
+        </div>
+        <div class="block-content">
+          ${g.intro ? `<p>${escapeHtml(g.intro)}</p>` : ''}
+          ${(g.items || []).length ? `<ol>${g.items.map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ol>` : ''}
+        </div>
+      </div>` : '';
+
+    const warningsHtml = showWarnings ? `
+      <div class="block block-warn">
+        <div class="block-header">
+          <h3 class="block-title">סימני אזהרה</h3>
+          <button class="copy-btn" data-block="warnings">העתק</button>
+        </div>
+        <div class="block-content">
+          ${topic.warnings_intro ? `<p>${fieldify(topic.warnings_intro, topic.id + ':wi')}</p>` : ''}
+          ${(topic.warnings_items || []).length ? `<ul>${topic.warnings_items.map((i, n) => `<li>${fieldify(i, topic.id + ':w' + n)}</li>`).join('')}</ul>` : ''}
+        </div>
+      </div>` : '';
+
+    const sig = getSignature(topic);
+    const signatureHtml = sig ? `
+      <div class="signature">
+        ${sig.split('\n').map(line => `<div>${escapeHtml(line)}</div>`).join('')}
+      </div>` : '';
+
+    const showDiscussion = !topic.template && topic.discussion;
+    const showRecs = !topic.template && topic.recommendations;
+
+    const leaveHtml = topic.leave ? `
+      <details class="block block-leave">
+        <summary><span>שמירת הריון: נימוק רפואי לאישור</span><button class="copy-btn" data-block="leave">העתק</button></summary>
+        <div class="leave-note">בלוק נפרד לאישור שמירת הריון (לא נכלל ב"העתק את כל הטקסט").</div>
+        <div class="block-content"><p style="white-space: pre-wrap;">${fieldify(topic.leave, topic.id + ':l')}</p></div>
+      </details>` : '';
+    const extrasHtml = (topic.extra_blocks || []).map((b, n) => `
+      <details class="block block-leave">
+        <summary><span>${escapeHtml(b.title)}</span><button class="copy-btn" data-block="extra:${n}">העתק</button></summary>
+        ${b.note ? `<div class="leave-note">${escapeHtml(b.note)}</div>` : ''}
+        <div class="block-content"><p style="white-space: pre-wrap;">${fieldify(b.text, topic.id + ':x' + n)}</p></div>
+      </details>`).join('');
+    const teachHtml = (topic.teachback || topic.teach_points) ? `
+      <details class="teach-box">
+        <summary>בדיקת הבנה בסוף השיחה (לרופא בלבד, לא מועתק)</summary>
+        ${(topic.teach_points || []).length ? `<div class="muted">נקודות להסבר בעל פה: ${topic.teach_points.map(escapeHtml).join(' · ')}</div>` : ''}
+        ${(topic.teachback || []).length ? `<ul>${topic.teachback.map(q => `<li>${escapeHtml(q)}</li>`).join('')}</ul>` : ''}
+      </details>` : '';
+    const pinned = getPins().includes(topic.id);
+
+    content.innerHTML = `
+      <h2>${escapeHtml(topic.title)}</h2>
+      ${topic.group ? `<div class="topic-meta">${escapeHtml(topic.group)}</div>` : '<div class="topic-meta"></div>'}
+      ${topic.hint ? `<div class="topic-hint">לרופא: ${escapeHtml(topic.hint)}</div>` : ''}
+
+      <div class="copy-all-bar">
+        <button class="copy-all-btn" data-action="copy-all">העתק את כל הטקסט</button>
+        ${(!topic.template && topic.discussion) ? '<button type="button" class="bar-btn" id="pv-btn" title="תצוגה גדולה למסך מול המטופלת, עם הדפסת עלון">👁 הצג למטופלת</button>' : ''}
+        <button type="button" class="bar-btn${pinned ? ' on' : ''}" id="pin-btn" title="נעיצה בראש התפריט, עם קיצור Alt+מספר">${pinned ? '★ נעוץ' : '☆ נעץ'}</button>
+      </div>
+
+      ${templateHtml}
+
+      ${showDiscussion ? `
+      <div class="block">
+        <div class="block-header">
+          <h3 class="block-title">שיחה והסבר</h3>
+          <button class="copy-btn" data-block="discussion">העתק</button>
+        </div>
+        <div class="block-content"><p>${fieldify(topic.discussion, topic.id + ':d')}</p></div>
+      </div>` : ''}
+
+      ${showRecs ? `
+      <div class="block">
+        <div class="block-header">
+          <h3 class="block-title">המלצות ומעקב</h3>
+          <button class="copy-btn" data-block="recommendations">העתק</button>
+        </div>
+        <div class="block-content"><p>${fieldify(topic.recommendations, topic.id + ':r')}</p></div>
+      </div>` : ''}
+
+      ${leaveHtml}
+      ${extrasHtml}
+
+      ${generalRecsHtml}
+
+      ${warningsHtml}
+
+      ${signatureHtml}
+
+      <div class="disclaimer">
+        הטקסטים נכתבו לשימוש כקטעים במכתבי סיכום ביקור. התאם בכל מקרה למצבה הספציפי של המטופלת.
+      </div>
+
+      ${teachHtml}
+
+      ${notesBoxHtml(topic.id)}
+    `;
+    wireNotesBox(topic.id);
+    const pinBtn = document.getElementById('pin-btn');
+    if (pinBtn) pinBtn.addEventListener('click', () => { togglePin(topic.id); renderTopic(topic.id); });
+    const pvBtn = document.getElementById('pv-btn');
+    if (pvBtn) pvBtn.addEventListener('click', () => openPatientView(topic));
+
+    content.querySelectorAll('button.copy-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        bumpUsage('copies', topic.id);
+        const which = btn.dataset.block;
+        let r = { text: '', missing: [] };
+        if (which === 'template') r = applyFills(topic.template, topic.id + ':t');
+        else if (which === 'discussion') r = applyFills(topic.discussion, topic.id + ':d');
+        else if (which === 'recommendations') r = applyFills(topic.recommendations, topic.id + ':r');
+        else if (which === 'leave') r = applyFills(topic.leave || '', topic.id + ':l');
+        else if (which.startsWith('extra:')) r = applyFills(((topic.extra_blocks || [])[+which.slice(6)] || {}).text || '', topic.id + ':x' + which.slice(6));
+        else if (which === 'general') r = { text: generalRecsText(), missing: [] };
+        else if (which === 'warnings') r = warningsFilled(topic);
+        copyChecked(r.text, r.missing, btn);
+      });
+    });
+    content.querySelectorAll('button.copy-all-btn').forEach(btn => {
+      btn.addEventListener('click', () => { bumpUsage('copies', topic.id); const r = buildBlockText(topic, true); copyChecked(r.text, r.missing, btn); });
+    });
+
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+    }
+    content.scrollTo(0, 0);
+    window.scrollTo(0, 0);
+  }
+
+  function onHashChange() {
+    if (closePatientView) closePatientView();
+    const id = (location.hash || '').slice(1);
+    renderTopic(id);
+    highlightActive();
+    // Push to MRU only for content topics (not calculators/tools)
+    const t = TOPICS.find(x => x.id === id);
+    if (t && t.type !== 'calculator' && t.type !== 'tool') {
+      pushMRU(id);
+      bumpUsage('views', id);
+      if (!search.value) renderList('');
+    }
+  }
+
+  search.addEventListener('input', e => renderList(e.target.value));
+  window.addEventListener('hashchange', onHashChange);
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+  });
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('show');
+  });
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    const tag = (e.target && e.target.tagName || '').toLowerCase();
+    const inField = tag === 'input' || tag === 'textarea' || tag === 'select';
+    if (e.altKey && !e.ctrlKey && !e.metaKey && !inField && /^Digit[1-9]$/.test(e.code || '')) {
+      const pins = getPins(); const id = pins[+e.code.slice(5) - 1];
+      if (id) { e.preventDefault(); location.hash = '#' + id; }
+    } else if (e.key === '/' && !inField) {
+      e.preventDefault();
+      search.focus();
+      search.select();
+    } else if (e.key === 'Escape' && document.activeElement === search) {
+      search.value = '';
+      renderList('');
+      search.blur();
+    } else if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key.toLowerCase() === 'c') {
+      // Copy whole topic
+      const allBtn = document.querySelector('button.copy-all-btn');
+      if (allBtn) {
+        e.preventDefault();
+        allBtn.click();
+      }
+    }
+  });
+
+  // Compose-bar handlers
+  document.querySelector('#compose-bar .btn-compose').addEventListener('click', () => {
+    if (location.hash === '#compose') showComposeView(); else location.hash = '#compose';
+    if (window.innerWidth <= 768) {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('show');
+    }
+    window.scrollTo(0, 0);
+  });
+  document.querySelector('#compose-bar .btn-clear').addEventListener('click', () => {
+    selected.clear(); extras.length = 0;
+    persistSelection();
+    renderList(search.value);
+  });
+
+  // Restore last topic on first load if no hash
+  if (!location.hash) {
+    const mru = getMRU();
+    if (mru.length > 0) location.hash = '#' + mru[0];
+  }
+
+  renderList('');
+  onHashChange();
+  updateComposeBar();
+}
+</script>
+</body>
+</html>
