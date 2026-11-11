@@ -6,6 +6,7 @@ on:
     paths:
       - '**.html'
       - 'sitemap.xml'
+      - '!obgyn/**'
   workflow_dispatch:
 
 jobs:
@@ -25,7 +26,8 @@ jobs:
             files=$(git diff --name-only --diff-filter=ACM ${{ github.event.before }} ${{ github.sha }} -- '*.html' || git ls-files '*.html')
           fi
 
-          urls=$(printf '%s\n' "$files" | grep -v '^$' | while read -r f; do
+          # obgyn/ is a private tool page: never announced to search engines
+          urls=$(printf '%s\n' "$files" | grep -v '^$' | grep -v '^obgyn/' | while read -r f; do
             case "$f" in
               index.html)  path="/" ;;
               */index.html) path="/${f%index.html}" ;;
